@@ -1,7 +1,9 @@
 .metadata
 .classpath
 .project
+*.xml.swp
 lib
 build
 examples
 docs
+test

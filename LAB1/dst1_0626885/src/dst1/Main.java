@@ -1,5 +1,7 @@
 package dst1;
 
+import dst1.model.UserDAOTest;
+
 public class Main {
 
 	private Main() {
@@ -22,7 +24,8 @@ public class Main {
 	}
 
 	public static void dst01() {
-		
+		UserDAOTest udt = new UserDAOTest();
+		udt.saveUserTest();
 	}
 
 	public static void dst02a() {
