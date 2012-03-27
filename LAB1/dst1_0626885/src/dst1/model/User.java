@@ -1,11 +1,16 @@
 package dst1.model;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 @Entity
-public class User {
-
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -13,6 +18,8 @@ public class User {
 	private Address address;
 	private String username;
 	private byte[] password;
+	
+	public User() {}
 	
 	public User(String firstName, String lastName) {
 		this.firstName = firstName;

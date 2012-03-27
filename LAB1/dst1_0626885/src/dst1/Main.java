@@ -25,7 +25,9 @@ public class Main {
 
 	public static void dst01() {
 		UserDAOTest udt = new UserDAOTest();
+		udt.setUp();
 		udt.saveUserTest();
+		udt.tearDown();
 	}
 
 	public static void dst02a() {

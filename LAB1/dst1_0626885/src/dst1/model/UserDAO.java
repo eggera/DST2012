@@ -7,6 +7,10 @@ public class UserDAO {
 	@PersistenceContext
 	private EntityManager em;
 	
+	public UserDAO () {
+		em = null;
+	}
+	
 	/**
 	 * Saves a user to the current PeristenceContext
 	 * @param user the user to be saved

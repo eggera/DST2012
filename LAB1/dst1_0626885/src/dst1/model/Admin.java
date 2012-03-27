@@ -10,4 +10,8 @@ public class Admin {
 	private String lastName;
 	@Embedded
 	private Address address;
+	
+	public Admin() {}
+	
+	
 }
