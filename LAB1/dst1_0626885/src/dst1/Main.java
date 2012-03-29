@@ -1,5 +1,6 @@
 package dst1;
 
+import dst1.model.PersistenceUtil;
 import dst1.model.UserDAOTest;
 
 public class Main {
@@ -24,10 +25,11 @@ public class Main {
 	}
 
 	public static void dst01() {
-		UserDAOTest udt = new UserDAOTest();
-		udt.setUp();
-		udt.saveUserTest();
-		udt.tearDown();
+		UserDAOTest userDAOTest = new UserDAOTest();
+		userDAOTest.saveUserTest();
+		userDAOTest.removeUserTest();
+		userDAOTest.freeResources();
+		PersistenceUtil.freeResources();
 	}
 
 	public static void dst02a() {

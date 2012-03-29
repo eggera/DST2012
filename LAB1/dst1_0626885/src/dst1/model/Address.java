@@ -39,6 +39,13 @@ public class Address {
 
 	public String getZipCode() {
 		return zipCode;
-	}	
+	}
+	
+	/**
+	 * Summarizes the address's values into a String
+	 */
+	public String toString() {
+		return street+", "+zipCode+" "+city;
+	}
 	
 }

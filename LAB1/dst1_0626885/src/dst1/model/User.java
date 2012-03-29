@@ -11,7 +11,7 @@ public class User implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long userID;
 	private String firstName;
 	private String lastName;
 	@Embedded
@@ -38,8 +38,8 @@ public class User implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
-		return id;
+	public Long getUserID() {
+		return userID;
 	}
 
 	/**
@@ -110,6 +110,21 @@ public class User implements Serializable {
 	 */
 	public void setPassword(byte[] password) {
 		this.password = password;
+	}
+	
+	/**
+	 * Summarizes the user's values into a String
+	 */
+	public String toString() {
+		String result = "";
+		if(userID != 0)
+			result = "user id = "+getUserID()+", ";
+		else
+			result = "user id = -, ";
+		
+		result += "firstName = "+getFirstName()+", " +
+				   "lastName = "+getLastName();
+		return result;
 	}
 	
 	
