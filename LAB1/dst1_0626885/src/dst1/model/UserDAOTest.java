@@ -48,9 +48,17 @@ public class UserDAOTest {
 		List<User> userList = userDAO.getAllUsers();
 		printAllUsers(userList);
 		User user = userDAO.findUser(userList.get(0).getUserID());
-		System.out.println("User removed: "+user);
 		
-		userDAO.removeUser(user.getUserID());
+//		user = userDAO.findUser(-1L);
+		
+		try {
+			userDAO.removeUser(user.getUserID());
+			userDAO.removeUser(user.getUserID());
+		} catch (RemoveNullEntityException e) {
+			System.err.println(e.getMessage());
+		}
+		
+		System.out.println("User removed: "+user);
 		
 		userList = userDAO.getAllUsers();
 		printAllUsers(userList);

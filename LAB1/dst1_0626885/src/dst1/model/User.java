@@ -1,13 +1,9 @@
 package dst1.model;
 
-import java.io.Serializable;
-
 import javax.persistence.*;
 
 @Entity
-public class User implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
