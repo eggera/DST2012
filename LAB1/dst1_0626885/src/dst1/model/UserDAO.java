@@ -8,9 +8,31 @@ public class UserDAO {
 	private EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
 	
-	public UserDAO () {
+	public UserDAO() {
 		this.entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 	}
+	
+	public UserDAO (EntityManager entityManager) {
+		this();
+		this.entityManager = entityManager;
+	}
+	
+	/**
+	 * Sets the entityManager
+	 */
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	/**
+	 * Gets the only EntityManager for this object
+	 */
+	public EntityManager getEntityManager() {
+		if(entityManager == null)
+			this.entityManager = entityManagerFactory.createEntityManager();
+		return this.entityManager;
+	}
+	
 	
 	/**
 	 * Saves a user to the current PeristenceContext
@@ -71,22 +93,6 @@ public class UserDAO {
 		entityManager.getTransaction().begin();	
 		entityManager.remove(user);
 		entityManager.getTransaction().commit();
-	}
-
-	/**
-	 * Sets the entityManager
-	 */
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
-	
-	/**
-	 * Gets the only EntityManager for this object
-	 */
-	public EntityManager getEntityManager() {
-		if(entityManager == null)
-			this.entityManager = entityManagerFactory.createEntityManager();
-		return this.entityManager;
 	}
 	
 	/**

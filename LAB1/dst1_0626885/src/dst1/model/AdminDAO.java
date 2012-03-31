@@ -9,8 +9,13 @@ public class AdminDAO {
 	private EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
 	
-	public AdminDAO () {
+	public AdminDAO() {
 		this.entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
+	}
+	
+	public AdminDAO (EntityManager entityManager) {
+		this();
+		this.entityManager = entityManager;
 	}
 	
 	/**
@@ -18,6 +23,15 @@ public class AdminDAO {
 	 */
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
+	}
+	
+	/**
+	 * Gets the only EntityManager for this object
+	 */
+	public EntityManager getEntityManager() {
+		if(entityManager == null)
+			this.entityManager = entityManagerFactory.createEntityManager();
+		return this.entityManager;
 	}
 	
 	/**
@@ -81,15 +95,6 @@ public class AdminDAO {
 		entityManager.getTransaction().begin();
 		entityManager.remove(admin);
 		entityManager.getTransaction().commit();
-	}
-	
-	/**
-	 * Gets the only EntityManager for this object
-	 */
-	public EntityManager getEntityManager() {
-		if(entityManager == null)
-			this.entityManager = entityManagerFactory.createEntityManager();
-		return this.entityManager;
 	}
 	
 	/**

@@ -19,6 +19,16 @@ public class Computer implements Serializable {
 		// used by Hibernate
 	}
 	
+	public Computer(String name, Integer cpus, String location,
+						Date creation, Date lastUpdate) {
+		
+		this.name = name;
+		this.cpus = cpus;
+		this.location = location;
+		this.creation = creation;
+		this.lastUpdate = lastUpdate;
+	}
+	
 	
 	/**
 	 * @return the id
@@ -91,5 +101,13 @@ public class Computer implements Serializable {
 	 */
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+	
+	public String toString() {
+		return "name = "+ name + ", " +
+				"cpus = "+ cpus + ", " +
+				"location = "+ location + ", " +
+				"creation = "+ creation + ", " +
+				"lastUpdate = "+ lastUpdate;
 	}
 }

@@ -1,11 +1,15 @@
 package dst1;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 import dst1.model.Address;
 import dst1.model.Admin;
 import dst1.model.AdminDAO;
 import dst1.model.AdminDAOTest;
+import dst1.model.Computer;
 import dst1.model.PersistenceUtil;
 import dst1.model.User;
 import dst1.model.UserDAO;
@@ -37,14 +41,26 @@ public class Main {
 		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
-		UserDAO userDAO = new UserDAO();
-		AdminDAO adminDAO = new AdminDAO();
-		
+		UserDAO userDAO = new UserDAO(entityManager);
+		AdminDAO adminDAO = new AdminDAO(entityManager);
 		
 		entityManager.getTransaction().begin();
 		
 		userDAO.saveUser(new User("Herbert","Franz"));
 		adminDAO.saveAdmin(new Admin("Huaba", "Sepp", new Address("street1","city4","9203")));
+		
+		Computer comp = new Computer("Comp1", 10, "G1C2", 
+			  				new Date(System.currentTimeMillis() - 1000*60*60),
+			  				new Date(System.currentTimeMillis()));
+		entityManager.persist(comp);
+		
+		System.out.println("Computer : \n"+comp);
+		
+		List<Computer> result = entityManager.createQuery( 
+									"from Computer", Computer.class )
+									.getResultList();
+		
+		System.out.println("Computer : \n"+result.get(0));
 		
 		entityManager.getTransaction().commit();
 		
