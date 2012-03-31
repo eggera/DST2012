@@ -1,9 +1,14 @@
 package dst1.model;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
-public class Admin {
-
+@Entity
+public class Admin implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -24,7 +29,7 @@ public class Admin {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public Long getID() {
 		return id;
 	}
 
@@ -52,7 +57,7 @@ public class Admin {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setID(Long id) {
 		this.id = id;
 	}
 
@@ -75,6 +80,21 @@ public class Admin {
 	 */
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	
+	/**
+	 * Summarizes the user's values into a String
+	 */
+	public String toString() {
+		String result = "";
+		if(id != 0)
+			result = "admin id = "+getID()+", ";
+		else
+			result = "admin id = -, ";
+		
+		result += "firstName = "+getFirstName()+", " +
+				   "lastName = "+getLastName();
+		return result;
 	}
 	
 	

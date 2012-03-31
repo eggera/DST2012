@@ -1,13 +1,17 @@
 package dst1.model;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 @Entity
-public class User {
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userID;
+	private Long id;
 	private String firstName;
 	private String lastName;
 	@Embedded
@@ -34,8 +38,8 @@ public class User {
 	/**
 	 * @return the id
 	 */
-	public Long getUserID() {
-		return userID;
+	public Long getID() {
+		return id;
 	}
 
 	/**
@@ -113,8 +117,8 @@ public class User {
 	 */
 	public String toString() {
 		String result = "";
-		if(userID != 0)
-			result = "user id = "+getUserID()+", ";
+		if(id != 0)
+			result = "user id = "+getID()+", ";
 		else
 			result = "user id = -, ";
 		

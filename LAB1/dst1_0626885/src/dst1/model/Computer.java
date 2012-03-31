@@ -1,0 +1,95 @@
+package dst1.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class Computer implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	private Long id;
+	private String name;
+	private Integer cpus;
+	private String location;
+	private Date creation;
+	private Date lastUpdate;
+	
+	
+	public Computer() {
+		// used by Hibernate
+	}
+	
+	
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @return the cpus
+	 */
+	public Integer getCpus() {
+		return cpus;
+	}
+	/**
+	 * @return the location
+	 */
+	public String getLocation() {
+		return location;
+	}
+	/**
+	 * @return the creation
+	 */
+	public Date getCreation() {
+		return creation;
+	}
+	/**
+	 * @return the lastUpdate
+	 */
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @param cpus the cpus to set
+	 */
+	public void setCpus(Integer cpus) {
+		this.cpus = cpus;
+	}
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	/**
+	 * @param creation the creation to set
+	 */
+	public void setCreation(Date creation) {
+		this.creation = creation;
+	}
+	/**
+	 * @param lastUpdate the lastUpdate to set
+	 */
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+}

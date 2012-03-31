@@ -1,6 +1,14 @@
 package dst1;
 
+import javax.persistence.*;
+
+import dst1.model.Address;
+import dst1.model.Admin;
+import dst1.model.AdminDAO;
+import dst1.model.AdminDAOTest;
 import dst1.model.PersistenceUtil;
+import dst1.model.User;
+import dst1.model.UserDAO;
 import dst1.model.UserDAOTest;
 
 public class Main {
@@ -25,10 +33,31 @@ public class Main {
 	}
 
 	public static void dst01() {
-		UserDAOTest userDAOTest = new UserDAOTest();
+	
+		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		
+		UserDAO userDAO = new UserDAO();
+		AdminDAO adminDAO = new AdminDAO();
+		
+		
+		entityManager.getTransaction().begin();
+		
+		userDAO.saveUser(new User("Herbert","Franz"));
+		adminDAO.saveAdmin(new Admin("Huaba", "Sepp", new Address("street1","city4","9203")));
+		
+		entityManager.getTransaction().commit();
+		
+		entityManager.close();
+		
+/*		UserDAOTest userDAOTest = new UserDAOTest();
+		AdminDAOTest adminDAOTest = new AdminDAOTest();
 		userDAOTest.saveUserTest();
 		userDAOTest.removeUserTest();
+		adminDAOTest.saveAdminTest();
+		adminDAOTest.removeAdminTest();
 		userDAOTest.freeResources();
+		adminDAOTest.freeResources();*/
 		PersistenceUtil.freeResources();
 	}
 

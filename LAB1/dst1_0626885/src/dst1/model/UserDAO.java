@@ -62,31 +62,22 @@ public class UserDAO {
 	 * Remove a user from the current PersistenceContext
 	 * @param userID the userID of the user to be removed
 	 */
-	public void removeUser(Long userID) throws RemoveNullEntityException {
-		try {
-			EntityManager entityManager = getEntityManager();
-			if(entityManager.getTransaction().isActive()) {
-				User user = findUser(userID);
-				if(user == null) {
-					entityManager.getTransaction().rollback();
-					throw new RemoveNullEntityException("UserDAO: Trying to remove non-existent object");
-				}
-				
-				entityManager.remove(user);
-				return;
-			}
-			entityManager.getTransaction().begin();
-			User user = findUser(userID);
-			if(user == null) {
-				entityManager.getTransaction().rollback();
-				throw new RemoveNullEntityException("UserDAO: Trying to remove non-existent object");
-			}
-			
+	public void removeUser(User user) {
+		EntityManager entityManager = getEntityManager();
+		if(entityManager.getTransaction().isActive()) {		
 			entityManager.remove(user);
-			entityManager.getTransaction().commit();
-		} catch(IllegalArgumentException iae) {
-			
+			return;
 		}
+		entityManager.getTransaction().begin();	
+		entityManager.remove(user);
+		entityManager.getTransaction().commit();
+	}
+
+	/**
+	 * Sets the entityManager
+	 */
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 	
 	/**
