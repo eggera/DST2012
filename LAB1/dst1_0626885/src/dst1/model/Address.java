@@ -9,7 +9,9 @@ public class Address {
 	private String city;
 	private String zipCode;
 	
-	public Address() {}
+	public Address() {
+		// used by Hibernate
+	}
 	
 	public Address(String street, String city, String zipCode) {
 		this.street = street;

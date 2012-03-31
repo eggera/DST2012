@@ -17,7 +17,9 @@ public class Admin implements Serializable {
 	@Embedded
 	private Address address;
 	
-	public Admin() {}
+	public Admin() {
+		// used by Hibernate
+	}
 	
 	public Admin(String firstName, String lastName, Address address) {
 		this.firstName = firstName;

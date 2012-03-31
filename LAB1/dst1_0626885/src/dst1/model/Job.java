@@ -15,6 +15,11 @@ public class Job implements Serializable {
 	private boolean isPaid;
 	
 	
+	public Job() {
+		// used by Hibernate
+	}
+	
+	
 	/**
 	 * @return the id
 	 */

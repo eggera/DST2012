@@ -10,6 +10,7 @@ import dst1.model.Admin;
 import dst1.model.AdminDAO;
 import dst1.model.AdminDAOTest;
 import dst1.model.Computer;
+import dst1.model.Execution;
 import dst1.model.PersistenceUtil;
 import dst1.model.User;
 import dst1.model.UserDAO;
@@ -61,6 +62,19 @@ public class Main {
 									.getResultList();
 		
 		System.out.println("Computer : \n"+result.get(0));
+		
+		Execution execution = new Execution(
+								new Date(System.currentTimeMillis()),
+								new Date(System.currentTimeMillis() + 1000*60*60),
+								Execution.JobStatus.SCHEDULED);
+		
+		entityManager.persist(execution);
+		
+		List<Execution> ex_result = entityManager.createQuery(
+										"from Execution", Execution.class )
+										.getResultList();
+		
+		System.out.println("Execution : \n"+ex_result.get(0));
 		
 		entityManager.getTransaction().commit();
 		

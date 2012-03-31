@@ -19,7 +19,9 @@ public class User implements Serializable {
 	private String username;
 	private byte[] password;
 	
-	public User() {}
+	public User() {
+		// used by Hibernate
+	}
 	
 	public User(String firstName, String lastName) {
 		this.firstName = firstName;

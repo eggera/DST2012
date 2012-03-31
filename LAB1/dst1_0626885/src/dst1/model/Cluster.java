@@ -15,10 +15,14 @@ public class Cluster implements Serializable {
 	private Long id;
 	@Column(unique = true)
 	private String name;
-	@Temporal(value = TemporalType.DATE)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date lastService;
-	@Temporal(value = TemporalType.DATE)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date nextService;
+	
+	public Cluster() {
+		// used by Hibernate
+	}
 	
 	
 	/**

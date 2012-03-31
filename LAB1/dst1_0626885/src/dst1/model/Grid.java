@@ -18,6 +18,10 @@ public class Grid implements Serializable {
 	private String location;
 	private BigDecimal costsPerCPUMinute;
 	
+	public Grid() {
+		// used by Hibernate
+	}
+	
 	
 	/**
 	 * @return the id
