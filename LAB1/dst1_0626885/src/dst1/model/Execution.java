@@ -12,7 +12,7 @@ public class Execution implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long executionId;
 	
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date start;
@@ -25,6 +25,9 @@ public class Execution implements Serializable {
 	@Enumerated (EnumType.ORDINAL)
 	private JobStatus status;
 	
+	@OneToOne
+	private Job job;
+	
 	public Execution() {
 		// used by Hibernate
 	}
@@ -32,6 +35,7 @@ public class Execution implements Serializable {
 	public Execution(Date start, Date end) {
 		this.start = start;
 		this.end = end;
+		this.status = JobStatus.SCHEDULED;
 	}
 	
 	public Execution(Date start, Date end, JobStatus status) {
@@ -44,8 +48,8 @@ public class Execution implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
-		return id;
+	public Long getExecutionId() {
+		return executionId;
 	}
 
 	/**
@@ -70,10 +74,17 @@ public class Execution implements Serializable {
 	}
 
 	/**
+	 * @return the job
+	 */
+	public Job getJob() {
+		return job;
+	}
+	
+	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
-		this.id = id;
+	public void setExecutionId(Long id) {
+		this.executionId = id;
 	}
 
 	/**
@@ -95,6 +106,20 @@ public class Execution implements Serializable {
 	 */
 	public void setStatus(JobStatus status) {
 		this.status = status;
+	}
+	
+	/**
+	 * @param job the job to set
+	 */
+	public void setJob(Job job) {
+		this.job = job;
+	}
+	
+	
+	public String toString() {
+		return "start = "+start+", " +
+				"end = "+end+", " +
+				"status = "+status;
 	}
 	
 }

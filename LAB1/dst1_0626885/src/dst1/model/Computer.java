@@ -7,7 +7,7 @@ public class Computer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	private Long computerId;
 	private String name;
 	private Integer cpus;
 	private String location;
@@ -33,8 +33,8 @@ public class Computer implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
-		return id;
+	public Long getComputerId() {
+		return computerId;
 	}
 	/**
 	 * @return the name
@@ -69,8 +69,8 @@ public class Computer implements Serializable {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
-		this.id = id;
+	public void setComputerId(Long id) {
+		this.computerId = id;
 	}
 	/**
 	 * @param name the name to set

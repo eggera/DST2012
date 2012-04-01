@@ -12,7 +12,7 @@ public class Cluster implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long clusterId;
 	@Column(unique = true)
 	private String name;
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -28,8 +28,8 @@ public class Cluster implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
-		return id;
+	public Long getClusterId() {
+		return clusterId;
 	}
 	/**
 	 * @return the name
@@ -52,8 +52,8 @@ public class Cluster implements Serializable {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
-		this.id = id;
+	public void setClusterId(Long id) {
+		this.clusterId = id;
 	}
 	/**
 	 * @param name the name to set

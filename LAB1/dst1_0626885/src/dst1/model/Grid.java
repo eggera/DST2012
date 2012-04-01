@@ -12,7 +12,7 @@ public class Grid implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long gridId;
 	@Column(unique = true)
 	private String name;
 	private String location;
@@ -22,12 +22,17 @@ public class Grid implements Serializable {
 		// used by Hibernate
 	}
 	
+	public Grid(String name, String location, BigDecimal costsPerCPUMinute) {
+		this.name = name;
+		this.location = location;
+		this.costsPerCPUMinute = costsPerCPUMinute;
+	}
 	
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
-		return id;
+	public Long getGridId() {
+		return gridId;
 	}
 	/**
 	 * @return the name
@@ -50,8 +55,8 @@ public class Grid implements Serializable {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
-		this.id = id;
+	public void setGridId(Long id) {
+		this.gridId = id;
 	}
 	/**
 	 * @param name the name to set

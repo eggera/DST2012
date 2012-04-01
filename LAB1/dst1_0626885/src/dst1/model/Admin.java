@@ -11,7 +11,7 @@ public class Admin implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long adminId;
 	private String firstName;
 	private String lastName;
 	@Embedded
@@ -31,8 +31,8 @@ public class Admin implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getID() {
-		return id;
+	public Long getAdminId() {
+		return adminId;
 	}
 
 	/**
@@ -59,8 +59,8 @@ public class Admin implements Serializable {
 	/**
 	 * @param id the id to set
 	 */
-	public void setID(Long id) {
-		this.id = id;
+	public void setAdminId(Long id) {
+		this.adminId = id;
 	}
 
 	/**
@@ -89,8 +89,8 @@ public class Admin implements Serializable {
 	 */
 	public String toString() {
 		String result = "";
-		if(id != 0)
-			result = "admin id = "+getID()+", ";
+		if(adminId != 0)
+			result = "admin id = "+getAdminId()+", ";
 		else
 			result = "admin id = -, ";
 		

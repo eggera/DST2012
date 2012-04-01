@@ -7,9 +7,6 @@
    			Persistence unit for the first assignment of distributed systems technologies
    		</description>
    		
-   		<class>dst1.model.User</class>
-   		<class>dst1.model.Admin</class>
-   		
     	<properties>
   	 		<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
   	 		<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/dst" />

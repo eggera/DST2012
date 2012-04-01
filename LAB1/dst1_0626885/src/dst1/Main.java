@@ -1,5 +1,7 @@
 package dst1;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +12,12 @@ import dst1.model.Admin;
 import dst1.model.AdminDAO;
 import dst1.model.AdminDAOTest;
 import dst1.model.Computer;
+import dst1.model.Environment;
 import dst1.model.Execution;
+import dst1.model.Grid;
+import dst1.model.Job;
 import dst1.model.PersistenceUtil;
+import dst1.model.Service;
 import dst1.model.User;
 import dst1.model.UserDAO;
 import dst1.model.UserDAOTest;
@@ -47,7 +53,113 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
-		userDAO.saveUser(new User("Herbert","Franz"));
+		
+		
+		User user = new User("Herbert","Franz", new Address("street1","city1","4000"), 
+								"herbi", Service.getMD5Hash("herb"));
+		
+		User user2 = new User("Dennis","Fennis", new Address("street2","city2","6000"), 
+				"den", Service.getMD5Hash("denfen"));
+		
+		Job job1 = new Job();
+		Job job2 = new Job();
+		Job job3 = new Job();
+		
+		Job job4 = new Job();
+		Job job5 = new Job();
+		Job job6 = new Job();
+		
+		List<String> params = new ArrayList<String>();
+		params.add("param1");
+		params.add("param2");
+		params.add("param3");
+		
+		Environment environment1 = new Environment("workflow1", params);
+		Environment environment2 = new Environment("workflow2", params);
+		Environment environment3 = new Environment("workflow3", params);
+		
+		job1.setEnvironment(environment1);
+		job2.setEnvironment(environment2);
+		job3.setEnvironment(environment3);
+		
+		job4.setEnvironment(environment1);
+		job5.setEnvironment(environment2);
+		job6.setEnvironment(environment3);
+		
+//		entityManager.persist(job1);
+//		entityManager.persist(job2);
+//		entityManager.persist(job3);
+//		
+//		List<Job> jobs = entityManager.createQuery(" from Job", Job.class).getResultList();
+//		
+//		System.out.println("jobs : "+jobs);
+		
+		user.addJob(job1);
+		user.addJob(job2);
+		user.addJob(job3);
+		
+		user2.addJob(job4);
+		user2.addJob(job5);
+		user2.addJob(job6);
+			
+		
+		Execution execution1 = new Execution(
+						new Date(System.currentTimeMillis()),
+						new Date(System.currentTimeMillis() + 1000*60*60),
+						Execution.JobStatus.RUNNING);
+		
+		Execution execution2 = new Execution(
+						new Date(System.currentTimeMillis() + 1000*60*60),
+						new Date(System.currentTimeMillis() + 1000*60*60*2),
+						Execution.JobStatus.RUNNING);
+		
+		Execution execution3 = new Execution(
+						new Date(System.currentTimeMillis() + 1000*60*60*2),
+						new Date(System.currentTimeMillis() + 1000*60*60*3),
+						Execution.JobStatus.RUNNING);
+		
+		Execution execution4 = new Execution(
+						new Date(System.currentTimeMillis() + 1000*60*60*3),
+						new Date(System.currentTimeMillis() + 1000*60*60*4),
+						Execution.JobStatus.RUNNING);
+		
+		Execution execution5 = new Execution(
+						new Date(System.currentTimeMillis() + 1000*60*60*4),
+						new Date(System.currentTimeMillis() + 1000*60*60*5),
+						Execution.JobStatus.RUNNING);
+		
+		Execution execution6 = new Execution(
+						new Date(System.currentTimeMillis() + 1000*60*60*5),
+						new Date(System.currentTimeMillis() + 1000*60*60*6),
+						Execution.JobStatus.RUNNING);
+		
+		job1.setExecution(execution1);
+		job2.setExecution(execution2);
+		job3.setExecution(execution3);
+		job4.setExecution(execution4);
+		job5.setExecution(execution5);
+		job6.setExecution(execution6);
+		
+		entityManager.persist(user);
+		entityManager.persist(user2);
+		
+		List<User> users = entityManager.createQuery(" from User", User.class)
+									.getResultList();
+		
+		System.out.println("user : \n"+users);
+		
+		
+//		entityManager.flush();
+		
+		entityManager.remove(user2);
+		
+		
+		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.55));
+		
+		entityManager.persist(grid1);
+		
+		
+	//	userDAO.saveUser();
 		adminDAO.saveAdmin(new Admin("Huaba", "Sepp", new Address("street1","city4","9203")));
 		
 		Computer comp = new Computer("Comp1", 10, "G1C2", 
@@ -63,18 +175,35 @@ public class Main {
 		
 		System.out.println("Computer : \n"+result.get(0));
 		
-		Execution execution = new Execution(
-								new Date(System.currentTimeMillis()),
-								new Date(System.currentTimeMillis() + 1000*60*60),
-								Execution.JobStatus.SCHEDULED);
+	
 		
-		entityManager.persist(execution);
+//		entityManager.persist(execution);
+//		
+//		List<Execution> ex_result = entityManager.createQuery(
+//										"from Execution", Execution.class )
+//										.getResultList();
+//		
+//		System.out.println("Execution : \n"+ex_result.get(0));
 		
-		List<Execution> ex_result = entityManager.createQuery(
-										"from Execution", Execution.class )
-										.getResultList();
-		
-		System.out.println("Execution : \n"+ex_result.get(0));
+//		List<String> params = new ArrayList<String>();
+//		params.add("1st");
+//		params.add("2nd");
+//		params.add("3rd");
+//		Environment environment = new Environment("workflow", params);
+//		
+//		System.out.println("Environment : \n"+environment);
+//		
+//		entityManager.persist(environment);
+//		
+//		entityManager.getTransaction().commit();
+//		
+//		entityManager.getTransaction().begin();
+//		
+//		List<Environment> env_result = entityManager.createQuery(
+//											"from Environment", Environment.class )
+//											.getResultList();
+//		
+//		System.out.println("Environment : \n"+env_result.get(0));
 		
 		entityManager.getTransaction().commit();
 		
