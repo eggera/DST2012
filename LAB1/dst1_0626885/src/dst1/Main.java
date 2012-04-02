@@ -146,29 +146,30 @@ public class Main {
 		
 		List<User> users = entityManager.createQuery(" from User", User.class)
 									.getResultList();
-		
 		System.out.println("user : \n"+users);
 		
 		
-//		entityManager.flush();
-		
-		entityManager.remove(user2);
-		
-		entityManager.getTransaction().commit();
-		
-		
-		entityManager.getTransaction().begin();
-		
-		
 		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.55));
-		
 		entityManager.persist(grid1);
 
 		Membership membership = new Membership(grid1, user1, 
 										new Date(System.currentTimeMillis()), 
 										new Double(5.5));
 		
+		Membership membership2 = new Membership(grid1, user2, 
+										new Date(System.currentTimeMillis()), 
+										new Double(6.2));
+		
 		entityManager.persist(membership);
+		entityManager.persist(membership2);
+		
+		entityManager.flush();
+		
+		entityManager.getTransaction().commit();
+		
+		
+		entityManager.getTransaction().begin();
+		
 		
 	//	userDAO.saveUser();
 		adminDAO.saveAdmin(new Admin("Huaba", "Sepp", new Address("street1","city4","9203")));
@@ -184,7 +185,7 @@ public class Main {
 		
 		System.out.println("Computer : \n"+result.get(0));
 		
-	
+//		entityManager.remove(user1);
 		
 //		entityManager.persist(execution);
 //		

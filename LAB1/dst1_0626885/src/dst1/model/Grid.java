@@ -2,6 +2,8 @@ package dst1.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -18,14 +20,20 @@ public class Grid implements Serializable {
 	private String location;
 	private BigDecimal costsPerCPUMinute;
 	
+	@OneToMany (mappedBy="grid", cascade=CascadeType.ALL)
+	private List<Membership> membershipList;
+	
 	public Grid() {
 		// used by Hibernate
+		membershipList = new ArrayList<Membership>();
 	}
 	
 	public Grid(String name, String location, BigDecimal costsPerCPUMinute) {
 		this.name = name;
 		this.location = location;
 		this.costsPerCPUMinute = costsPerCPUMinute;
+		
+		this.membershipList = new ArrayList<Membership>();
 	}
 	
 	/**
@@ -75,5 +83,37 @@ public class Grid implements Serializable {
 	 */
 	public void setCostsPerCPUMinute(BigDecimal costsPerCPUMinute) {
 		this.costsPerCPUMinute = costsPerCPUMinute;
+	}
+	
+	/**
+	 * Adds a membership entity to the list
+	 * @param membership the membership to set
+	 */
+	public void addMembership(Membership membership) {
+		this.membershipList.add(membership);
+	}
+	
+	/**
+	 * Removes a membership entity from the list
+	 * @return the membership of this Grid
+	 */
+	public void removeMembership(Membership membership) {
+		this.membershipList.remove(membership);
+	}
+	
+	/**
+	 * Get the membershipList
+	 * @return the membershipList
+	 */
+	public List<Membership> getMembershipList() {
+		return this.membershipList;
+	}
+	
+	/**
+	 * Sets the membershipList
+	 * @param membershipList the membershipList to set
+	 */
+	public void setMembershipList(List<Membership> membershipList) {
+		this.membershipList = membershipList;
 	}
 }

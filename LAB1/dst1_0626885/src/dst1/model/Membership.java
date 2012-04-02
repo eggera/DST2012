@@ -6,17 +6,17 @@ import java.util.Date;
 import javax.persistence.*;
 
 
-//@IdClass( value = MembershipKey.class )
+@IdClass( value = MembershipKey.class )
 @Entity
 public class Membership implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@ManyToOne
+	@ManyToOne (fetch=FetchType.EAGER)
 	private Grid grid;
 	@Id
-	@ManyToOne
+	@ManyToOne (fetch=FetchType.EAGER)
 	private User user;
 	@Temporal (value = TemporalType.TIMESTAMP)
 	private Date registration;
@@ -83,36 +83,6 @@ public class Membership implements Serializable {
 	 */
 	public void setDiscount(Double discount) {
 		this.discount = discount;
-	}
-	
-	@Override
-	public boolean equals(Object otherObj) {
-		if(this == otherObj) 
-			return true;
-		
-		if(otherObj instanceof MembershipKey == false)
-			return false;
-		
-		Membership other = (Membership) otherObj;
-		return (
-				grid.getGridId() == null 
-							? other.grid.getGridId() == null 
-							: grid.getGridId().equals(other.grid.getGridId())
-					&&
-				user.getUserId() == null 
-							? other.user.getUserId() == null 
-							: user.getUserId().equals(other.user.getUserId())
-			   );				
-				
-	}
-	
-	@Override
-	public int hashCode() {
-		return (
-				(grid.getGridId() == null ? 0 : grid.getGridId().hashCode())
-						^
-				(user.getUserId() == null ? 0 : user.getUserId().hashCode())
-			   );
 	}
 	
 }

@@ -25,9 +25,14 @@ public class User implements Serializable {
 	@OneToMany (cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Job> jobList;
 	
+	@OneToMany (mappedBy="user", cascade=CascadeType.ALL)
+	private List<Membership> membershipList;
+	
+	
 	public User() {
 		// used by Hibernate
 		jobList = new ArrayList<Job>();
+		membershipList = new ArrayList<Membership>();
 	}
 	
 	public User(String firstName, String lastName) {
@@ -35,6 +40,7 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		
 		jobList = new ArrayList<Job>();
+		membershipList = new ArrayList<Membership>();
 	}
 	
 	public User(String firstName, String lastName, 
@@ -142,6 +148,14 @@ public class User implements Serializable {
 	}
 	
 	/**
+	 * Get the jobList
+	 * @return the jobList of this User
+	 */
+	public List<Job> getJobList() {
+		return this.jobList;
+	}
+	
+	/**
 	 * Set the jobList
 	 * @param jobList the jobList to set
 	 */
@@ -153,11 +167,35 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Get the jobList
-	 * @return the jobList of this User
+	 * Adds a membership entity to the list
+	 * @param membership the membership to set
 	 */
-	public List<Job> getJobList() {
-		return this.jobList;
+	public void addMembership(Membership membership) {
+		this.membershipList.add(membership);
+	}
+	
+	/**
+	 * Removes a membership entity from the list
+	 * @return the membership of this Grid
+	 */
+	public void removeMembership(Membership membership) {
+		this.membershipList.remove(membership);
+	}
+	
+	/**
+	 * Get the membershipList
+	 * @return the membershipList
+	 */
+	public List<Membership> getMembershipList() {
+		return this.membershipList;
+	}
+	
+	/**
+	 * Sets the membershipList
+	 * @param membershipList the membershipList to set
+	 */
+	public void setMembershipList(List<Membership> membershipList) {
+		this.membershipList = membershipList;
 	}
 	
 	/**
