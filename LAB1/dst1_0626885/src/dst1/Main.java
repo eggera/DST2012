@@ -16,6 +16,7 @@ import dst1.model.Environment;
 import dst1.model.Execution;
 import dst1.model.Grid;
 import dst1.model.Job;
+import dst1.model.Membership;
 import dst1.model.PersistenceUtil;
 import dst1.model.Service;
 import dst1.model.User;
@@ -55,7 +56,7 @@ public class Main {
 		
 		
 		
-		User user = new User("Herbert","Franz", new Address("street1","city1","4000"), 
+		User user1 = new User("Herbert","Franz", new Address("street1","city1","4000"), 
 								"herbi", Service.getMD5Hash("herb"));
 		
 		User user2 = new User("Dennis","Fennis", new Address("street2","city2","6000"), 
@@ -94,9 +95,9 @@ public class Main {
 //		
 //		System.out.println("jobs : "+jobs);
 		
-		user.addJob(job1);
-		user.addJob(job2);
-		user.addJob(job3);
+		user1.addJob(job1);
+		user1.addJob(job2);
+		user1.addJob(job3);
 		
 		user2.addJob(job4);
 		user2.addJob(job5);
@@ -140,7 +141,7 @@ public class Main {
 		job5.setExecution(execution5);
 		job6.setExecution(execution6);
 		
-		entityManager.persist(user);
+		entityManager.persist(user1);
 		entityManager.persist(user2);
 		
 		List<User> users = entityManager.createQuery(" from User", User.class)
@@ -153,11 +154,21 @@ public class Main {
 		
 		entityManager.remove(user2);
 		
+		entityManager.getTransaction().commit();
+		
+		
+		entityManager.getTransaction().begin();
+		
 		
 		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.55));
 		
 		entityManager.persist(grid1);
+
+		Membership membership = new Membership(grid1, user1, 
+										new Date(System.currentTimeMillis()), 
+										new Double(5.5));
 		
+		entityManager.persist(membership);
 		
 	//	userDAO.saveUser();
 		adminDAO.saveAdmin(new Admin("Huaba", "Sepp", new Address("street1","city4","9203")));
@@ -166,8 +177,6 @@ public class Main {
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
 			  				new Date(System.currentTimeMillis()));
 		entityManager.persist(comp);
-		
-		System.out.println("Computer : \n"+comp);
 		
 		List<Computer> result = entityManager.createQuery( 
 									"from Computer", Computer.class )

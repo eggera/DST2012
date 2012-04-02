@@ -1,34 +1,52 @@
 package dst1.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
 
 
-@IdClass( value = MembershipKey.class )
+//@IdClass( value = MembershipKey.class )
 @Entity
-public class Membership {
+public class Membership implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Long gridId;
+	@ManyToOne
+	private Grid grid;
 	@Id
-	private Long userId;
+	@ManyToOne
+	private User user;
 	@Temporal (value = TemporalType.TIMESTAMP)
 	private Date registration;
 	private Double discount;
 	
 	
+	public Membership(Grid grid, User user) {
+		this.grid = grid;
+		this.user = user;
+	}
+	
+	public Membership(Grid grid, User user, 
+						Date registration, Double discount) {
+		
+		this(grid, user);
+		this.registration = registration;
+		this.discount = discount;
+	}
+	
 	/**
-	 * @return the gridId
+	 * @return the grid
 	 */
-	public Long getGridId() {
-		return gridId;
+	public Grid getGrid() {
+		return grid;
 	}
 	/**
-	 * @return the userId
+	 * @return the user
 	 */
-	public Long getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 	/**
 	 * @return the registration
@@ -43,16 +61,16 @@ public class Membership {
 		return discount;
 	}
 	/**
-	 * @param gridId the gridId to set
+	 * @param grid the grid to set
 	 */
-	public void setGridId(Long gridId) {
-		this.gridId = gridId;
+	public void setGrid(Grid grid) {
+		this.grid = grid;
 	}
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	/**
 	 * @param registration the registration to set
@@ -65,6 +83,36 @@ public class Membership {
 	 */
 	public void setDiscount(Double discount) {
 		this.discount = discount;
+	}
+	
+	@Override
+	public boolean equals(Object otherObj) {
+		if(this == otherObj) 
+			return true;
+		
+		if(otherObj instanceof MembershipKey == false)
+			return false;
+		
+		Membership other = (Membership) otherObj;
+		return (
+				grid.getGridId() == null 
+							? other.grid.getGridId() == null 
+							: grid.getGridId().equals(other.grid.getGridId())
+					&&
+				user.getUserId() == null 
+							? other.user.getUserId() == null 
+							: user.getUserId().equals(other.user.getUserId())
+			   );				
+				
+	}
+	
+	@Override
+	public int hashCode() {
+		return (
+				(grid.getGridId() == null ? 0 : grid.getGridId().hashCode())
+						^
+				(user.getUserId() == null ? 0 : user.getUserId().hashCode())
+			   );
 	}
 	
 }
