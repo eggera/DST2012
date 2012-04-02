@@ -22,6 +22,9 @@ public class Membership implements Serializable {
 	private Date registration;
 	private Double discount;
 	
+	public Membership() {
+		// used by Hibernate
+	}
 	
 	public Membership(Grid grid, User user) {
 		this.grid = grid;

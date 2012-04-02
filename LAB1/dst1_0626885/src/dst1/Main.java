@@ -163,13 +163,6 @@ public class Main {
 		entityManager.persist(membership);
 		entityManager.persist(membership2);
 		
-		entityManager.flush();
-		
-		entityManager.getTransaction().commit();
-		
-		
-		entityManager.getTransaction().begin();
-		
 		
 	//	userDAO.saveUser();
 		adminDAO.saveAdmin(new Admin("Huaba", "Sepp", new Address("street1","city4","9203")));
@@ -185,7 +178,21 @@ public class Main {
 		
 		System.out.println("Computer : \n"+result.get(0));
 		
-//		entityManager.remove(user1);
+		entityManager.flush();
+		
+		entityManager.getTransaction().commit();
+		
+		entityManager.close();
+		
+		// ------------------ DELETE USER ---------------------------
+		
+		entityManager = entityManagerFactory.createEntityManager();
+		
+		entityManager.getTransaction().begin();
+		
+		User user_ = entityManager.find(User.class, 2L);
+		
+		entityManager.remove(user_);
 		
 //		entityManager.persist(execution);
 //		
