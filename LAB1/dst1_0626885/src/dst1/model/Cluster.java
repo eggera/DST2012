@@ -20,6 +20,9 @@ public class Cluster implements Serializable {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date nextService;
 	
+	@ManyToOne (optional = false)
+	private Admin admin;
+	
 	public Cluster() {
 		// used by Hibernate
 	}
@@ -72,6 +75,20 @@ public class Cluster implements Serializable {
 	 */
 	public void setNextService(Date nextService) {
 		this.nextService = nextService;
+	}
+	
+	/**
+	 * @return the admin
+	 */
+	public Admin getAdmin() {
+		return this.admin;
+	}
+	
+	/**
+	 * @param admin the admin to set
+	 */
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 	
 }

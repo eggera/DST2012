@@ -196,12 +196,12 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
-//		User user_ = entityManager.find(User.class, 1L);
-//		entityManager.remove(user_);
+		User user_ = entityManager.find(User.class, 1L);
+		entityManager.remove(user_);
 		
 //		Execution execution = entityManager.find(Execution.class, 1L);
 //		entityManager.remove(execution);
-		
+//		
 		Environment environment_ = entityManager.find(Environment.class, 1L);
 		entityManager.remove(environment_);
 		
