@@ -5,8 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+//import org.hibernate.annotations.OnDelete;
+//import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Execution implements Serializable {
@@ -29,7 +29,7 @@ public class Execution implements Serializable {
 	private JobStatus status;
 	
 	@OneToOne (cascade = CascadeType.REMOVE)
-	@OnDelete (action = OnDeleteAction.CASCADE)
+//	@OnDelete (action = OnDeleteAction.CASCADE)
 	private Job job;
 	
 	public Execution() {

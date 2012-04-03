@@ -87,14 +87,7 @@ public class Main {
 		job4.setEnvironment(environment1);
 		job5.setEnvironment(environment2);
 		job6.setEnvironment(environment3);
-		
-//		entityManager.persist(job1);
-//		entityManager.persist(job2);
-//		entityManager.persist(job3);
-//		
-//		List<Job> jobs = entityManager.createQuery(" from Job", Job.class).getResultList();
-//		
-//		System.out.println("jobs : "+jobs);
+
 		
 		user1.addJob(job1);
 		user1.addJob(job2);
@@ -174,38 +167,116 @@ public class Main {
 //		userDAO.saveUser();
 //		adminDAO.saveAdmin();
 		
-		Admin admin1 = new Admin("Huaba", "Sepp", new Address("street1","city4","9203"));
+		Admin admin1 = new Admin("Huaba", "Suda", new Address("street1","city1","1111"));
+		Admin admin2 = new Admin("Stephan", "Ertl", new Address("street2","city2","2222"));
+		Admin admin3 = new Admin("Sepp", "Depp", new Address("street3","city3","3333"));
+		Admin admin4 = new Admin("Gert", "Erd", new Address("street4","city4","4444"));
 		entityManager.persist(admin1);
+		entityManager.persist(admin2);
+		entityManager.persist(admin3);
+		entityManager.persist(admin4);
 		
 		Cluster cluster1 = new Cluster("cluster1", 
 										new Date(System.currentTimeMillis()), 
-										new Date(System.currentTimeMillis() + 1000*60*60));
+										new Date(System.currentTimeMillis()));
 		
 		Cluster cluster2 = new Cluster("cluster2", 
 										new Date(System.currentTimeMillis() - 1000*60*60), 
-										new Date(System.currentTimeMillis()));
+										new Date(System.currentTimeMillis() + 1000*60*60));
+		
+		Cluster cluster3 = new Cluster("cluster3", 
+										new Date(System.currentTimeMillis() - 1000*60*60*2), 
+										new Date(System.currentTimeMillis() + 1000*60*60*2));
+
+		Cluster cluster4 = new Cluster("cluster4", 
+										new Date(System.currentTimeMillis() - 1000*60*60*3), 
+										new Date(System.currentTimeMillis() + 1000*60*60*3));
+		
+		Cluster cluster5 = new Cluster("cluster5", 
+										new Date(System.currentTimeMillis() - 1000*60*60*4), 
+										new Date(System.currentTimeMillis() + 1000*60*60*4));
+		
+		Cluster cluster6 = new Cluster("cluster6", 
+										new Date(System.currentTimeMillis() - 1000*60*60*5), 
+										new Date(System.currentTimeMillis() + 1000*60*60*5));
 		
 		cluster1.setAdmin(admin1);
 		cluster2.setAdmin(admin1);
+		cluster3.setAdmin(admin2);
+		cluster4.setAdmin(admin2);
+		cluster5.setAdmin(admin3);
+		cluster6.setAdmin(admin4);
+		
 		admin1.addCluster(cluster1);
 		admin1.addCluster(cluster2);
+		admin2.addCluster(cluster3);
+		admin2.addCluster(cluster4);
+		admin3.addCluster(cluster5);
+		admin4.addCluster(cluster6);
 		
 		cluster1.setGrid(grid1);
-		cluster2.setGrid(grid2);
+		cluster2.setGrid(grid1);
+		cluster3.setGrid(grid1);
+		cluster4.setGrid(grid2);
+		cluster5.setGrid(grid2);
+		cluster6.setGrid(grid2);
+		
 		grid1.addCluster(cluster1);
-		grid2.addCluster(cluster2);
+		grid1.addCluster(cluster2);
+		grid1.addCluster(cluster3);
+		grid2.addCluster(cluster4);
+		grid2.addCluster(cluster5);
+		grid2.addCluster(cluster6);
+		
+		
+		//  cluster 1 --> cluster 2, cluster3
+		//  cluster 2 --> cluster 4
+		//  cluster 3 --> cluster 5
+		//  cluster 4 --> cluster 5
+		//  cluster 4 --> cluster 6
+		//  cluster 5 --> cluster 6
+		
+		cluster1.addSubCluster(cluster2);
+		cluster1.addSubCluster(cluster3);
+		cluster2.addSuperCluster(cluster1);
+		cluster3.addSuperCluster(cluster1);
+		
+		cluster2.addSubCluster(cluster4);
+		cluster4.addSuperCluster(cluster2);
+		
+		cluster3.addSubCluster(cluster5);
+		cluster5.addSuperCluster(cluster3);
+		
+		cluster4.addSubCluster(cluster5);
+		cluster4.addSubCluster(cluster6);
+		cluster5.addSuperCluster(cluster4);
+		cluster6.addSuperCluster(cluster4);
+		
+		cluster5.addSubCluster(cluster6);
+		cluster6.addSuperCluster(cluster5);
 		
 		entityManager.persist(cluster1);
 		entityManager.persist(cluster2);
+		entityManager.persist(cluster3);
+		entityManager.persist(cluster4);
+		entityManager.persist(cluster5);
+		entityManager.persist(cluster6);
 		
+		System.out.println("SUPER CLUSTER SIZE = " + cluster5.getSuperCluster().size());
+		
+		for(Cluster cluster : cluster5.getSuperCluster())
+			System.out.println("super cluster id = "+cluster.getClusterId());
+		
+//		for(Cluster cluster : cluster4.getSubCluster())
+//			cluster.removeSuperCluster(cluster4);
+//				
 //		entityManager.remove(cluster1);
-		
-//		List<Cluster> clusterList = admin1.getClusterList();
-//		for(Cluster cluster : clusterList)
-//			cluster.setAdmin(null);
-//		
-//		entityManager.remove(admin1);
-//		entityManager.remove(grid1);
+//				
+//				
+//				
+//				
+//				for(Cluster cluster : cluster2.getSuperCluster())
+//					System.out.println("super cluster id = "+cluster.getClusterId());
 				
 		Computer comp = new Computer("Comp1", 10, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
@@ -230,21 +301,27 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
+//		Admin admin_ = entityManager.find(Admin.class, 1L);
+//		List<Cluster> adminClusterList = admin_.getClusterList();
+//		for(Cluster cluster : adminClusterList) 
+//			cluster.setAdmin(null);
+//		entityManager.remove(admin_);
+//		
 //		User user_ = entityManager.find(User.class, 1L);
 //		entityManager.remove(user_);
 //		
-		Grid grid_ = entityManager.find(Grid.class, 1L);
-		List<Cluster> clusterList = grid_.getClusterList();
-		for(Cluster cluster : clusterList) 
-			cluster.setGrid(null);
-		entityManager.remove(grid_);
+//		Grid grid_ = entityManager.find(Grid.class, 1L);
+//		List<Cluster> gridClusterList = grid_.getClusterList();
+//		for(Cluster cluster : gridClusterList) 
+//			cluster.setGrid(null);
+//		entityManager.remove(grid_);
 		
 //		Execution execution = entityManager.find(Execution.class, 1L);
 //		entityManager.remove(execution);
 //		
-//		Environment environment_ = entityManager.find(Environment.class, 1L);
-//		entityManager.remove(environment_);
-//		
+		Environment environment_ = entityManager.find(Environment.class, 1L);
+		entityManager.remove(environment_);
+		
 //		Job job = entityManager.find(Job.class, 1L);
 //		entityManager.remove(job);
 		

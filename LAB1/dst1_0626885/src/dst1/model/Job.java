@@ -3,8 +3,8 @@ package dst1.model;
 import java.io.Serializable;
 
 import javax.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+//import org.hibernate.annotations.OnDelete;
+//import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Job implements Serializable {
@@ -20,12 +20,12 @@ public class Job implements Serializable {
 	private User user;
 	
 	@OneToOne (cascade = CascadeType.PERSIST)
-	@OnDelete (action = OnDeleteAction.CASCADE)
+//	@OnDelete (action = OnDeleteAction.CASCADE)
 //	@JoinColumn (updatable = true, nullable = true)
 	private Environment environment;
 	
 	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	@OnDelete (action = OnDeleteAction.CASCADE)
+//	@OnDelete (action = OnDeleteAction.CASCADE)
 	private Execution execution;
 	
 	
