@@ -11,6 +11,7 @@ import dst1.model.Address;
 import dst1.model.Admin;
 import dst1.model.AdminDAO;
 import dst1.model.AdminDAOTest;
+import dst1.model.Cluster;
 import dst1.model.Computer;
 import dst1.model.Environment;
 import dst1.model.Execution;
@@ -170,8 +171,35 @@ public class Main {
 		entityManager.persist(membership2);
 		entityManager.persist(membership3);
 		
-	//	userDAO.saveUser();
-		adminDAO.saveAdmin(new Admin("Huaba", "Sepp", new Address("street1","city4","9203")));
+//		userDAO.saveUser();
+//		adminDAO.saveAdmin();
+		
+		Admin admin1 = new Admin("Huaba", "Sepp", new Address("street1","city4","9203"));
+		entityManager.persist(admin1);
+		
+		Cluster cluster1 = new Cluster("cluster1", 
+										new Date(System.currentTimeMillis()), 
+										new Date(System.currentTimeMillis() + 1000*60*60));
+		
+		Cluster cluster2 = new Cluster("cluster2", 
+										new Date(System.currentTimeMillis() - 1000*60*60), 
+										new Date(System.currentTimeMillis()));
+		
+		cluster1.setAdmin(admin1);
+		cluster2.setAdmin(admin1);
+		admin1.addCluster(cluster1);
+		admin1.addCluster(cluster2);
+		
+		entityManager.persist(cluster1);
+		entityManager.persist(cluster2);
+		
+		entityManager.remove(cluster1);
+		
+		List<Cluster> clusterList = admin1.getClusterList();
+		for(Cluster cluster : clusterList)
+			cluster.setAdmin(null);
+		
+		entityManager.remove(admin1);
 		
 		Computer comp = new Computer("Comp1", 10, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
@@ -190,21 +218,24 @@ public class Main {
 		
 		entityManager.close();
 		
-		// ------------------ DELETE USER ---------------------------
+		// ------------------ DELETE ENTITIES ---------------------------
 		
 		entityManager = entityManagerFactory.createEntityManager();
 		
 		entityManager.getTransaction().begin();
 		
-		User user_ = entityManager.find(User.class, 1L);
-		entityManager.remove(user_);
-		
+//		User user_ = entityManager.find(User.class, 1L);
+//		entityManager.remove(user_);
+//		
+//		Grid grid_ = entityManager.find(Grid.class, 1L);
+//		entityManager.remove(grid_);
+//		
 //		Execution execution = entityManager.find(Execution.class, 1L);
 //		entityManager.remove(execution);
 //		
-		Environment environment_ = entityManager.find(Environment.class, 1L);
-		entityManager.remove(environment_);
-		
+//		Environment environment_ = entityManager.find(Environment.class, 1L);
+//		entityManager.remove(environment_);
+//		
 //		Job job = entityManager.find(Job.class, 1L);
 //		entityManager.remove(job);
 		

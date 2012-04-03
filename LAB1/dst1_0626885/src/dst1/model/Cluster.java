@@ -5,6 +5,9 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Cluster implements Serializable {
 
@@ -20,11 +23,17 @@ public class Cluster implements Serializable {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date nextService;
 	
-	@ManyToOne (optional = false)
+	@ManyToOne
 	private Admin admin;
 	
 	public Cluster() {
 		// used by Hibernate
+	}
+	
+	public Cluster(String name, Date lastService, Date nextService) {
+		this.name = name;
+		this.lastService = lastService;
+		this.nextService = nextService;
 	}
 	
 	

@@ -19,7 +19,7 @@ public class Admin implements Serializable {
 	@Embedded
 	private Address address;
 	
-	@OneToMany
+	@OneToMany (mappedBy = "admin")
 	private List<Cluster> clusterList;
 	
 	public Admin() {
