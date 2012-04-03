@@ -149,8 +149,10 @@ public class Main {
 		System.out.println("user : \n"+users);
 		
 		
-		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.55));
+		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.11));
+		Grid grid2 = new Grid("grid2", "G2", new BigDecimal(0.22));
 		entityManager.persist(grid1);
+		entityManager.persist(grid2);
 
 		Membership membership = new Membership(grid1, user1, 
 										new Date(System.currentTimeMillis()), 
@@ -160,9 +162,13 @@ public class Main {
 										new Date(System.currentTimeMillis()), 
 										new Double(6.2));
 		
+		Membership membership3 = new Membership(grid2, user1, 
+										new Date(System.currentTimeMillis()), 
+										new Double(4.4));
+		
 		entityManager.persist(membership);
 		entityManager.persist(membership2);
-		
+		entityManager.persist(membership3);
 		
 	//	userDAO.saveUser();
 		adminDAO.saveAdmin(new Admin("Huaba", "Sepp", new Address("street1","city4","9203")));
@@ -190,9 +196,17 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
-		User user_ = entityManager.find(User.class, 2L);
+//		User user_ = entityManager.find(User.class, 1L);
+//		entityManager.remove(user_);
 		
-		entityManager.remove(user_);
+//		Execution execution = entityManager.find(Execution.class, 1L);
+//		entityManager.remove(execution);
+		
+		Environment environment_ = entityManager.find(Environment.class, 1L);
+		entityManager.remove(environment_);
+		
+//		Job job = entityManager.find(Job.class, 1L);
+//		entityManager.remove(job);
 		
 //		entityManager.persist(execution);
 //		
