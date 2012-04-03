@@ -190,17 +190,23 @@ public class Main {
 		admin1.addCluster(cluster1);
 		admin1.addCluster(cluster2);
 		
+		cluster1.setGrid(grid1);
+		cluster2.setGrid(grid2);
+		grid1.addCluster(cluster1);
+		grid2.addCluster(cluster2);
+		
 		entityManager.persist(cluster1);
 		entityManager.persist(cluster2);
 		
-		entityManager.remove(cluster1);
+//		entityManager.remove(cluster1);
 		
-		List<Cluster> clusterList = admin1.getClusterList();
-		for(Cluster cluster : clusterList)
-			cluster.setAdmin(null);
-		
-		entityManager.remove(admin1);
-		
+//		List<Cluster> clusterList = admin1.getClusterList();
+//		for(Cluster cluster : clusterList)
+//			cluster.setAdmin(null);
+//		
+//		entityManager.remove(admin1);
+//		entityManager.remove(grid1);
+				
 		Computer comp = new Computer("Comp1", 10, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
 			  				new Date(System.currentTimeMillis()));
@@ -227,9 +233,12 @@ public class Main {
 //		User user_ = entityManager.find(User.class, 1L);
 //		entityManager.remove(user_);
 //		
-//		Grid grid_ = entityManager.find(Grid.class, 1L);
-//		entityManager.remove(grid_);
-//		
+		Grid grid_ = entityManager.find(Grid.class, 1L);
+		List<Cluster> clusterList = grid_.getClusterList();
+		for(Cluster cluster : clusterList) 
+			cluster.setGrid(null);
+		entityManager.remove(grid_);
+		
 //		Execution execution = entityManager.find(Execution.class, 1L);
 //		entityManager.remove(execution);
 //		

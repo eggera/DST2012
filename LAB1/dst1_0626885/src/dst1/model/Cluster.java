@@ -26,6 +26,9 @@ public class Cluster implements Serializable {
 	@ManyToOne
 	private Admin admin;
 	
+	@ManyToOne
+	private Grid grid;
+	
 	public Cluster() {
 		// used by Hibernate
 	}
@@ -98,6 +101,20 @@ public class Cluster implements Serializable {
 	 */
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+	
+	/**
+	 * @return the grid
+	 */
+	public Grid getGrid() {
+		return this.grid;
+	}
+	
+	/**
+	 * @param grid the grid to set
+	 */
+	public void setGrid(Grid grid) {
+		this.grid = grid;
 	}
 	
 }

@@ -23,9 +23,13 @@ public class Grid implements Serializable {
 	@OneToMany (mappedBy="grid", cascade=CascadeType.ALL)
 	private List<Membership> membershipList;
 	
+	@OneToMany (mappedBy="grid")
+	private List<Cluster> clusterList;
+	
 	public Grid() {
 		// used by Hibernate
-		membershipList = new ArrayList<Membership>();
+		this.membershipList = new ArrayList<Membership>();
+		this.clusterList = new ArrayList<Cluster>();
 	}
 	
 	public Grid(String name, String location, BigDecimal costsPerCPUMinute) {
@@ -34,6 +38,7 @@ public class Grid implements Serializable {
 		this.costsPerCPUMinute = costsPerCPUMinute;
 		
 		this.membershipList = new ArrayList<Membership>();
+		this.clusterList = new ArrayList<Cluster>();
 	}
 	
 	/**
@@ -115,5 +120,37 @@ public class Grid implements Serializable {
 	 */
 	public void setMembershipList(List<Membership> membershipList) {
 		this.membershipList = membershipList;
+	}
+	
+	/**
+	 * Adds a cluster to the clusterList
+	 * @param cluster the cluster to add
+	 */
+	public void addCluster(Cluster cluster) {
+		this.clusterList.add(cluster);
+	}
+	
+	/**
+	 * Removes a cluster from the clusterList
+	 * @param cluster the cluster to remove
+	 */
+	public void removeCluster(Cluster cluster) {
+		this.clusterList.remove(cluster);
+	}
+	
+	/**
+	 * Gets the clusterList
+	 * @return the clusterList
+	 */
+	public List<Cluster> getClusterList() {
+		return this.clusterList;
+	}
+	
+	/**
+	 * Sets the clusterList
+	 * @param clusterList the clusterList to set
+	 */
+	public void setClusterList(List<Cluster> clusterList) {
+		this.clusterList = clusterList;
 	}
 }
