@@ -40,6 +40,7 @@ public class EnvironmentDAO {
 		if(environment_ == null)
 			return false;
 
+		// Get the jobs that are related to this environment
 		List<Job> jobResult = entityManager.createQuery(
 										"select j from Job j where j.environment.environmentId = :id"
 								).setParameter("id", environment_.getEnvironmentId())

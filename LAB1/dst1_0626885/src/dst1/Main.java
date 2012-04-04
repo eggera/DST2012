@@ -51,11 +51,17 @@ public class Main {
 		
 		
 		
-		User user1 = new User("Herbert","Franz", new Address("street1","city1","4000"), 
+		User user1 = new User("Herbert","Franz", new Address("street1","city1","2000"), 
 								"herbi", Service.getMD5Hash("herb"));
 		
-		User user2 = new User("Dennis","Fennis", new Address("street2","city2","6000"), 
-				"den", Service.getMD5Hash("denfen"));
+		User user2 = new User("Dennis","Fennis", new Address("street2","city2","4000"), 
+								"den", Service.getMD5Hash("denfen"));
+		
+		User user3 = new User("Pepp","Druml", new Address("street3","city3","6000"), 
+								"pepp", Service.getMD5Hash("pdruml"));
+
+		User user4 = new User("Manz","Fanz", new Address("street4","city4","8000"), 
+								"manz", Service.getMD5Hash("mfanz"));
 		
 		Job job1 = new Job();
 		Job job2 = new Job();
@@ -85,19 +91,19 @@ public class Main {
 		
 		user1.addJob(job1);
 		user1.addJob(job2);
-		user1.addJob(job3);
+		user2.addJob(job3);
 		
-		user2.addJob(job4);
-		user2.addJob(job5);
-		user2.addJob(job6);
+		user3.addJob(job4);
+		user4.addJob(job5);
+		user4.addJob(job6);
 		
 		job1.setUser(user1);
 		job2.setUser(user1);
-		job3.setUser(user1);
+		job3.setUser(user2);
 		
-		job4.setUser(user2);
-		job5.setUser(user2);
-		job6.setUser(user2);
+		job4.setUser(user3);
+		job5.setUser(user4);
+		job6.setUser(user4);
 			
 		
 		Execution execution1 = new Execution(
@@ -146,28 +152,47 @@ public class Main {
 		
 		userDAO.saveUser(user1);
 		userDAO.saveUser(user2);
+		userDAO.saveUser(user3);
+		userDAO.saveUser(user4);
 		
 		
 		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.11));
 		Grid grid2 = new Grid("grid2", "G2", new BigDecimal(0.22));
+		Grid grid3 = new Grid("grid3", "G3", new BigDecimal(0.33));
 		gridDAO.saveGrid(grid1);
 		gridDAO.saveGrid(grid2);
+		gridDAO.saveGrid(grid3);
 
 		Membership membership1 = new Membership(grid1, user1, 
 										new Date(System.currentTimeMillis()), 
-										new Double(5.5));
+										new Double(1.1));
 		
 		Membership membership2 = new Membership(grid1, user2, 
 										new Date(System.currentTimeMillis()), 
-										new Double(6.2));
+										new Double(2.2));
 		
-		Membership membership3 = new Membership(grid2, user1, 
+		Membership membership3 = new Membership(grid2, user3, 
+										new Date(System.currentTimeMillis()), 
+										new Double(3.3));
+		
+		Membership membership4 = new Membership(grid2, user4, 
 										new Date(System.currentTimeMillis()), 
 										new Double(4.4));
+		
+		Membership membership5 = new Membership(grid3, user2, 
+										new Date(System.currentTimeMillis()), 
+										new Double(5.5));
+		
+		Membership membership6 = new Membership(grid3, user4, 
+										new Date(System.currentTimeMillis()), 
+										new Double(6.6));
 		
 		membershipDAO.saveMembership(membership1);
 		membershipDAO.saveMembership(membership2);
 		membershipDAO.saveMembership(membership3);
+		membershipDAO.saveMembership(membership4);
+		membershipDAO.saveMembership(membership5);
+		membershipDAO.saveMembership(membership6);
 		
 		
 		Admin admin1 = new Admin("Huaba", "Suda", new Address("street1","city1","1111"));
@@ -180,65 +205,97 @@ public class Main {
 		adminDAO.saveAdmin(admin3);
 		adminDAO.saveAdmin(admin4);
 		
-		Cluster cluster1 = new Cluster("cluster1", 
-										new Date(System.currentTimeMillis()), 
-										new Date(System.currentTimeMillis()));
 		
-		Cluster cluster2 = new Cluster("cluster2", 
+		Cluster cluster1 = new Cluster("cluster1", 
 										new Date(System.currentTimeMillis() - 1000*60*60), 
 										new Date(System.currentTimeMillis() + 1000*60*60));
 		
-		Cluster cluster3 = new Cluster("cluster3", 
+		Cluster cluster2 = new Cluster("cluster2", 
 										new Date(System.currentTimeMillis() - 1000*60*60*2), 
 										new Date(System.currentTimeMillis() + 1000*60*60*2));
-
-		Cluster cluster4 = new Cluster("cluster4", 
+		
+		Cluster cluster3 = new Cluster("cluster3", 
 										new Date(System.currentTimeMillis() - 1000*60*60*3), 
 										new Date(System.currentTimeMillis() + 1000*60*60*3));
-		
-		Cluster cluster5 = new Cluster("cluster5", 
+
+		Cluster cluster4 = new Cluster("cluster4", 
 										new Date(System.currentTimeMillis() - 1000*60*60*4), 
 										new Date(System.currentTimeMillis() + 1000*60*60*4));
 		
-		Cluster cluster6 = new Cluster("cluster6", 
+		Cluster cluster5 = new Cluster("cluster5", 
 										new Date(System.currentTimeMillis() - 1000*60*60*5), 
 										new Date(System.currentTimeMillis() + 1000*60*60*5));
+		
+		Cluster cluster6 = new Cluster("cluster6", 
+										new Date(System.currentTimeMillis() - 1000*60*60*6), 
+										new Date(System.currentTimeMillis() + 1000*60*60*6));
+		
+		Cluster cluster7 = new Cluster("cluster7", 
+										new Date(System.currentTimeMillis() - 1000*60*60*7), 
+										new Date(System.currentTimeMillis() + 1000*60*60*7));
+		
+		Cluster cluster8 = new Cluster("cluster8", 
+										new Date(System.currentTimeMillis() - 1000*60*60*8), 
+										new Date(System.currentTimeMillis() + 1000*60*60*8));
 		
 		cluster1.setAdmin(admin1);
 		cluster2.setAdmin(admin1);
 		cluster3.setAdmin(admin2);
 		cluster4.setAdmin(admin2);
 		cluster5.setAdmin(admin3);
-		cluster6.setAdmin(admin4);
+		cluster6.setAdmin(admin3);
+		cluster7.setAdmin(admin4);
+		cluster8.setAdmin(admin4);
 		
 		admin1.addCluster(cluster1);
 		admin1.addCluster(cluster2);
 		admin2.addCluster(cluster3);
 		admin2.addCluster(cluster4);
 		admin3.addCluster(cluster5);
-		admin4.addCluster(cluster6);
+		admin3.addCluster(cluster6);
+		admin4.addCluster(cluster7);
+		admin4.addCluster(cluster8);
 		
 		cluster1.setGrid(grid1);
 		cluster2.setGrid(grid1);
 		cluster3.setGrid(grid1);
 		cluster4.setGrid(grid2);
 		cluster5.setGrid(grid2);
-		cluster6.setGrid(grid2);
+		cluster6.setGrid(grid3);
+		cluster7.setGrid(grid3);
+		cluster8.setGrid(grid3);
 		
 		grid1.addCluster(cluster1);
 		grid1.addCluster(cluster2);
 		grid1.addCluster(cluster3);
 		grid2.addCluster(cluster4);
 		grid2.addCluster(cluster5);
-		grid2.addCluster(cluster6);
+		grid3.addCluster(cluster6);
+		grid3.addCluster(cluster7);
+		grid3.addCluster(cluster8);
 		
 		
-		//  cluster 1 --> cluster 2, cluster3
+		//  cluster 8 --> cluster 1
+		//  cluster 8 --> cluster 2
+		//  cluster 8 --> cluster 4
+		//  cluster 8 --> cluster 7
+		//  cluster 1 --> cluster 2
+		//  cluster 1 --> cluster 3
 		//  cluster 2 --> cluster 4
+		//  cluster 2 --> cluster 6
+		//  cluster 3 --> cluster 4
 		//  cluster 3 --> cluster 5
-		//  cluster 4 --> cluster 5
 		//  cluster 4 --> cluster 6
+		//  cluster 4 --> cluster 7
 		//  cluster 5 --> cluster 6
+		//  cluster 5 --> cluster 7
+		
+		cluster8.addSubCluster(cluster2);
+		cluster8.addSubCluster(cluster4);
+		cluster8.addSubCluster(cluster7);
+		cluster2.addSuperCluster(cluster8);
+		cluster4.addSuperCluster(cluster8);
+		cluster7.addSuperCluster(cluster8);
 		
 		cluster1.addSubCluster(cluster2);
 		cluster1.addSubCluster(cluster3);
@@ -246,18 +303,24 @@ public class Main {
 		cluster3.addSuperCluster(cluster1);
 		
 		cluster2.addSubCluster(cluster4);
+		cluster2.addSubCluster(cluster6);
 		cluster4.addSuperCluster(cluster2);
+		cluster6.addSuperCluster(cluster2);
 		
+		cluster3.addSubCluster(cluster4);
 		cluster3.addSubCluster(cluster5);
+		cluster4.addSuperCluster(cluster3);
 		cluster5.addSuperCluster(cluster3);
 		
-		cluster4.addSubCluster(cluster5);
 		cluster4.addSubCluster(cluster6);
-		cluster5.addSuperCluster(cluster4);
+		cluster4.addSubCluster(cluster7);
 		cluster6.addSuperCluster(cluster4);
+		cluster7.addSuperCluster(cluster4);
 		
 		cluster5.addSubCluster(cluster6);
+		cluster5.addSubCluster(cluster7);
 		cluster6.addSuperCluster(cluster5);
+		cluster7.addSuperCluster(cluster5);
 		
 		clusterDAO.saveCluster(cluster1);
 		clusterDAO.saveCluster(cluster2);
@@ -265,28 +328,20 @@ public class Main {
 		clusterDAO.saveCluster(cluster4);
 		clusterDAO.saveCluster(cluster5);
 		clusterDAO.saveCluster(cluster6);
+		clusterDAO.saveCluster(cluster7);
+		clusterDAO.saveCluster(cluster8);
 		
-		System.out.println("SUPER CLUSTER SIZE = " + cluster5.getSuperCluster().size());
+		System.out.println("SUPER CLUSTER SIZE (cluster4) = " + cluster4.getSuperClusters().size());
 		
-		for(Cluster cluster : cluster5.getSuperCluster())
+		for(Cluster cluster : cluster4.getSuperClusters())
 			System.out.println("super cluster id = "+cluster.getClusterId());
-		
-//		for(Cluster cluster : cluster4.getSubCluster())
-//			cluster.removeSuperCluster(cluster4);
-//				
-//		entityManager.remove(cluster1);
-//				
-//				
-//				
-//				
-//				for(Cluster cluster : cluster2.getSuperCluster())
-//					System.out.println("super cluster id = "+cluster.getClusterId());
+			
 				
-		Computer comp = new Computer("Comp1", 10, "G1C2", 
+		Computer computer = new Computer("Comp1", 10, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
 			  				new Date(System.currentTimeMillis()));
 				
-		computerDAO.saveComputer(comp);
+		computerDAO.saveComputer(computer);
 		
 		entityManager.flush();
 		entityManager.getTransaction().commit();
@@ -299,20 +354,23 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
-		adminDAO.setEntityManager(entityManager);
-		adminDAO.removeAdmin(1L);
+//		adminDAO.setEntityManager(entityManager);
+//		adminDAO.removeAdmin(1L);
+//		
+//		userDAO.setEntityManager(entityManager);
+//		userDAO.removeUser(1L);
+//		
+//		gridDAO.setEntityManager(entityManager);
+//		gridDAO.removeGrid(1L);
 		
-		userDAO.setEntityManager(entityManager);
-		userDAO.removeUser(1L);
-		
-		gridDAO.setEntityManager(entityManager);
-		gridDAO.removeGrid(1L);
-		
-		executionDAO.setEntityManager(entityManager);
-		executionDAO.removeExecution(4L);
-
-		environmentDAO.setEntityManager(entityManager);
-		environmentDAO.removeEnvironment(2L);
+		clusterDAO.setEntityManager(entityManager);
+		clusterDAO.removeCluster(4L);
+//		
+//		executionDAO.setEntityManager(entityManager);
+//		executionDAO.removeExecution(4L);
+//
+//		environmentDAO.setEntityManager(entityManager);
+//		environmentDAO.removeEnvironment(2L);
 				
 		
 		entityManager.getTransaction().commit();

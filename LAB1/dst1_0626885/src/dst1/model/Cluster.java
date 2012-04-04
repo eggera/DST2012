@@ -36,15 +36,15 @@ public class Cluster implements Serializable {
 					@JoinColumn(name = "super_cluster_id", referencedColumnName="clusterId"),
 				inverseJoinColumns = 
 					@JoinColumn(name = "sub_cluster_id", referencedColumnName="clusterId"))
-	private List<Cluster> subCluster;
+	private List<Cluster> subClusters;
 	
-	@ManyToMany (mappedBy = "subCluster")
-	private List<Cluster> superCluster;
+	@ManyToMany (mappedBy = "subClusters")
+	private List<Cluster> superClusters;
 	
 	public Cluster() {
 		// used by Hibernate
-		this.subCluster = new ArrayList<Cluster>();
-		this.superCluster = new ArrayList<Cluster>();
+		this.subClusters = new ArrayList<Cluster>();
+		this.superClusters = new ArrayList<Cluster>();
 	}
 	
 	public Cluster(String name, Date lastService, Date nextService) {
@@ -52,8 +52,8 @@ public class Cluster implements Serializable {
 		this.lastService = lastService;
 		this.nextService = nextService;
 		
-		this.subCluster = new ArrayList<Cluster>();
-		this.superCluster = new ArrayList<Cluster>();
+		this.subClusters = new ArrayList<Cluster>();
+		this.superClusters = new ArrayList<Cluster>();
 	}
 	
 	
@@ -138,56 +138,66 @@ public class Cluster implements Serializable {
 	 * @param cluster the sub-cluster to add
 	 */
 	public void addSubCluster(Cluster cluster) {
-		this.subCluster.add(cluster);
+		this.subClusters.add(cluster);
 	}
 	
 	/**
 	 * @param cluster the sub-cluster to remove
 	 */
 	public void removeSubCluster(Cluster cluster) {
-		this.subCluster.remove(cluster);
+		this.subClusters.remove(cluster);
 	}
 	
 	/**
 	 * @param cluster the super-cluster to add
 	 */
 	public void addSuperCluster(Cluster cluster) {
-		this.superCluster.add(cluster);
+		this.superClusters.add(cluster);
 	}
 	
 	/**
 	 * @param cluster the super-cluster to remove
 	 */
 	public void removeSuperCluster(Cluster cluster) {
-		this.superCluster.remove(cluster);
+		this.superClusters.remove(cluster);
 	}
 	
 	/**
 	 * @return the subCluster list
 	 */
-	public List<Cluster> getSubCluster() {
-		return this.subCluster;
+	public List<Cluster> getSubClusters() {
+		return this.subClusters;
 	}
 	
 	/**
 	 * @param subCluster the subCluster list to set
 	 */
-	public void setSubCluster(List<Cluster> subCluster) {
-		this.subCluster = subCluster;
+	public void setSubClusters(List<Cluster> subCluster) {
+		this.subClusters = subCluster;
 	}
 	
 	/**
 	 * @return the superCluster list
 	 */
-	public List<Cluster> getSuperCluster() {
-		return this.superCluster;
+	public List<Cluster> getSuperClusters() {
+		return this.superClusters;
 	}
 	
 	/**
 	 * @param superCluster the superCluster list to set
 	 */
-	public void setSuperCluster(List<Cluster> superCluster) {
-		this.superCluster = superCluster;
+	public void setSuperClusters(List<Cluster> superCluster) {
+		this.superClusters = superCluster;
+	}
+	
+	/**
+	 * Gets the String representation of this cluster
+	 */
+	public String toString() {
+		return "clusterId = "+ (clusterId == null ? "null" : clusterId)+", " +
+				"name = "+name+", " +
+				"lastService = "+lastService+", " +
+				"nextService = "+nextService;
 	}
 	
 }

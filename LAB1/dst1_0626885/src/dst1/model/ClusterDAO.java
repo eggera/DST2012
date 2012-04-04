@@ -1,5 +1,7 @@
 package dst1.model;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 public class ClusterDAO {
@@ -7,6 +9,22 @@ public class ClusterDAO {
 	private EntityManager entityManager;
 	
 	public ClusterDAO(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	/**
+	 * Gets the entityManager for this DAO
+	 * @return the entityManager
+	 */
+	public EntityManager getEntityManager() {
+		return this.entityManager;
+	}
+	
+	/**
+	 * Sets the entityManager for this DAO
+	 * @param entityManager the entityManager to set
+	 */
+	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 	
@@ -30,6 +48,27 @@ public class ClusterDAO {
 		if(cluster_ == null)
 			return false;
 		
+		List<Cluster> parentsOfDeleted = cluster_.getSuperClusters();
+		List<Cluster> childrenOfDeleted = cluster_.getSubClusters();
+		
+		for(Cluster parent : parentsOfDeleted) {
+			List<Cluster> pChildren = parent.getSubClusters();
+			
+			for(Cluster child : childrenOfDeleted) {
+				// wenn der Supercluster ein Kind des zu löschenden Clusters
+				// enthält, soll er es nicht noch einmal hinzufügen
+				if(pChildren.contains(child))
+					continue;
+				
+				parent.addSubCluster(child);
+				child.addSuperCluster(parent);
+			}
+			parent.removeSubCluster(cluster_);
+		}
+		
+		for(Cluster child : childrenOfDeleted) 
+			child.removeSuperCluster(cluster_);
+				
 		entityManager.remove(cluster_);
 		return true;
 	}
