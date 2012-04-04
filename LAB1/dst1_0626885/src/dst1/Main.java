@@ -7,22 +7,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import dst1.model.Address;
-import dst1.model.Admin;
-import dst1.model.AdminDAO;
-import dst1.model.AdminDAOTest;
-import dst1.model.Cluster;
-import dst1.model.Computer;
-import dst1.model.Environment;
-import dst1.model.Execution;
-import dst1.model.Grid;
-import dst1.model.Job;
-import dst1.model.Membership;
+import dst1.model.*;
+
 import dst1.model.PersistenceUtil;
-import dst1.model.Service;
-import dst1.model.User;
-import dst1.model.UserDAO;
-import dst1.model.UserDAOTest;
 
 public class Main {
 
@@ -52,6 +39,7 @@ public class Main {
 		
 		UserDAO userDAO = new UserDAO(entityManager);
 		AdminDAO adminDAO = new AdminDAO(entityManager);
+		EnvironmentDAO environmentDAO = new EnvironmentDAO(entityManager);
 		
 		entityManager.getTransaction().begin();
 		
@@ -320,7 +308,10 @@ public class Main {
 //		entityManager.remove(execution);
 //		
 		Environment environment_ = entityManager.find(Environment.class, 1L);
-		entityManager.remove(environment_);
+		environmentDAO.setEntityManager(entityManager);
+		environmentDAO.removeEnvironment(environment_);
+		
+		
 		
 //		Job job = entityManager.find(Job.class, 1L);
 //		entityManager.remove(job);

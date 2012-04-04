@@ -7,6 +7,7 @@ import javax.persistence.*;
 //import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
+@NamedQuery(name="deleteJobs", query="select j from Job j")
 public class Job implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,6 +32,7 @@ public class Job implements Serializable {
 	
 	public Job() {
 		// used by Hibernate
+		
 	}
 	
 	public Job(Environment environment) {
@@ -131,7 +133,9 @@ public class Job implements Serializable {
 	public String toString() {
 		return 	"id = "+jobId+", " +
 			"isPaid = "+isPaid+", " +
-			"userID = "+(user == null?"-":user.getUserId());
+			"userID = "+(user == null?"-":user.getUserId())+", " +
+			"environmentId = "+(environment == null ? "null" : environment.getEnvironmentId()+", " +
+			"executionId = "+(execution == null ? "null" : execution.getExecutionId()));
 	}
 	
 }
