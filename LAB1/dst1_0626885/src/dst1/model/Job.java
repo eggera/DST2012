@@ -3,11 +3,8 @@ package dst1.model;
 import java.io.Serializable;
 
 import javax.persistence.*;
-//import org.hibernate.annotations.OnDelete;
-//import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@NamedQuery(name="deleteJobs", query="select j from Job j")
 public class Job implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,18 +18,14 @@ public class Job implements Serializable {
 	private User user;
 	
 	@OneToOne (cascade = CascadeType.PERSIST)
-//	@OnDelete (action = OnDeleteAction.CASCADE)
-//	@JoinColumn (updatable = true, nullable = true)
 	private Environment environment;
 	
 	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//	@OnDelete (action = OnDeleteAction.CASCADE)
 	private Execution execution;
 	
 	
 	public Job() {
 		// used by Hibernate
-		
 	}
 	
 	public Job(Environment environment) {
@@ -74,24 +67,17 @@ public class Job implements Serializable {
 	}
 	
 	/**
-	 * @return the environment
-	 */
-	public Environment getEnvironment() {
-		return environment;
-	}
-	
-	/**
-	 * @return the execution
-	 */
-	public Execution getExecution() {
-		return execution;
-	}
-	
-	/**
 	 * @param user the user to set
 	 */
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	/**
+	 * @return the environment
+	 */
+	public Environment getEnvironment() {
+		return environment;
 	}
 	
 	/**
@@ -102,11 +88,17 @@ public class Job implements Serializable {
 	}
 	
 	/**
+	 * @return the execution
+	 */
+	public Execution getExecution() {
+		return execution;
+	}
+	
+	/**
 	 * @param execution the execution to set
 	 */
 	public void setExecution(Execution execution) {
 		this.execution = execution;
-		this.execution.setJob(this);
 	}
 	
 	// Derived Properties (calculated from other entities)

@@ -40,6 +40,7 @@ public class Main {
 		UserDAO userDAO = new UserDAO(entityManager);
 		AdminDAO adminDAO = new AdminDAO(entityManager);
 		EnvironmentDAO environmentDAO = new EnvironmentDAO(entityManager);
+		ExecutionDAO executionDAO = new ExecutionDAO(entityManager);
 		
 		entityManager.getTransaction().begin();
 		
@@ -84,6 +85,14 @@ public class Main {
 		user2.addJob(job4);
 		user2.addJob(job5);
 		user2.addJob(job6);
+		
+		job1.setUser(user1);
+		job2.setUser(user1);
+		job3.setUser(user1);
+		
+		job4.setUser(user2);
+		job5.setUser(user2);
+		job6.setUser(user2);
 			
 		
 		Execution execution1 = new Execution(
@@ -122,6 +131,13 @@ public class Main {
 		job4.setExecution(execution4);
 		job5.setExecution(execution5);
 		job6.setExecution(execution6);
+		
+		execution1.setJob(job1);
+		execution2.setJob(job2);
+		execution3.setJob(job3);
+		execution4.setJob(job4);
+		execution5.setJob(job5);
+		execution6.setJob(job6);
 		
 		entityManager.persist(user1);
 		entityManager.persist(user2);
@@ -289,27 +305,27 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
-//		Admin admin_ = entityManager.find(Admin.class, 1L);
-//		List<Cluster> adminClusterList = admin_.getClusterList();
-//		for(Cluster cluster : adminClusterList) 
-//			cluster.setAdmin(null);
-//		entityManager.remove(admin_);
-//		
-//		User user_ = entityManager.find(User.class, 1L);
-//		entityManager.remove(user_);
-//		
-//		Grid grid_ = entityManager.find(Grid.class, 1L);
-//		List<Cluster> gridClusterList = grid_.getClusterList();
-//		for(Cluster cluster : gridClusterList) 
-//			cluster.setGrid(null);
-//		entityManager.remove(grid_);
+		Admin admin_ = entityManager.find(Admin.class, 1L);
+		List<Cluster> adminClusterList = admin_.getClusterList();
+		for(Cluster cluster : adminClusterList) 
+			cluster.setAdmin(null);
+		entityManager.remove(admin_);
 		
-//		Execution execution = entityManager.find(Execution.class, 1L);
-//		entityManager.remove(execution);
-//		
-		Environment environment_ = entityManager.find(Environment.class, 1L);
-		environmentDAO.setEntityManager(entityManager);
-		environmentDAO.removeEnvironment(environment_);
+		User user_ = entityManager.find(User.class, 1L);
+		entityManager.remove(user_);
+		
+		Grid grid_ = entityManager.find(Grid.class, 1L);
+		List<Cluster> gridClusterList = grid_.getClusterList();
+		for(Cluster cluster : gridClusterList) 
+			cluster.setGrid(null);
+		entityManager.remove(grid_);
+		
+		executionDAO.setEntityManager(entityManager);
+		executionDAO.removeExecution(4L);
+		
+//		Environment environment_ = entityManager.find(Environment.class, 2L);
+//		environmentDAO.setEntityManager(entityManager);
+//		environmentDAO.removeEnvironment(environment_);
 		
 		
 		

@@ -134,7 +134,6 @@ public class User implements Serializable {
 	 * @param job the job to add
 	 */
 	public void addJob(Job job) {
-		job.setUser(this);
 		jobList.add(job);
 	}
 	
@@ -143,7 +142,6 @@ public class User implements Serializable {
 	 * @param job the job to remove
 	 */
 	public void removeJob(Job job) {
-		job.setUser(null);
 		jobList.remove(job);
 	}
 	
@@ -161,9 +159,6 @@ public class User implements Serializable {
 	 */
 	public void setJobList(List<Job> jobList) {
 		this.jobList = jobList;
-		for(Job job : jobList) {
-			job.setUser(this);
-		}
 	}
 	
 	/**
