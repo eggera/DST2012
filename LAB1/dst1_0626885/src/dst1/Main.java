@@ -38,7 +38,12 @@ public class Main {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
 		UserDAO userDAO = new UserDAO(entityManager);
+		GridDAO gridDAO = new GridDAO(entityManager);
+		MembershipDAO membershipDAO = new MembershipDAO(entityManager);
 		AdminDAO adminDAO = new AdminDAO(entityManager);
+		ClusterDAO clusterDAO = new ClusterDAO(entityManager);
+		ComputerDAO computerDAO = new ComputerDAO(entityManager);
+		
 		EnvironmentDAO environmentDAO = new EnvironmentDAO(entityManager);
 		ExecutionDAO executionDAO = new ExecutionDAO(entityManager);
 		
@@ -103,27 +108,27 @@ public class Main {
 		Execution execution2 = new Execution(
 						new Date(System.currentTimeMillis() + 1000*60*60),
 						new Date(System.currentTimeMillis() + 1000*60*60*2),
-						Execution.JobStatus.RUNNING);
+						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution3 = new Execution(
 						new Date(System.currentTimeMillis() + 1000*60*60*2),
 						new Date(System.currentTimeMillis() + 1000*60*60*3),
-						Execution.JobStatus.RUNNING);
+						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution4 = new Execution(
 						new Date(System.currentTimeMillis() + 1000*60*60*3),
 						new Date(System.currentTimeMillis() + 1000*60*60*4),
-						Execution.JobStatus.RUNNING);
+						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution5 = new Execution(
 						new Date(System.currentTimeMillis() + 1000*60*60*4),
 						new Date(System.currentTimeMillis() + 1000*60*60*5),
-						Execution.JobStatus.RUNNING);
+						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution6 = new Execution(
 						new Date(System.currentTimeMillis() + 1000*60*60*5),
 						new Date(System.currentTimeMillis() + 1000*60*60*6),
-						Execution.JobStatus.RUNNING);
+						Execution.JobStatus.SCHEDULED);
 		
 		job1.setExecution(execution1);
 		job2.setExecution(execution2);
@@ -139,20 +144,16 @@ public class Main {
 		execution5.setJob(job5);
 		execution6.setJob(job6);
 		
-		entityManager.persist(user1);
-		entityManager.persist(user2);
-		
-		List<User> users = entityManager.createQuery(" from User", User.class)
-									.getResultList();
-		System.out.println("user : \n"+users);
+		userDAO.saveUser(user1);
+		userDAO.saveUser(user2);
 		
 		
 		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.11));
 		Grid grid2 = new Grid("grid2", "G2", new BigDecimal(0.22));
-		entityManager.persist(grid1);
-		entityManager.persist(grid2);
+		gridDAO.saveGrid(grid1);
+		gridDAO.saveGrid(grid2);
 
-		Membership membership = new Membership(grid1, user1, 
+		Membership membership1 = new Membership(grid1, user1, 
 										new Date(System.currentTimeMillis()), 
 										new Double(5.5));
 		
@@ -164,21 +165,20 @@ public class Main {
 										new Date(System.currentTimeMillis()), 
 										new Double(4.4));
 		
-		entityManager.persist(membership);
-		entityManager.persist(membership2);
-		entityManager.persist(membership3);
+		membershipDAO.saveMembership(membership1);
+		membershipDAO.saveMembership(membership2);
+		membershipDAO.saveMembership(membership3);
 		
-//		userDAO.saveUser();
-//		adminDAO.saveAdmin();
 		
 		Admin admin1 = new Admin("Huaba", "Suda", new Address("street1","city1","1111"));
 		Admin admin2 = new Admin("Stephan", "Ertl", new Address("street2","city2","2222"));
 		Admin admin3 = new Admin("Sepp", "Depp", new Address("street3","city3","3333"));
 		Admin admin4 = new Admin("Gert", "Erd", new Address("street4","city4","4444"));
-		entityManager.persist(admin1);
-		entityManager.persist(admin2);
-		entityManager.persist(admin3);
-		entityManager.persist(admin4);
+		
+		adminDAO.saveAdmin(admin1);
+		adminDAO.saveAdmin(admin2);
+		adminDAO.saveAdmin(admin3);
+		adminDAO.saveAdmin(admin4);
 		
 		Cluster cluster1 = new Cluster("cluster1", 
 										new Date(System.currentTimeMillis()), 
@@ -259,12 +259,12 @@ public class Main {
 		cluster5.addSubCluster(cluster6);
 		cluster6.addSuperCluster(cluster5);
 		
-		entityManager.persist(cluster1);
-		entityManager.persist(cluster2);
-		entityManager.persist(cluster3);
-		entityManager.persist(cluster4);
-		entityManager.persist(cluster5);
-		entityManager.persist(cluster6);
+		clusterDAO.saveCluster(cluster1);
+		clusterDAO.saveCluster(cluster2);
+		clusterDAO.saveCluster(cluster3);
+		clusterDAO.saveCluster(cluster4);
+		clusterDAO.saveCluster(cluster5);
+		clusterDAO.saveCluster(cluster6);
 		
 		System.out.println("SUPER CLUSTER SIZE = " + cluster5.getSuperCluster().size());
 		
@@ -285,19 +285,13 @@ public class Main {
 		Computer comp = new Computer("Comp1", 10, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
 			  				new Date(System.currentTimeMillis()));
-		entityManager.persist(comp);
-		
-		List<Computer> result = entityManager.createQuery( 
-									"from Computer", Computer.class )
-									.getResultList();
-		
-		System.out.println("Computer : \n"+result.get(0));
+				
+		computerDAO.saveComputer(comp);
 		
 		entityManager.flush();
-		
 		entityManager.getTransaction().commit();
-		
 		entityManager.close();
+		
 		
 		// ------------------ DELETE ENTITIES ---------------------------
 		
@@ -305,60 +299,21 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
-		Admin admin_ = entityManager.find(Admin.class, 1L);
-		List<Cluster> adminClusterList = admin_.getClusterList();
-		for(Cluster cluster : adminClusterList) 
-			cluster.setAdmin(null);
-		entityManager.remove(admin_);
+		adminDAO.setEntityManager(entityManager);
+		adminDAO.removeAdmin(1L);
 		
-		User user_ = entityManager.find(User.class, 1L);
-		entityManager.remove(user_);
+		userDAO.setEntityManager(entityManager);
+		userDAO.removeUser(1L);
 		
-		Grid grid_ = entityManager.find(Grid.class, 1L);
-		List<Cluster> gridClusterList = grid_.getClusterList();
-		for(Cluster cluster : gridClusterList) 
-			cluster.setGrid(null);
-		entityManager.remove(grid_);
+		gridDAO.setEntityManager(entityManager);
+		gridDAO.removeGrid(1L);
 		
 		executionDAO.setEntityManager(entityManager);
 		executionDAO.removeExecution(4L);
-		
-//		Environment environment_ = entityManager.find(Environment.class, 2L);
-//		environmentDAO.setEntityManager(entityManager);
-//		environmentDAO.removeEnvironment(environment_);
-		
-		
-		
-//		Job job = entityManager.find(Job.class, 1L);
-//		entityManager.remove(job);
-		
-//		entityManager.persist(execution);
-//		
-//		List<Execution> ex_result = entityManager.createQuery(
-//										"from Execution", Execution.class )
-//										.getResultList();
-//		
-//		System.out.println("Execution : \n"+ex_result.get(0));
-		
-//		List<String> params = new ArrayList<String>();
-//		params.add("1st");
-//		params.add("2nd");
-//		params.add("3rd");
-//		Environment environment = new Environment("workflow", params);
-//		
-//		System.out.println("Environment : \n"+environment);
-//		
-//		entityManager.persist(environment);
-//		
-//		entityManager.getTransaction().commit();
-//		
-//		entityManager.getTransaction().begin();
-//		
-//		List<Environment> env_result = entityManager.createQuery(
-//											"from Environment", Environment.class )
-//											.getResultList();
-//		
-//		System.out.println("Environment : \n"+env_result.get(0));
+
+		environmentDAO.setEntityManager(entityManager);
+		environmentDAO.removeEnvironment(2L);
+				
 		
 		entityManager.getTransaction().commit();
 		

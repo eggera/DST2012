@@ -84,14 +84,16 @@ public class UserDAO {
 	 * Remove a user from the current PersistenceContext
 	 * @param userID the userID of the user to be removed
 	 */
-	public void removeUser(User user) {
+	public void removeUser(Long userId) {
 		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive()) {		
-			entityManager.remove(user);
+		if(entityManager.getTransaction().isActive()) {
+			User user_ = entityManager.find(User.class, userId);
+			entityManager.remove(user_);
 			return;
 		}
-		entityManager.getTransaction().begin();	
-		entityManager.remove(user);
+		entityManager.getTransaction().begin();
+		User user_ = entityManager.find(User.class, userId);
+		entityManager.remove(user_);
 		entityManager.getTransaction().commit();
 	}
 	

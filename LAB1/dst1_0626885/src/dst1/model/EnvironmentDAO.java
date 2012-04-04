@@ -37,7 +37,6 @@ public class EnvironmentDAO {
 	public boolean removeEnvironment(Long environmentId) {
 		
 		Environment environment_ = entityManager.find(Environment.class, environmentId);
-		
 		if(environment_ == null)
 			return false;
 

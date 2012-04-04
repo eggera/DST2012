@@ -49,7 +49,7 @@ public class AdminDAOTest {
 		printAllAdmins(adminList);
 		Admin admin = adminDAO.findAdmin(adminList.get(0).getAdminId());
 
-		adminDAO.removeAdmin(admin);
+		adminDAO.removeAdmin(admin.getAdminId());
 		System.out.println("Admin removed: \n"+admin);
 		
 		adminList = adminDAO.getAllAdmins();

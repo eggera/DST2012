@@ -36,7 +36,7 @@ public class AdminDAO {
 	
 	/**
 	 * Saves a admin to the current PeristenceContext
-	 * @param admin the admin to be saved
+	 * @param admin the admin to save
 	 */
 	public void saveAdmin(Admin admin) {
 		EntityManager entityManager = getEntityManager();
@@ -52,7 +52,7 @@ public class AdminDAO {
 	
 	/**
 	 * Search for and find a admin in the PersistenceContext
-	 * @param adminID the admin ID of the admin to be found
+	 * @param adminID the admin ID of the admin to find
 	 * @return the admin object if found, null otherwise
 	 */
 	public Admin findAdmin(Long adminID) {
@@ -83,17 +83,25 @@ public class AdminDAO {
 	
 	/**
 	 * Remove a admin from the current PersistenceContext
-	 * @param adminID the adminID of the admin to be removed
+	 * @param adminId the adminId of the admin to remove
 	 */
-	public void removeAdmin(Admin admin) {
+	public void removeAdmin(Long adminId) {
 		EntityManager entityManager = getEntityManager();
 		if(entityManager.getTransaction().isActive()) {
-			entityManager.remove(admin);
+			Admin admin_ = entityManager.find(Admin.class, adminId);
+			List<Cluster> adminClusterList = admin_.getClusterList();
+			for(Cluster cluster : adminClusterList) 
+				cluster.setAdmin(null);
+			entityManager.remove(admin_);
 			return;
 		}
 		
 		entityManager.getTransaction().begin();
-		entityManager.remove(admin);
+		Admin admin_ = entityManager.find(Admin.class, adminId);
+		List<Cluster> adminClusterList = admin_.getClusterList();
+		for(Cluster cluster : adminClusterList) 
+			cluster.setAdmin(null);
+		entityManager.remove(admin_);
 		entityManager.getTransaction().commit();
 	}
 	
