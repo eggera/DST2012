@@ -341,6 +341,7 @@ public class Main {
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
 			  				new Date(System.currentTimeMillis()));
 				
+//		entityManager.persist(computer);
 		computerDAO.saveComputer(computer);
 		
 		entityManager.flush();
@@ -358,13 +359,14 @@ public class Main {
 //		adminDAO.removeAdmin(1L);
 //		
 //		userDAO.setEntityManager(entityManager);
-//		userDAO.removeUser(1L);
+//		userDAO.removeUser(3L);
+//		userDAO.removeUser(4L);
 //		
 //		gridDAO.setEntityManager(entityManager);
 //		gridDAO.removeGrid(1L);
-		
-		clusterDAO.setEntityManager(entityManager);
-		clusterDAO.removeCluster(4L);
+//		
+//		clusterDAO.setEntityManager(entityManager);
+//		clusterDAO.removeCluster(4L);
 //		
 //		executionDAO.setEntityManager(entityManager);
 //		executionDAO.removeExecution(4L);

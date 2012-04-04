@@ -104,7 +104,8 @@ public class Computer implements Serializable {
 	}
 	
 	public String toString() {
-		return "name = "+ name + ", " +
+		return  "id = "+ computerId + ", " +
+				"name = "+ name + ", " +
 				"cpus = "+ cpus + ", " +
 				"location = "+ location + ", " +
 				"creation = "+ creation + ", " +
