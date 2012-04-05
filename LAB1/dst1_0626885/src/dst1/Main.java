@@ -301,11 +301,6 @@ public class Main {
 		clusterDAO.saveCluster(cluster6);
 		clusterDAO.saveCluster(cluster7);
 		clusterDAO.saveCluster(cluster8);
-		
-		System.out.println("SUPER CLUSTER SIZE (cluster4) = " + cluster4.getSuperClusters().size());
-		
-		for(Cluster cluster : cluster4.getSuperClusters())
-			System.out.println("super cluster id = "+cluster.getClusterId());
 	
 				
 		Computer computer1 = new Computer("Computer1", 1, "G1C2", 
@@ -490,52 +485,63 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
-//		
-//		adminDAO.removeAdmin(1L);
-//		
-//		userDAO.removeUser(3L);
-//		userDAO.removeUser(4L);
-//		
-//		User user = userDAO.findUser(1L);
-//		System.out.println("User 1 jobs: ");
-//		System.out.println(user.getJobList());
-//		
-//		System.out.println("Removing job 1");
-//		jobDAO.removeJob(1L);
-//		System.out.println("User 1 jobs: ");
-//		System.out.println(user.getJobList());
-//		
-//		gridDAO.removeGrid(1L);
-//		
-		System.out.println("Execution:");
+		
+		adminDAO.removeAdmin(1L);
+		
+		userDAO.removeUser(3L);
+		userDAO.removeUser(4L);
+		
+		User user = userDAO.findUser(1L);
+		System.out.println("User 1 jobs: ");
+		System.out.println(user.getJobList());
+		
+		System.out.println("Removing job 1");
+		jobDAO.removeJob(1L);
+		System.out.println("User 1 jobs: ");
+		System.out.println(user.getJobList());
+		
+		System.out.println("Removing grid 1");
+		
+		gridDAO.removeGrid(1L);
+		
+		System.out.println("Execution 3 computer list:");
+		
+//		System.out.println("Execution:");
+//		System.out.println(executionDAO.find(1L).getComputerList());
 		System.out.println(executionDAO.find(3L).getComputerList());
-		System.out.println(executionDAO.find(6L).getComputerList());
-		
-		System.out.println("Removing computer 1 and 14 ..");
-		
-		computerDAO.removeComputer(1L);
-		computerDAO.removeComputer(14L);
-		
-		System.out.println("Execution:");
+//		
+//		System.out.println("Removing computer 4,5,9 and 10 ..");
+//		
+		System.out.println("Removing computer 13 .. ");
+//		computerDAO.removeComputer(4L);
+//		computerDAO.removeComputer(5L);
+//		computerDAO.removeComputer(9L);
+//		computerDAO.removeComputer(10L);
+		computerDAO.removeComputer(13L);
+//		
+		System.out.println("Execution 3 computer list:");
+//		System.out.println("Execution:");
+//		System.out.println(executionDAO.find(1L).getComputerList());
 		System.out.println(executionDAO.find(3L).getComputerList());
-		System.out.println(executionDAO.find(6L).getComputerList());
 		
-//		System.out.println("cluster1 computers : \n"+clusterDAO.findCluster(1L).getComputers());
-//		System.out.println("cluster7 computers : \n"+clusterDAO.findCluster(7L).getComputers());
-//		
-//		System.out.println("------------  Remove cluster  -------------");
-//		
-//		System.out.println("Removing cluster 4");
-//		clusterDAO.removeCluster(4L);
-//		
-//		System.out.println("admin 2 and grid 2 should now have only one entry: ");
-//		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList());
-//		
-//		System.out.println("grid2 clusters: "+gridDAO.findGrid(2L).getClusterList());
-//		
-//		executionDAO.removeExecution(1L);
-//		
-//		environmentDAO.removeEnvironment(2L);
+		System.out.println("cluster1 computers : \n"+clusterDAO.findCluster(1L).getComputers());
+		System.out.println("cluster7 computers : \n"+clusterDAO.findCluster(7L).getComputers());
+		
+		System.out.println("------------  Remove cluster  -------------");
+		
+		System.out.println("Removing cluster 4");
+		clusterDAO.removeCluster(4L);
+		
+		System.out.println("admin 2 and grid 2 should now have only one entry: ");
+		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList());
+		
+		System.out.println("grid2 clusters: "+gridDAO.findGrid(2L).getClusterList());
+		
+		System.out.println("Removing execution 1 ..");
+		executionDAO.removeExecution(1L);
+		
+		System.out.println("Removing environment 2 ..");
+		environmentDAO.removeEnvironment(2L);
 				
 		
 		entityManager.getTransaction().commit();
