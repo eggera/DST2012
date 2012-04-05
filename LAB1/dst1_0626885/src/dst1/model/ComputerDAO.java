@@ -62,6 +62,9 @@ public class ComputerDAO {
 		
 		computer_.getCluster().removeComputer(computer_);
 		
+		for(Execution execution : computer_.getExecutionList())
+			execution.removeComputer(computer_);
+		
 		entityManager.remove(computer_);
 		return true;
 	}

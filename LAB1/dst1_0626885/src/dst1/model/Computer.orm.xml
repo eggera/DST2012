@@ -24,12 +24,14 @@
             	<temporal>TIMESTAMP</temporal>
             </basic>
             <many-to-one name="cluster"/>
-            <many-to-many name="executionList">
-            	<join-table>
-            		<join-column name="computerId" referenced-column-name="computerId"/>
-            		<inverse-join-column name="executionId" referenced-column-name="executionId"/>
-            	</join-table>
-            </many-to-many>
+            <many-to-many 	name="executionList" 
+            				mapped-by="computerList"/>
         </attributes>
    </entity>
 </entity-mappings>
+
+
+<!--join-table>
+	<join-column name="computerId" referenced-column-name="computerId"/>
+	<inverse-join-column name="executionId" referenced-column-name="executionId"/>
+</join-table-->

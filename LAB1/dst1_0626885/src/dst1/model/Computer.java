@@ -158,18 +158,18 @@ public class Computer implements Serializable {
 		this.executionList = list;
 	}
 	
-//	/**
-//	 * String representation of this computer
-//	 */
-//	public String toString() {
-//		return  "id = "+ computerId + ", " +
-//				"name = "+ name + "\n";
-//	}
-//	
+	/**
+	 * String representation of this computer
+	 */
+	public String toString() {
+		return  "id = "+ computerId + ", " +
+				"name = "+ name + "\n";
+	}
+	
 	/**
 	 * Extended String representation of this computer
 	 */
-	public String toString() {
+	public String toExtendedString() {
 		return  "id = "+ computerId + ", " +
 				"name = "+ name + ", " +
 				"cpus = "+ cpus + ", " +

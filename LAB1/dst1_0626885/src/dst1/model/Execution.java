@@ -27,7 +27,15 @@ public class Execution implements Serializable {
 	@OneToOne (cascade = CascadeType.REMOVE)
 	private Job job;
 	
-	@ManyToMany (mappedBy="executionList")
+	@ManyToMany
+	@JoinTable (
+				uniqueConstraints =
+						@UniqueConstraint(columnNames = {"executionId", "computerId"}),
+				joinColumns = 
+						@JoinColumn (name="executionId", referencedColumnName="executionId"), 
+				inverseJoinColumns = 
+						@JoinColumn (name="computerId", referencedColumnName="computerId")
+			   )
 	private List<Computer> computerList;
 	
 	public Execution() {
