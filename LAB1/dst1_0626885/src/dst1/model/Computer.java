@@ -14,6 +14,8 @@ public class Computer implements Serializable {
 	private Date creation;
 	private Date lastUpdate;
 	
+	private Cluster cluster;
+	
 	
 	public Computer() {
 		// used by Hibernate
@@ -101,6 +103,20 @@ public class Computer implements Serializable {
 	 */
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	/**
+	 * @return the cluster
+	 */
+	public Cluster getCluster() {
+		return this.cluster;
+	}
+	
+	/**
+	 * @param cluster the cluster to set
+	 */
+	public void setCluster(Cluster cluster) {
+		this.cluster = cluster;
 	}
 	
 	public String toString() {

@@ -335,14 +335,88 @@ public class Main {
 		
 		for(Cluster cluster : cluster4.getSuperClusters())
 			System.out.println("super cluster id = "+cluster.getClusterId());
-			
+	
 				
-		Computer computer = new Computer("Comp1", 10, "G1C2", 
+		Computer computer1 = new Computer("Computer1", 10, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
 			  				new Date(System.currentTimeMillis()));
 				
-//		entityManager.persist(computer);
-		computerDAO.saveComputer(computer);
+		Computer computer2 = new Computer("Computer2", 10, "G1C2", 
+			  				new Date(System.currentTimeMillis() - 1000*60*60*2),
+			  				new Date(System.currentTimeMillis()));
+				
+		Computer computer3 = new Computer("Computer3", 10, "G1C2", 
+			  				new Date(System.currentTimeMillis() - 1000*60*60*3),
+			  				new Date(System.currentTimeMillis()));
+				
+		Computer computer4 = new Computer("Computer4", 10, "G1C2", 
+			  				new Date(System.currentTimeMillis() - 1000*60*60*4),
+			  				new Date(System.currentTimeMillis()));
+		
+		Computer computer5 = new Computer("Computer5", 10, "G1C2", 
+			  				new Date(System.currentTimeMillis() - 1000*60*60*5),
+			  				new Date(System.currentTimeMillis()));
+	
+		Computer computer6 = new Computer("Computer6", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*6),
+							new Date(System.currentTimeMillis()));
+			
+		Computer computer7 = new Computer("Computer7", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*7),
+							new Date(System.currentTimeMillis()));
+			
+		Computer computer8 = new Computer("Computer8", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*8),
+							new Date(System.currentTimeMillis()));
+		
+		Computer computer9 = new Computer("Computer9", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*9),
+							new Date(System.currentTimeMillis()));
+		
+		Computer computer10 = new Computer("Computer10", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*10),
+							new Date(System.currentTimeMillis()));
+		
+		Computer computer11 = new Computer("Computer11", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*11),
+							new Date(System.currentTimeMillis()));
+		
+		Computer computer12 = new Computer("Computer12", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*12),
+							new Date(System.currentTimeMillis()));
+		
+		Computer computer13 = new Computer("Computer13", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*13),
+							new Date(System.currentTimeMillis()));
+		
+		Computer computer14 = new Computer("Computer14", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*14),
+							new Date(System.currentTimeMillis()));
+					
+		Computer computer15 = new Computer("Computer15", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*15),
+							new Date(System.currentTimeMillis()));
+		
+		Computer computer16 = new Computer("Computer16", 10, "G1C2", 
+							new Date(System.currentTimeMillis() - 1000*60*60*16),
+							new Date(System.currentTimeMillis()));
+				
+		computerDAO.saveComputer(computer1);
+		computerDAO.saveComputer(computer2);
+		computerDAO.saveComputer(computer3);
+		computerDAO.saveComputer(computer4);
+		computerDAO.saveComputer(computer5);
+		computerDAO.saveComputer(computer6);
+		computerDAO.saveComputer(computer7);
+		computerDAO.saveComputer(computer8);
+		computerDAO.saveComputer(computer9);
+		computerDAO.saveComputer(computer10);
+		computerDAO.saveComputer(computer11);
+		computerDAO.saveComputer(computer12);
+		computerDAO.saveComputer(computer13);
+		computerDAO.saveComputer(computer14);
+		computerDAO.saveComputer(computer15);
+		computerDAO.saveComputer(computer16);
 		
 		entityManager.flush();
 		entityManager.getTransaction().commit();

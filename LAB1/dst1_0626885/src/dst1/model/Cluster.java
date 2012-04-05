@@ -41,19 +41,22 @@ public class Cluster implements Serializable {
 	@ManyToMany (mappedBy = "subClusters")
 	private List<Cluster> superClusters;
 	
+	@OneToMany (mappedBy = "cluster")
+	private List<Computer> computers;
+	
 	public Cluster() {
 		// used by Hibernate
 		this.subClusters = new ArrayList<Cluster>();
 		this.superClusters = new ArrayList<Cluster>();
+		this.computers = new ArrayList<Computer>();
 	}
 	
 	public Cluster(String name, Date lastService, Date nextService) {
+		this();
+		
 		this.name = name;
 		this.lastService = lastService;
 		this.nextService = nextService;
-		
-		this.subClusters = new ArrayList<Cluster>();
-		this.superClusters = new ArrayList<Cluster>();
 	}
 	
 	
@@ -189,6 +192,39 @@ public class Cluster implements Serializable {
 	public void setSuperClusters(List<Cluster> superCluster) {
 		this.superClusters = superCluster;
 	}
+	
+	/**
+	 * Add a computer
+	 * @param computer the computer to add
+	 */
+	public void addComputer(Computer computer) {
+		this.computers.add(computer);
+	}
+	
+	/**
+	 * Remove a computer
+	 * @param computer the computer to remove
+	 */
+	public void removeComputer(Computer computer) {
+		this.computers.remove(computer);
+	}
+	
+	/**
+	 * Gets the list of computers related to this cluster
+	 * @return the list of computers
+	 */
+	public List<Computer> getComputers() {
+		return this.computers;
+	}
+	
+	/**
+	 * Sets the list of computers
+	 * @param computers the computer list to set
+	 */
+	public void setComputers(List<Computer> computers) {
+		this.computers = computers;
+	}
+	
 	
 	/**
 	 * Gets the String representation of this cluster

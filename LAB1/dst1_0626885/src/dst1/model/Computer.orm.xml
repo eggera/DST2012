@@ -23,6 +23,7 @@
             <basic name="lastUpdate">
             	<temporal>TIMESTAMP</temporal>
             </basic>
+            <many-to-one name="cluster"/>
         </attributes>
    </entity>
 </entity-mappings>
