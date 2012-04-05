@@ -47,9 +47,9 @@ public class AdminDAOTest {
 		
 		List<Admin> adminList = adminDAO.getAllAdmins();
 		printAllAdmins(adminList);
-		Admin admin = adminDAO.findAdmin(adminList.get(0).getAdminId());
+		Admin admin = adminDAO.findAdmin(adminList.get(0).getId());
 
-		adminDAO.removeAdmin(admin.getAdminId());
+		adminDAO.removeAdmin(admin.getId());
 		System.out.println("Admin removed: \n"+admin);
 		
 		adminList = adminDAO.getAllAdmins();

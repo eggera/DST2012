@@ -44,7 +44,7 @@ public class Address {
 	}
 	
 	/**
-	 * Summarizes the address's values into a String
+	 * String representation of this Address
 	 */
 	public String toString() {
 		return street+", "+zipCode+" "+city;

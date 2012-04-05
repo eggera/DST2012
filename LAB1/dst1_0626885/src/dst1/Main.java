@@ -35,7 +35,7 @@ public class Main {
 	public static void dst01() {
 		
 		
-//		------------------------------  ASSIGNMENT 1A  ----------------------------------------
+//		------------------------------  ASSIGNMENT 1B  ----------------------------------------
 	
 		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();

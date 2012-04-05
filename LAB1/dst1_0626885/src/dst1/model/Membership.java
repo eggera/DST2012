@@ -93,7 +93,7 @@ public class Membership implements Serializable {
 	 */
 	public String toString() {
 		return "gridId = "+grid.getGridId()+", " +
-				"userId = "+user.getUserId();
+				"userId = "+user.getId();
 	}
 	
 }

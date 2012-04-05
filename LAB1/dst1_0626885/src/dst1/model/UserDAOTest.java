@@ -47,9 +47,9 @@ public class UserDAOTest {
 		
 		List<User> userList = userDAO.getAllUsers();
 		printAllUsers(userList);
-		User user = userDAO.findUser(userList.get(0).getUserId());
+		User user = userDAO.findUser(userList.get(0).getId());
 
-		userDAO.removeUser(user.getUserId());
+		userDAO.removeUser(user.getId());
 		System.out.println("User removed: "+user);
 		
 		userList = userDAO.getAllUsers();

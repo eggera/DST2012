@@ -7,17 +7,10 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class User implements Serializable {
+public class User extends Person implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
-	private String firstName;
-	private String lastName;
-	@Embedded
-	private Address address;
 	private String username;
 	@Column( columnDefinition = "CHARACTER(32)")
 	private byte[] password;
@@ -36,8 +29,7 @@ public class User implements Serializable {
 	}
 	
 	public User(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+		super(firstName, lastName, null);
 		
 		jobList = new ArrayList<Job>();
 		membershipList = new ArrayList<Membership>();
@@ -46,38 +38,9 @@ public class User implements Serializable {
 	public User(String firstName, String lastName, 
 			Address address, String username, byte[] password) {
 		
-		this(firstName, lastName);
-		this.address = address;
+		super(firstName, lastName, address);
 		this.username = username;
 		this.password = password;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public Long getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-	/**
-	 * @return the address
-	 */
-	public Address getAddress() {
-		return address;
 	}
 
 	/**
@@ -92,27 +55,6 @@ public class User implements Serializable {
 	 */
 	public byte[] getPassword() {
 		return password;
-	}
-
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	/**
-	 * @param address the address to set
-	 */
-	public void setAddress(Address address) {
-		this.address = address;
 	}
 
 	/**
@@ -199,7 +141,7 @@ public class User implements Serializable {
 	 * String representation of this User
 	 */
 	public String toString() {
-		return	 "user id = "+userId+", " +
+		return	 "user id = "+id+", " +
 			   "firstName = "+firstName+", " +
 			    "lastName = "+lastName+" \n";
 	}
@@ -209,8 +151,8 @@ public class User implements Serializable {
 	 */
 	public String toExtendedString() {
 		String result = "";
-		if(userId != null)
-			result = "user id = "+getUserId()+", ";
+		if(id != null)
+			result = "user id = "+id+", ";
 		else
 			result = "user id = -, ";
 		
