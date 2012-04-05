@@ -2,11 +2,11 @@ package dst1.model;
 
 import javax.persistence.*;
 
-public class ExecutionDAO {
+public class JobDAO {
 
 	private EntityManager entityManager;
 	
-	public ExecutionDAO(EntityManager entityManager) {
+	public JobDAO(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 	
@@ -27,28 +27,28 @@ public class ExecutionDAO {
 	}
 	
 	/**
-	 * Find an execution by its Id
-	 * @param executionId the executionId of the execution to find
-	 * @return the execution if found, null otherwise
+	 * Find a job by its id
+	 * @param jobId the jobId of the job to find
+	 * @return the job if found, null otherwise
 	 */
-	public Execution find(Long executionId) {
-		return entityManager.find(Execution.class, executionId);
+	public Job find(Long jobId) {
+		return entityManager.find(Job.class, jobId);
 	}
 	
 	/**
-	 * Removes an execution
-	 * @param executionId the executionId of the execution to remove
+	 * Removes a job
+	 * @param jobId the jobId of the execution to remove
 	 * @return true if removed successfully, false otherwise
 	 */
-	public boolean removeExecution(Long executionId) {
+	public boolean removeJob(Long jobId) {
 		
-		Execution execution_ = entityManager.find(Execution.class, executionId);
-		
-		if(execution_ == null)
+		Job job_ = entityManager.find(Job.class, jobId);		
+		if(job_ == null)
 			return false;
-			
-		entityManager.remove(execution_);
 		
+		job_.getUser().removeJob(job_);
+			
+		entityManager.remove(job_);
 		return true;
 	}
 	

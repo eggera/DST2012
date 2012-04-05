@@ -22,7 +22,7 @@ public class User implements Serializable {
 	@Column( columnDefinition = "CHARACTER(32)")
 	private byte[] password;
 	
-	@OneToMany (cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany (mappedBy="user", cascade=CascadeType.ALL)
 	private List<Job> jobList;
 	
 	@OneToMany (mappedBy="user", cascade=CascadeType.ALL)
@@ -135,6 +135,7 @@ public class User implements Serializable {
 	 */
 	public void addJob(Job job) {
 		jobList.add(job);
+		job.setUser(this);
 	}
 	
 	/**
@@ -143,6 +144,7 @@ public class User implements Serializable {
 	 */
 	public void removeJob(Job job) {
 		jobList.remove(job);
+		job.setUser(null);
 	}
 	
 	/**

@@ -46,8 +46,11 @@ public class EnvironmentDAO {
 								).setParameter("id", environment_.getEnvironmentId())
 								 .getResultList();
 		
+		JobDAO jobDAO = new JobDAO(entityManager);
+		
+		// job DAO ??? 
 		for(Job job : jobResult) 
-			entityManager.remove(job);
+			jobDAO.removeJob(job.getJobId());
 			
 		entityManager.remove(environment_);
 		

@@ -29,6 +29,15 @@ public class GridDAO {
 	}
 	
 	/**
+	 * Find a grid by its Id
+	 * @param gridId the gridId of the grid to find
+	 * @return the grid if found, null otherwise
+	 */
+	public Grid findGrid(Long gridId) {
+		return entityManager.find(Grid.class, gridId);
+	}
+	
+	/**
 	 * Saves a grid to the persistence context
 	 * @param grid the grid to save
 	 * @return true if saved successfully, false otherwise

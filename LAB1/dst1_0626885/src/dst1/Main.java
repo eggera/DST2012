@@ -37,15 +37,15 @@ public class Main {
 		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
-		UserDAO userDAO = new UserDAO(entityManager);
-		GridDAO gridDAO = new GridDAO(entityManager);
-		MembershipDAO membershipDAO = new MembershipDAO(entityManager);
-		AdminDAO adminDAO = new AdminDAO(entityManager);
-		ClusterDAO clusterDAO = new ClusterDAO(entityManager);
-		ComputerDAO computerDAO = new ComputerDAO(entityManager);
-		
-		EnvironmentDAO environmentDAO = new EnvironmentDAO(entityManager);
-		ExecutionDAO executionDAO = new ExecutionDAO(entityManager);
+		UserDAO 		userDAO 		= new UserDAO		(entityManager);
+		GridDAO 		gridDAO 		= new GridDAO		(entityManager);
+		MembershipDAO 	membershipDAO 	= new MembershipDAO	(entityManager);
+		AdminDAO 		adminDAO 		= new AdminDAO		(entityManager);
+		ClusterDAO 		clusterDAO 		= new ClusterDAO	(entityManager);
+		ComputerDAO 	computerDAO 	= new ComputerDAO	(entityManager);
+		JobDAO 			jobDAO 			= new JobDAO		(entityManager);
+		ExecutionDAO 	executionDAO 	= new ExecutionDAO	(entityManager);
+		EnvironmentDAO 	environmentDAO 	= new EnvironmentDAO(entityManager);
 		
 		entityManager.getTransaction().begin();
 		
@@ -97,13 +97,10 @@ public class Main {
 		user4.addJob(job5);
 		user4.addJob(job6);
 		
-		job1.setUser(user1);
-		job2.setUser(user1);
-		job3.setUser(user2);
-		
-		job4.setUser(user3);
-		job5.setUser(user4);
-		job6.setUser(user4);
+		userDAO.saveUser(user1);
+		userDAO.saveUser(user2);
+		userDAO.saveUser(user3);
+		userDAO.saveUser(user4);
 			
 		
 		Execution execution1 = new Execution(
@@ -143,25 +140,15 @@ public class Main {
 		job5.setExecution(execution5);
 		job6.setExecution(execution6);
 		
-		execution1.setJob(job1);
-		execution2.setJob(job2);
-		execution3.setJob(job3);
-		execution4.setJob(job4);
-		execution5.setJob(job5);
-		execution6.setJob(job6);
-		
-		userDAO.saveUser(user1);
-		userDAO.saveUser(user2);
-		userDAO.saveUser(user3);
-		userDAO.saveUser(user4);
-		
 		
 		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.11));
 		Grid grid2 = new Grid("grid2", "G2", new BigDecimal(0.22));
 		Grid grid3 = new Grid("grid3", "G3", new BigDecimal(0.33));
+		
 		gridDAO.saveGrid(grid1);
 		gridDAO.saveGrid(grid2);
 		gridDAO.saveGrid(grid3);
+		
 
 		Membership membership1 = new Membership(grid1, user1, 
 										new Date(System.currentTimeMillis()), 
@@ -238,16 +225,6 @@ public class Main {
 										new Date(System.currentTimeMillis() - 1000*60*60*8), 
 										new Date(System.currentTimeMillis() + 1000*60*60*8));
 		
-//	--- the admin is automatically set by addCluster ---
-		
-//		cluster1.setAdmin(admin1);
-//		cluster2.setAdmin(admin1);
-//		cluster3.setAdmin(admin2);
-//		cluster4.setAdmin(admin2);
-//		cluster5.setAdmin(admin3);
-//		cluster6.setAdmin(admin3);
-//		cluster7.setAdmin(admin4);
-//		cluster8.setAdmin(admin4);
 		
 		admin1.addCluster(cluster1);
 		admin1.addCluster(cluster2);
@@ -257,17 +234,7 @@ public class Main {
 		admin3.addCluster(cluster6);
 		admin4.addCluster(cluster7);
 		admin4.addCluster(cluster8);
-		
-//	--- the grid is automatically set by addCluster ---
-		
-//		cluster1.setGrid(grid1);
-//		cluster2.setGrid(grid1);
-//		cluster3.setGrid(grid1);
-//		cluster4.setGrid(grid2);
-//		cluster5.setGrid(grid2);
-//		cluster6.setGrid(grid3);
-//		cluster7.setGrid(grid3);
-//		cluster8.setGrid(grid3);
+	
 		
 		grid1.addCluster(cluster1);
 		grid1.addCluster(cluster2);
@@ -440,7 +407,7 @@ public class Main {
 		cluster8.addComputer(computer16);
 		
 		
-		entityManager.flush();
+//		entityManager.flush();
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		
@@ -449,52 +416,59 @@ public class Main {
 		
 		entityManager = entityManagerFactory.createEntityManager();
 		
+		adminDAO		.setEntityManager(entityManager);
+		clusterDAO		.setEntityManager(entityManager);
+		computerDAO		.setEntityManager(entityManager);
+		environmentDAO	.setEntityManager(entityManager);
+		executionDAO	.setEntityManager(entityManager);
+		gridDAO			.setEntityManager(entityManager);
+		jobDAO			.setEntityManager(entityManager);
+		membershipDAO	.setEntityManager(entityManager);
+		userDAO			.setEntityManager(entityManager);
+		
 		entityManager.getTransaction().begin();
 		
-//		adminDAO.setEntityManager(entityManager);
-//		adminDAO.removeAdmin(1L);
-//		
-//		userDAO.setEntityManager(entityManager);
-//		userDAO.removeUser(3L);
-//		userDAO.removeUser(4L);
-//		
-//		gridDAO.setEntityManager(entityManager);
-//		gridDAO.removeGrid(1L);
 		
-		computerDAO.setEntityManager(entityManager);
+		adminDAO.removeAdmin(1L);
+		
+		userDAO.removeUser(3L);
+		userDAO.removeUser(4L);
+		
+		User user = userDAO.findUser(1L);
+		System.out.println("User 1 has "+user.getJobList().size()+" jobs");
+		
+		System.out.println("Removing job 1");
+		jobDAO.removeJob(1L);
+		user = userDAO.findUser(1L);
+		System.out.println("User 1 has "+user.getJobList().size()+" jobs");
+		
+		gridDAO.removeGrid(1L);
+		
 		computerDAO.removeComputer(1L);
 		computerDAO.removeComputer(14L);
 		
-		clusterDAO.setEntityManager(entityManager);
 		System.out.println("cluster1 computers : \n"+clusterDAO.findCluster(1L).getComputers());
 		System.out.println("cluster7 computers : \n"+clusterDAO.findCluster(7L).getComputers());
 		
+		System.out.println("------------  Remove cluster  -------------");
 		
-		clusterDAO.setEntityManager(entityManager);
+		System.out.println("Removing cluster 4");
 		clusterDAO.removeCluster(4L);
 		
-		adminDAO.setEntityManager(entityManager);
-		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList());
-//		
-//		executionDAO.setEntityManager(entityManager);
-//		executionDAO.removeExecution(4L);
-//
-//		environmentDAO.setEntityManager(entityManager);
-//		environmentDAO.removeEnvironment(2L);
+		System.out.println("admin 2 and grid 2 should now have only one entry: ");
+		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList().size());
+		
+		System.out.println("grid2 clusters: "+gridDAO.findGrid(2L).getClusterList().size());
+		
+		executionDAO.removeExecution(4L);
+		
+		environmentDAO.removeEnvironment(2L);
 				
 		
 		entityManager.getTransaction().commit();
 		
 		entityManager.close();
 		
-/*		UserDAOTest userDAOTest = new UserDAOTest();
-		AdminDAOTest adminDAOTest = new AdminDAOTest();
-		userDAOTest.saveUserTest();
-		userDAOTest.removeUserTest();
-		adminDAOTest.saveAdminTest();
-		adminDAOTest.removeAdminTest();
-		userDAOTest.freeResources();
-		adminDAOTest.freeResources();*/
 		PersistenceUtil.freeResources();
 	}
 

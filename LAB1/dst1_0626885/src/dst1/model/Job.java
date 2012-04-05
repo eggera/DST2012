@@ -99,6 +99,8 @@ public class Job implements Serializable {
 	 */
 	public void setExecution(Execution execution) {
 		this.execution = execution;
+		if(execution.getJob() != this)
+			execution.setJob(this);
 	}
 	
 	// Derived Properties (calculated from other entities)

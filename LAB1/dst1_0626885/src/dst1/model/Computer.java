@@ -119,7 +119,18 @@ public class Computer implements Serializable {
 		this.cluster = cluster;
 	}
 	
+	/**
+	 * String representation of this computer
+	 */
 	public String toString() {
+		return  "id = "+ computerId + ", " +
+				"name = "+ name;
+	}
+	
+	/**
+	 * Extended String representation of this computer
+	 */
+	public String toExtendedString() {
 		return  "id = "+ computerId + ", " +
 				"name = "+ name + ", " +
 				"cpus = "+ cpus + ", " +

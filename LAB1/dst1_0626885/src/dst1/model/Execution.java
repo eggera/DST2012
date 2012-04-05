@@ -14,18 +14,14 @@ public class Execution implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long executionId;
-	
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date start;
-	
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date end;
 	
 	public enum JobStatus { SCHEDULED, RUNNING, FAILED, FINISHED }
-	
 	@Enumerated (EnumType.ORDINAL)
 	private JobStatus status;
-	
 	@OneToOne (cascade = CascadeType.REMOVE)
 	private Job job;
 	
@@ -114,6 +110,8 @@ public class Execution implements Serializable {
 	 */
 	public void setJob(Job job) {
 		this.job = job;
+		if(job.getExecution() != this)
+			job.setExecution(this);
 	}
 	
 	
