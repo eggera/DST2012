@@ -1,7 +1,9 @@
 package dst1.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Computer implements Serializable {
 
@@ -16,9 +18,12 @@ public class Computer implements Serializable {
 	
 	private Cluster cluster;
 	
+	private List<Execution> executionList;
+	
 	
 	public Computer() {
 		// used by Hibernate
+		this.executionList = new ArrayList<Execution>();
 	}
 	
 	public Computer(String name, Integer cpus, String location,
@@ -29,6 +34,8 @@ public class Computer implements Serializable {
 		this.location = location;
 		this.creation = creation;
 		this.lastUpdate = lastUpdate;
+		
+		this.executionList = new ArrayList<Execution>();
 	}
 	
 	
@@ -120,22 +127,54 @@ public class Computer implements Serializable {
 	}
 	
 	/**
-	 * String representation of this computer
+	 * Adds an execution to the list
+	 * @param execution the execution to add
 	 */
-	public String toString() {
-		return  "id = "+ computerId + ", " +
-				"name = "+ name;
+	public void addExecution(Execution execution) {
+		this.executionList.add(execution);
 	}
 	
 	/**
+	 * Removes an execution from the list
+	 * @param execution the execution to remove
+	 */
+	public void removeExecution(Execution execution) {
+		this.executionList.remove(execution);
+	}
+	
+	/**
+	 * Gets the execution list of this computer
+	 * @return the execution list
+	 */
+	public List<Execution> getExecutionList() {
+		return this.executionList;
+	}
+	
+	/**
+	 * Sets the execution list
+	 * @param list the execution list to set
+	 */
+	public void setExecutionList(List<Execution> list) {
+		this.executionList = list;
+	}
+	
+//	/**
+//	 * String representation of this computer
+//	 */
+//	public String toString() {
+//		return  "id = "+ computerId + ", " +
+//				"name = "+ name + "\n";
+//	}
+//	
+	/**
 	 * Extended String representation of this computer
 	 */
-	public String toExtendedString() {
+	public String toString() {
 		return  "id = "+ computerId + ", " +
 				"name = "+ name + ", " +
 				"cpus = "+ cpus + ", " +
 				"location = "+ location + ", " +
 				"creation = "+ creation + ", " +
-				"lastUpdate = "+ lastUpdate;
+				"lastUpdate = "+ lastUpdate + "\n";
 	}
 }

@@ -227,12 +227,19 @@ public class Cluster implements Serializable {
 		this.computers = newComputers;
 	}
 	
-	
 	/**
 	 * Gets the String representation of this cluster
 	 */
 	public String toString() {
-		return "clusterId = "+ (clusterId == null ? "null" : clusterId)+", " +
+		return "clusterId = "+clusterId+", " +
+				"name = "+name;
+	}
+	
+	/**
+	 * Gets the extended String representation of this cluster
+	 */
+	public String toExtendedString() {
+		return "clusterId = "+clusterId+", " +
 				"name = "+name+", " +
 				"lastService = "+lastService+", " +
 				"nextService = "+nextService;

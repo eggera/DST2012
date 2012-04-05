@@ -127,18 +127,21 @@ public class Admin implements Serializable {
 	}
 	
 	/**
-	 * Summarizes the user's values into a String
+	 * String representation of this Admin
 	 */
 	public String toString() {
-		String result = "";
-		if(adminId != 0)
-			result = "admin id = "+getAdminId()+", ";
-		else
-			result = "admin id = -, ";
-		
-		result += "firstName = "+getFirstName()+", " +
-				   "lastName = "+getLastName();
-		return result;
+		return "admin id = "+adminId+", " +
+			  "firstName = "+firstName+", " +
+			   "lastName = "+lastName;
+	}
+	
+	/**
+	 * Extended String representation of this Admin
+	 */
+	public String toExtendedString() {
+		return "admin id = "+adminId+", " +
+			  "firstName = "+firstName+", " +
+			   "lastName = "+lastName;
 	}
 	
 	

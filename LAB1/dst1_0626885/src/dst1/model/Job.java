@@ -126,6 +126,14 @@ public class Job implements Serializable {
 	 */
 	public String toString() {
 		return 	"id = "+jobId+", " +
+			"isPaid = "+isPaid;
+	}
+	
+	/**
+	 * Extended String representation of a Job
+	 */
+	public String toExtendedString() {
+		return 	"id = "+jobId+", " +
 			"isPaid = "+isPaid+", " +
 			"userID = "+(user == null?"-":user.getUserId())+", " +
 			"environmentId = "+(environment == null ? "null" : environment.getEnvironmentId()+", " +

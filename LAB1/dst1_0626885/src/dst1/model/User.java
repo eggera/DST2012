@@ -196,9 +196,18 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Summarizes the user's values into a String
+	 * String representation of this User
 	 */
 	public String toString() {
+		return	 "user id = "+userId+", " +
+			   "firstName = "+firstName+", " +
+			    "lastName = "+lastName+" \n";
+	}
+	
+	/**
+	 * Extended String representation of this User
+	 */
+	public String toExtendedString() {
 		String result = "";
 		if(userId != null)
 			result = "user id = "+getUserId()+", ";

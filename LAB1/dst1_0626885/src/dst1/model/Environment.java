@@ -70,7 +70,17 @@ public class Environment implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		String result = "workflow = "+workflow+"\nparams: ";
+		return "environmentId = "+environmentId+", "+
+					"workflow = "+workflow;
+	}
+	
+	/**
+	 * Returns a extended String representation of this Environment
+	 */
+	public String toExtendedString() {
+		String result = "environmentId = "+environmentId+", "+
+							 "workflow = "+workflow;
+		result += "\nparams: ";
 		for(int i = 0; i < params.size(); i++) {
 			result += "\n		"+(i+1)+" = "+params.get(i);
 		}

@@ -155,4 +155,22 @@ public class Grid implements Serializable {
 	public void setClusterList(List<Cluster> clusterList) {
 		this.clusterList = clusterList;
 	}
+	
+	/**
+	 * String representation of this Grid
+	 */
+	public String toString() {
+		return "gridId = "+gridId+", " +
+				 "name = "+name;
+	}
+	
+	/**
+	 * Extended String representation of this Grid
+	 */
+	public String toExtendedString() {
+		return "gridId = "+gridId+", " +
+				 "name = "+name+", " +
+			 "location = "+location+", " +
+	"costsPerCPUMinute = "+costsPerCPUMinute;
+	}
 }

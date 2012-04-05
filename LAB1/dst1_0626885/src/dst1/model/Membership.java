@@ -88,4 +88,12 @@ public class Membership implements Serializable {
 		this.discount = discount;
 	}
 	
+	/**
+	 * String representation of this membership
+	 */
+	public String toString() {
+		return "gridId = "+grid.getGridId()+", " +
+				"userId = "+user.getUserId();
+	}
+	
 }

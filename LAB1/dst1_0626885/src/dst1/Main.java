@@ -435,12 +435,13 @@ public class Main {
 		userDAO.removeUser(4L);
 		
 		User user = userDAO.findUser(1L);
-		System.out.println("User 1 has "+user.getJobList().size()+" jobs");
+		System.out.println("User 1 jobs: ");
+		System.out.println(user.getJobList());
 		
 		System.out.println("Removing job 1");
 		jobDAO.removeJob(1L);
-		user = userDAO.findUser(1L);
-		System.out.println("User 1 has "+user.getJobList().size()+" jobs");
+		System.out.println("User 1 jobs: ");
+		System.out.println(user.getJobList());
 		
 		gridDAO.removeGrid(1L);
 		
@@ -456,9 +457,9 @@ public class Main {
 		clusterDAO.removeCluster(4L);
 		
 		System.out.println("admin 2 and grid 2 should now have only one entry: ");
-		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList().size());
+		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList());
 		
-		System.out.println("grid2 clusters: "+gridDAO.findGrid(2L).getClusterList().size());
+		System.out.println("grid2 clusters: "+gridDAO.findGrid(2L).getClusterList());
 		
 		executionDAO.removeExecution(4L);
 		
