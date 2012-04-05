@@ -199,6 +199,7 @@ public class Cluster implements Serializable {
 	 */
 	public void addComputer(Computer computer) {
 		this.computers.add(computer);
+		computer.setCluster(this);
 	}
 	
 	/**
@@ -207,6 +208,7 @@ public class Cluster implements Serializable {
 	 */
 	public void removeComputer(Computer computer) {
 		this.computers.remove(computer);
+		computer.setCluster(null);
 	}
 	
 	/**
@@ -221,8 +223,8 @@ public class Cluster implements Serializable {
 	 * Sets the list of computers
 	 * @param computers the computer list to set
 	 */
-	public void setComputers(List<Computer> computers) {
-		this.computers = computers;
+	public void setComputers(List<Computer> newComputers) {		
+		this.computers = newComputers;
 	}
 	
 	

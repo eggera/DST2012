@@ -13,6 +13,22 @@ public class ComputerDAO {
 	}
 	
 	/**
+	 * Gets the entityManager for this DAO
+	 * @return the entityManager
+	 */
+	public EntityManager getEntityManager() {
+		return this.entityManager;
+	}
+	
+	/**
+	 * Sets the entityManager for this DAO
+	 * @param entityManager the entityManager to set
+	 */
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	/**
 	 * Saves a computer to the persistence context
 	 * @param computer the computer to save
 	 * @return true if saved successfully, false otherwise
@@ -43,6 +59,8 @@ public class ComputerDAO {
 		Computer computer_ = entityManager.find(Computer.class, computerId);
 		if(computer_ == null)
 			return false;
+		
+		computer_.getCluster().removeComputer(computer_);
 		
 		entityManager.remove(computer_);
 		return true;

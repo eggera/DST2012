@@ -238,14 +238,16 @@ public class Main {
 										new Date(System.currentTimeMillis() - 1000*60*60*8), 
 										new Date(System.currentTimeMillis() + 1000*60*60*8));
 		
-		cluster1.setAdmin(admin1);
-		cluster2.setAdmin(admin1);
-		cluster3.setAdmin(admin2);
-		cluster4.setAdmin(admin2);
-		cluster5.setAdmin(admin3);
-		cluster6.setAdmin(admin3);
-		cluster7.setAdmin(admin4);
-		cluster8.setAdmin(admin4);
+//	--- the admin is automatically set by addCluster ---
+		
+//		cluster1.setAdmin(admin1);
+//		cluster2.setAdmin(admin1);
+//		cluster3.setAdmin(admin2);
+//		cluster4.setAdmin(admin2);
+//		cluster5.setAdmin(admin3);
+//		cluster6.setAdmin(admin3);
+//		cluster7.setAdmin(admin4);
+//		cluster8.setAdmin(admin4);
 		
 		admin1.addCluster(cluster1);
 		admin1.addCluster(cluster2);
@@ -256,14 +258,16 @@ public class Main {
 		admin4.addCluster(cluster7);
 		admin4.addCluster(cluster8);
 		
-		cluster1.setGrid(grid1);
-		cluster2.setGrid(grid1);
-		cluster3.setGrid(grid1);
-		cluster4.setGrid(grid2);
-		cluster5.setGrid(grid2);
-		cluster6.setGrid(grid3);
-		cluster7.setGrid(grid3);
-		cluster8.setGrid(grid3);
+//	--- the grid is automatically set by addCluster ---
+		
+//		cluster1.setGrid(grid1);
+//		cluster2.setGrid(grid1);
+//		cluster3.setGrid(grid1);
+//		cluster4.setGrid(grid2);
+//		cluster5.setGrid(grid2);
+//		cluster6.setGrid(grid3);
+//		cluster7.setGrid(grid3);
+//		cluster8.setGrid(grid3);
 		
 		grid1.addCluster(cluster1);
 		grid1.addCluster(cluster2);
@@ -275,7 +279,6 @@ public class Main {
 		grid3.addCluster(cluster8);
 		
 		
-		//  cluster 8 --> cluster 1
 		//  cluster 8 --> cluster 2
 		//  cluster 8 --> cluster 4
 		//  cluster 8 --> cluster 7
@@ -290,12 +293,6 @@ public class Main {
 		//  cluster 5 --> cluster 6
 		//  cluster 5 --> cluster 7
 		
-		cluster8.addSubCluster(cluster2);
-		cluster8.addSubCluster(cluster4);
-		cluster8.addSubCluster(cluster7);
-		cluster2.addSuperCluster(cluster8);
-		cluster4.addSuperCluster(cluster8);
-		cluster7.addSuperCluster(cluster8);
 		
 		cluster1.addSubCluster(cluster2);
 		cluster1.addSubCluster(cluster3);
@@ -321,6 +318,13 @@ public class Main {
 		cluster5.addSubCluster(cluster7);
 		cluster6.addSuperCluster(cluster5);
 		cluster7.addSuperCluster(cluster5);
+		
+		cluster8.addSubCluster(cluster2);
+		cluster8.addSubCluster(cluster4);
+		cluster8.addSubCluster(cluster7);
+		cluster2.addSuperCluster(cluster8);
+		cluster4.addSuperCluster(cluster8);
+		cluster7.addSuperCluster(cluster8);
 		
 		clusterDAO.saveCluster(cluster1);
 		clusterDAO.saveCluster(cluster2);
@@ -418,6 +422,24 @@ public class Main {
 		computerDAO.saveComputer(computer15);
 		computerDAO.saveComputer(computer16);
 		
+		cluster1.addComputer(computer1);
+		cluster1.addComputer(computer2);
+		cluster1.addComputer(computer3);
+		cluster1.addComputer(computer4);
+		cluster2.addComputer(computer5);
+		cluster2.addComputer(computer6);
+		cluster3.addComputer(computer7);
+		cluster3.addComputer(computer8);
+		cluster4.addComputer(computer9);
+		cluster4.addComputer(computer10);
+		cluster5.addComputer(computer11);
+		cluster6.addComputer(computer12);
+		cluster6.addComputer(computer13);
+		cluster7.addComputer(computer14);
+		cluster8.addComputer(computer15);
+		cluster8.addComputer(computer16);
+		
+		
 		entityManager.flush();
 		entityManager.getTransaction().commit();
 		entityManager.close();
@@ -438,9 +460,21 @@ public class Main {
 //		
 //		gridDAO.setEntityManager(entityManager);
 //		gridDAO.removeGrid(1L);
-//		
-//		clusterDAO.setEntityManager(entityManager);
-//		clusterDAO.removeCluster(4L);
+		
+		computerDAO.setEntityManager(entityManager);
+		computerDAO.removeComputer(1L);
+		computerDAO.removeComputer(14L);
+		
+		clusterDAO.setEntityManager(entityManager);
+		System.out.println("cluster1 computers : \n"+clusterDAO.findCluster(1L).getComputers());
+		System.out.println("cluster7 computers : \n"+clusterDAO.findCluster(7L).getComputers());
+		
+		
+		clusterDAO.setEntityManager(entityManager);
+		clusterDAO.removeCluster(4L);
+		
+		adminDAO.setEntityManager(entityManager);
+		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList());
 //		
 //		executionDAO.setEntityManager(entityManager);
 //		executionDAO.removeExecution(4L);

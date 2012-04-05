@@ -92,6 +92,7 @@ public class AdminDAO {
 			List<Cluster> adminClusterList = admin_.getClusterList();
 			for(Cluster cluster : adminClusterList) 
 				cluster.setAdmin(null);
+					
 			entityManager.remove(admin_);
 			return;
 		}
@@ -101,6 +102,7 @@ public class AdminDAO {
 		List<Cluster> adminClusterList = admin_.getClusterList();
 		for(Cluster cluster : adminClusterList) 
 			cluster.setAdmin(null);
+				
 		entityManager.remove(admin_);
 		entityManager.getTransaction().commit();
 	}

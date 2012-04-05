@@ -29,6 +29,15 @@ public class ClusterDAO {
 	}
 	
 	/**
+	 * Find a cluster by Id
+	 * @param clusterId the clusterId of the cluster to find
+	 * @return if found, the cluster, null otherwise
+	 */
+	public Cluster findCluster(Long clusterId) {
+		return entityManager.find(Cluster.class, clusterId);
+	}
+	
+	/**
 	 * Saves a cluster to the persistence context
 	 * @param cluster the cluster to save
 	 * @return true if saved successfully, false otherwise
@@ -68,6 +77,11 @@ public class ClusterDAO {
 		
 		for(Cluster child : childrenOfDeleted) 
 			child.removeSuperCluster(cluster_);
+				
+		for(Computer computer : cluster_.getComputers()) 
+			computer.setCluster(null);
+		cluster_.getAdmin().removeCluster(cluster_);
+		cluster_.getGrid().removeCluster(cluster_);
 				
 		entityManager.remove(cluster_);
 		return true;

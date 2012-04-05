@@ -128,6 +128,7 @@ public class Grid implements Serializable {
 	 */
 	public void addCluster(Cluster cluster) {
 		this.clusterList.add(cluster);
+		cluster.setGrid(this);
 	}
 	
 	/**
@@ -136,6 +137,7 @@ public class Grid implements Serializable {
 	 */
 	public void removeCluster(Cluster cluster) {
 		this.clusterList.remove(cluster);
+		cluster.setGrid(null);
 	}
 	
 	/**

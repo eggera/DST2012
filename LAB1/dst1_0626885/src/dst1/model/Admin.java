@@ -98,6 +98,7 @@ public class Admin implements Serializable {
 	 */
 	public void addCluster(Cluster cluster) {
 		this.clusterList.add(cluster);
+		cluster.setAdmin(this);
 	}
 	
 	/**
@@ -106,6 +107,7 @@ public class Admin implements Serializable {
 	 */
 	public void removeCluster(Cluster cluster) {
 		this.clusterList.remove(cluster);
+		cluster.setAdmin(null);
 	}
 	
 	/**
