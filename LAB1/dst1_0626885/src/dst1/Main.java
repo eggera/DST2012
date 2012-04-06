@@ -54,17 +54,17 @@ public class Main {
 		
 		
 		
-		User user1 = new User("Herbert","Franz", new Address("street1","city1","2000"), 
-								"herbi", Service.getMD5Hash("herb"));
+		User user1 = new User("User1","User1Last", new Address("street1","city1","1000"), 
+								"usr1", Service.getMD5Hash("usr1"), "1234", "1000");
 		
-		User user2 = new User("Dennis","Fennis", new Address("street2","city2","4000"), 
-								"den", Service.getMD5Hash("denfen"));
+		User user2 = new User("User2","User2Last", new Address("street2","city2","2000"), 
+								"usr2", Service.getMD5Hash("usr2"), "2345", "2000");
 		
-		User user3 = new User("Pepp","Druml", new Address("street3","city3","6000"), 
-								"pepp", Service.getMD5Hash("pdruml"));
+		User user3 = new User("User3","User3Last", new Address("street3","city3","3000"), 
+								"usr3", Service.getMD5Hash("usr3"), "3456", "3000");
 
-		User user4 = new User("Manz","Fanz", new Address("street4","city4","8000"), 
-								"manz", Service.getMD5Hash("mfanz"));
+		User user4 = new User("User4","User4Last", new Address("street4","city4","4000"), 
+								"usr4", Service.getMD5Hash("usr4"), "4567", "4000");
 		
 		Job job1 = new Job();
 		Job job2 = new Job();
@@ -185,10 +185,10 @@ public class Main {
 		membershipDAO.saveMembership(membership6);
 		
 		
-		Admin admin1 = new Admin("Huaba", "Suda", new Address("street1","city1","1111"));
-		Admin admin2 = new Admin("Stephan", "Ertl", new Address("street2","city2","2222"));
-		Admin admin3 = new Admin("Sepp", "Depp", new Address("street3","city3","3333"));
-		Admin admin4 = new Admin("Gert", "Erd", new Address("street4","city4","4444"));
+		Admin admin1 = new Admin("Admin1", "Admin1Last", new Address("street11","city11","1111"));
+		Admin admin2 = new Admin("Admin2", "Admin2Last", new Address("street22","city22","2222"));
+		Admin admin3 = new Admin("Admin3", "Admin3Last", new Address("street33","city33","3333"));
+		Admin admin4 = new Admin("Admin4", "Admin4Last", new Address("street44","city44","4444"));
 		
 		adminDAO.saveAdmin(admin1);
 		adminDAO.saveAdmin(admin2);
@@ -489,62 +489,62 @@ public class Main {
 		entityManager.getTransaction().begin();
 		
 		
-		adminDAO.removeAdmin(1L);
+		adminDAO.removeAdmin(5L);
 		
-		userDAO.removeUser(3L);
-		userDAO.removeUser(4L);
-		
-		User user = userDAO.findUser(1L);
-		System.out.println("User 1 jobs: ");
-		System.out.println(user.getJobList());
-		
-		System.out.println("Removing job 1");
-		jobDAO.removeJob(1L);
-		System.out.println("User 1 jobs: ");
-		System.out.println(user.getJobList());
-		
-		System.out.println("Removing grid 1");
-		
-		gridDAO.removeGrid(1L);
-		
-		System.out.println("Execution 3 computer list:");
-		
-//		System.out.println("Execution:");
-//		System.out.println(executionDAO.find(1L).getComputerList());
-		System.out.println(executionDAO.find(3L).getComputerList());
+//		userDAO.removeUser(3L);
+//		userDAO.removeUser(4L);
 //		
-//		System.out.println("Removing computer 4,5,9 and 10 ..");
+//		User user = userDAO.findUser(1L);
+//		System.out.println("User 1 jobs: ");
+//		System.out.println(user.getJobList());
 //		
-		System.out.println("Removing computer 13 .. ");
-//		computerDAO.removeComputer(4L);
-//		computerDAO.removeComputer(5L);
-//		computerDAO.removeComputer(9L);
-//		computerDAO.removeComputer(10L);
-		computerDAO.removeComputer(13L);
+//		System.out.println("Removing job 1");
+//		jobDAO.removeJob(1L);
+//		System.out.println("User 1 jobs: ");
+//		System.out.println(user.getJobList());
 //		
-		System.out.println("Execution 3 computer list:");
-//		System.out.println("Execution:");
-//		System.out.println(executionDAO.find(1L).getComputerList());
-		System.out.println(executionDAO.find(3L).getComputerList());
-		
-		System.out.println("cluster1 computers : \n"+clusterDAO.findCluster(1L).getComputers());
-		System.out.println("cluster7 computers : \n"+clusterDAO.findCluster(7L).getComputers());
-		
-		System.out.println("------------  Remove cluster  -------------");
-		
-		System.out.println("Removing cluster 4");
-		clusterDAO.removeCluster(4L);
-		
-		System.out.println("admin 2 and grid 2 should now have only one entry: ");
-		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList());
-		
-		System.out.println("grid2 clusters: "+gridDAO.findGrid(2L).getClusterList());
-		
-		System.out.println("Removing execution 1 ..");
-		executionDAO.removeExecution(1L);
-		
-		System.out.println("Removing environment 2 ..");
-		environmentDAO.removeEnvironment(2L);
+//		System.out.println("Removing grid 1");
+//		
+//		gridDAO.removeGrid(1L);
+//		
+//		System.out.println("Execution 3 computer list:");
+//		
+////		System.out.println("Execution:");
+////		System.out.println(executionDAO.find(1L).getComputerList());
+//		System.out.println(executionDAO.find(3L).getComputerList());
+////		
+////		System.out.println("Removing computer 4,5,9 and 10 ..");
+////		
+//		System.out.println("Removing computer 13 .. ");
+////		computerDAO.removeComputer(4L);
+////		computerDAO.removeComputer(5L);
+////		computerDAO.removeComputer(9L);
+////		computerDAO.removeComputer(10L);
+//		computerDAO.removeComputer(13L);
+////		
+//		System.out.println("Execution 3 computer list:");
+////		System.out.println("Execution:");
+////		System.out.println(executionDAO.find(1L).getComputerList());
+//		System.out.println(executionDAO.find(3L).getComputerList());
+//		
+//		System.out.println("cluster1 computers : \n"+clusterDAO.findCluster(1L).getComputers());
+//		System.out.println("cluster7 computers : \n"+clusterDAO.findCluster(7L).getComputers());
+//		
+//		System.out.println("------------  Remove cluster  -------------");
+//		
+//		System.out.println("Removing cluster 4");
+//		clusterDAO.removeCluster(4L);
+//		
+//		System.out.println("admin 2 and grid 2 should now have only one entry: ");
+//		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList());
+//		
+//		System.out.println("grid2 clusters: "+gridDAO.findGrid(2L).getClusterList());
+//		
+//		System.out.println("Removing execution 1 ..");
+//		executionDAO.removeExecution(1L);
+//		
+//		System.out.println("Removing environment 2 ..");
+//		environmentDAO.removeEnvironment(2L);
 				
 		
 		entityManager.getTransaction().commit();

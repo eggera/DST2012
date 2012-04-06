@@ -20,7 +20,7 @@ public class Job implements Serializable {
 	@OneToOne (cascade = CascadeType.PERSIST)
 	private Environment environment;
 	
-	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="job")
+	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Execution execution;
 	
 	

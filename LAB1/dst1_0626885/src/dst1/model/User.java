@@ -7,13 +7,19 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@Table (uniqueConstraints = {
+		@UniqueConstraint (columnNames={"accountNo", "bankCode"})
+							})
 public class User extends Person implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Column (unique=true, nullable=false)
 	private String username;
-	@Column( columnDefinition = "CHARACTER(32)")
+	@Column (columnDefinition = "CHARACTER(32)")
 	private byte[] password;
+	private String accountNo;
+	private String bankCode;
 	
 	@OneToMany (mappedBy="user", cascade=CascadeType.ALL)
 	private List<Job> jobList;
@@ -38,9 +44,18 @@ public class User extends Person implements Serializable {
 	public User(String firstName, String lastName, 
 			Address address, String username, byte[] password) {
 		
-		super(firstName, lastName, address);
+		this(firstName, lastName);
+		this.address = address;
 		this.username = username;
 		this.password = password;
+	}
+	
+	public User(String firstName, String lastName, Address address, 
+					String username, byte[] password, String accountNo, String bankCode) {
+		
+		this(firstName, lastName, address, username, password);
+		this.accountNo = accountNo;
+		this.bankCode = bankCode;
 	}
 
 	/**
@@ -56,6 +71,20 @@ public class User extends Person implements Serializable {
 	public byte[] getPassword() {
 		return password;
 	}
+	
+	/**
+	 * @return the accountNo
+	 */
+	public String getAccountNo() {
+		return this.accountNo;
+	}
+	
+	/**
+	 * @return the bankCode
+	 */
+	public String getBankCode() {
+		return this.bankCode;
+	}
 
 	/**
 	 * @param username the username to set
@@ -69,6 +98,20 @@ public class User extends Person implements Serializable {
 	 */
 	public void setPassword(byte[] password) {
 		this.password = password;
+	}
+	
+	/**
+	 * @param accountNo the accountNo to set
+	 */
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+	
+	/**
+	 * @param bankCode the bankCode to set
+	 */
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
 	}
 	
 	/**
