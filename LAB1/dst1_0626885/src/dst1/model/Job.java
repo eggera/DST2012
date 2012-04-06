@@ -20,7 +20,7 @@ public class Job implements Serializable {
 	@OneToOne (cascade = CascadeType.PERSIST)
 	private Environment environment;
 	
-	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy="job")
 	private Execution execution;
 	
 	
@@ -135,7 +135,7 @@ public class Job implements Serializable {
 	public String toExtendedString() {
 		return 	"id = "+jobId+", " +
 			"isPaid = "+isPaid+", " +
-			"userID = "+(user == null?"-":user.getUserId())+", " +
+			"userID = "+(user == null?"-":user.getId())+", " +
 			"environmentId = "+(environment == null ? "null" : environment.getEnvironmentId()+", " +
 			"executionId = "+(execution == null ? "null" : execution.getExecutionId()));
 	}

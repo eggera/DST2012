@@ -7,17 +7,9 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class Admin implements Serializable {
+public class Admin extends Person implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long adminId;
-	private String firstName;
-	private String lastName;
-	@Embedded
-	private Address address;
 	
 	@OneToMany (mappedBy = "admin")
 	private List<Cluster> clusterList;
@@ -28,69 +20,10 @@ public class Admin implements Serializable {
 	}
 	
 	public Admin(String firstName, String lastName, Address address) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.address = address;
-		
+		super(firstName, lastName, address);
 		this.clusterList = new ArrayList<Cluster>();
 	}
 	
-	
-	/**
-	 * @return the id
-	 */
-	public Long getAdminId() {
-		return adminId;
-	}
-
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-	/**
-	 * @return the address
-	 */
-	public Address getAddress() {
-		return address;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setAdminId(Long id) {
-		this.adminId = id;
-	}
-
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	/**
-	 * @param address the address to set
-	 */
-	public void setAddress(Address address) {
-		this.address = address;
-	}
 	
 	/**
 	 * Adds a cluster to the clusterList
@@ -130,7 +63,7 @@ public class Admin implements Serializable {
 	 * String representation of this Admin
 	 */
 	public String toString() {
-		return "admin id = "+adminId+", " +
+		return "admin id = "+id+", " +
 			  "firstName = "+firstName+", " +
 			   "lastName = "+lastName;
 	}
@@ -139,7 +72,7 @@ public class Admin implements Serializable {
 	 * Extended String representation of this Admin
 	 */
 	public String toExtendedString() {
-		return "admin id = "+adminId+", " +
+		return "admin id = "+id+", " +
 			  "firstName = "+firstName+", " +
 			   "lastName = "+lastName;
 	}

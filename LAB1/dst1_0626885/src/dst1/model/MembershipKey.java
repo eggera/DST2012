@@ -36,9 +36,9 @@ public final class MembershipKey implements Serializable {
 							? other.grid.getGridId() == null 
 							: grid.getGridId().equals(other.grid.getGridId())
 					&&
-				user.getUserId() == null 
-							? other.user.getUserId() == null 
-							: user.getUserId().equals(other.user.getUserId())
+				user.getId() == null 
+							? other.user.getId() == null 
+							: user.getId().equals(other.user.getId())
 			   );				
 				
 	}
@@ -48,7 +48,7 @@ public final class MembershipKey implements Serializable {
 		return (
 				(grid.getGridId() == null ? 0 : grid.getGridId().hashCode())
 						^
-				(user.getUserId() == null ? 0 : user.getUserId().hashCode())
+				(user.getId() == null ? 0 : user.getId().hashCode())
 			   );
 	}
 	
@@ -56,6 +56,6 @@ public final class MembershipKey implements Serializable {
 	 * Get the String representation of this primary key class
 	 */
 	public String toString() {
-		return "gridId = "+grid.getGridId()+", userId = "+user.getUserId();
+		return "gridId = "+grid.getGridId()+", userId = "+user.getId();
 	}
 }
