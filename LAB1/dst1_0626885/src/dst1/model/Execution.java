@@ -24,18 +24,18 @@ public class Execution implements Serializable {
 	public enum JobStatus { SCHEDULED, RUNNING, FAILED, FINISHED }
 	@Enumerated (EnumType.ORDINAL)
 	private JobStatus status;
-	@OneToOne (cascade = CascadeType.REMOVE)
+	@OneToOne (mappedBy="execution", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Job job;
 	
-	@ManyToMany
+	@ManyToMany /*(mappedBy="executionList")*/
 	@JoinTable (
-				uniqueConstraints =
-						@UniqueConstraint(columnNames = {"executionId", "computerId"}),
-				joinColumns = 
-						@JoinColumn (name="executionId", referencedColumnName="executionId"), 
-				inverseJoinColumns = 
-						@JoinColumn (name="computerId", referencedColumnName="computerId")
-			   )
+			uniqueConstraints =
+					@UniqueConstraint(columnNames = {"executionId", "computerId"}),
+			joinColumns = 
+					@JoinColumn (name="executionId", referencedColumnName="executionId"), 
+			inverseJoinColumns = 
+					@JoinColumn (name="computerId", referencedColumnName="computerId")
+		   )
 	private List<Computer> computerList;
 	
 	public Execution() {

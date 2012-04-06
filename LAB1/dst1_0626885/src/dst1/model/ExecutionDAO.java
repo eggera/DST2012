@@ -46,6 +46,9 @@ public class ExecutionDAO {
 		
 		if(execution_ == null)
 			return false;
+		
+		for(Computer computer : execution_.getComputerList())
+			computer.removeExecution(execution_);
 			
 		entityManager.remove(execution_);
 		
