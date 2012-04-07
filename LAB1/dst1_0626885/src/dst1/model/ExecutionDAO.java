@@ -1,5 +1,7 @@
 package dst1.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 public class ExecutionDAO {
@@ -33,6 +35,29 @@ public class ExecutionDAO {
 	 */
 	public Execution find(Long executionId) {
 		return entityManager.find(Execution.class, executionId);
+	}
+	
+	/**
+	 * Gets all currently managed executions
+	 * @return a list of all managed executions
+	 */
+	public List<Execution> getAllExecutions() {
+		return entityManager.createQuery("from Execution", Execution.class).getResultList();
+	}
+	
+	/**
+	 * Gets a formatted String that represents the relation from the execution
+	 * with the given id to its list of computers
+	 * @param executionId the executionId of the cluster to get its children from
+	 * @return a string representing the list of children of the given cluster
+	 */
+	public String getComputerListAsString(Long executionId) {
+		Execution execution = find(executionId);
+		List<Computer> computerList = execution.getComputerList();
+		String result = "executionId "+executionId+" -> ";
+		for(Computer computer : computerList)
+			result += "id "+computer.getComputerId()+", ";
+		return result;
 	}
 	
 	/**

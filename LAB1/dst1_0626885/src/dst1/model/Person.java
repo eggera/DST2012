@@ -83,4 +83,23 @@ public abstract class Person implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+	
+	/**
+	 * String representation of this person
+	 */
+	public String toString() {
+		return "id = "+id+", " +
+				"firstName = "+firstName+", " +
+				"lastName = "+lastName;
+	}
+	
+	/**
+	 * String representation of this person
+	 */
+	public String toExtendedString() {
+		return "id = "+id+", " +
+				"firstName = "+firstName+", " +
+				"lastName = "+lastName+", " +
+				address;
+	}
 }

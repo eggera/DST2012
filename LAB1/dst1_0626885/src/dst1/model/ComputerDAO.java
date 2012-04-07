@@ -42,12 +42,22 @@ public class ComputerDAO {
 	 * Finds all computer in the persistence context
 	 * @return a list of all computers
 	 */
-	public List<Computer> findAllComputer() {
-		List<Computer> result = entityManager.createQuery( 
+	public List<Computer> getAllComputers() {
+		return entityManager.createQuery( 
 										"from Computer", Computer.class )
 										.getResultList();
-
-		return result;
+	}
+	
+	/**
+	 * Get computers with ids between id1 and id2
+	 * @param id1 first id of retrieved computers
+	 * @param id2 last id of retrieved computers
+	 * @return a list of computers in the specified range
+	 */
+	public List<Computer> getComputersFromTo(Long id1, Long id2) {
+		return entityManager.createQuery(
+					"select c from Computer c where computerId between 7 and 10", 
+					Computer.class).getResultList();
 	}
 	
 	/**
@@ -62,8 +72,11 @@ public class ComputerDAO {
 		
 		computer_.getCluster().removeComputer(computer_);
 		
-		for(Execution execution : computer_.getExecutionList())
+		for(Execution execution : computer_.getExecutionList()) {
 			execution.removeComputer(computer_);
+			if(execution.getComputerList().size() == 0)
+				entityManager.remove(execution);
+		}
 		
 		entityManager.remove(computer_);
 		return true;

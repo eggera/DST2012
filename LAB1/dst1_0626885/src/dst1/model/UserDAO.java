@@ -65,8 +65,12 @@ public class UserDAO {
 		return user;
 	}
 	
+	/**
+	 * Update the user
+	 * @param user the user to update
+	 */
 	public void updateUser(User user) {
-		entityManager.merge(user);
+		entityManager.persist(user);
 	}
 	
 	/**

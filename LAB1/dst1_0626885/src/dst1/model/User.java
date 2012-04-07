@@ -186,7 +186,7 @@ public class User extends Person implements Serializable {
 	public String toString() {
 		return	 "user id = "+id+", " +
 			   "firstName = "+firstName+", " +
-			    "lastName = "+lastName+" \n";
+			    "lastName = "+lastName;
 	}
 	
 	/**

@@ -74,7 +74,8 @@ public class Admin extends Person implements Serializable {
 	public String toExtendedString() {
 		return "admin id = "+id+", " +
 			  "firstName = "+firstName+", " +
-			   "lastName = "+lastName;
+			   "lastName = "+lastName+", " +
+		   "cluster size = "+clusterList.size();
 	}
 	
 	

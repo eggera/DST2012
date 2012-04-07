@@ -96,4 +96,14 @@ public class Membership implements Serializable {
 				"userId = "+user.getId();
 	}
 	
+	/**
+	 * Extended String representation of this membership
+	 */
+	public String toExtendedString() {
+		return "gridId = "+grid.getGridId()+", " +
+				"userId = "+user.getId()+", " +
+				"registration = "+registration+", " +
+				"discount = "+discount;
+	}
+	
 }

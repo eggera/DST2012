@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import dst1.model.*;
 
 import dst1.model.PersistenceUtil;
@@ -346,27 +348,27 @@ public class Main {
 			  				new Date(System.currentTimeMillis() - 1000*60*60*2),
 			  				new Date(System.currentTimeMillis()));
 				
-		Computer computer3 = new Computer("Computer3", 1, "G1C2", 
+		Computer computer3 = new Computer("Computer3", 2, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60*3),
 			  				new Date(System.currentTimeMillis()));
 				
-		Computer computer4 = new Computer("Computer4", 1, "G1C2", 
+		Computer computer4 = new Computer("Computer4", 2, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60*4),
 			  				new Date(System.currentTimeMillis()));
 		
-		Computer computer5 = new Computer("Computer5", 1, "G1C2", 
+		Computer computer5 = new Computer("Computer5", 4, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60*5),
 			  				new Date(System.currentTimeMillis()));
 	
-		Computer computer6 = new Computer("Computer6", 1, "G1C2", 
+		Computer computer6 = new Computer("Computer6", 4, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*6),
 							new Date(System.currentTimeMillis()));
 			
-		Computer computer7 = new Computer("Computer7", 1, "G1C2", 
+		Computer computer7 = new Computer("Computer7", 2, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*7),
 							new Date(System.currentTimeMillis()));
 			
-		Computer computer8 = new Computer("Computer8", 1, "G1C2", 
+		Computer computer8 = new Computer("Computer8", 2, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*8),
 							new Date(System.currentTimeMillis()));
 		
@@ -378,27 +380,27 @@ public class Main {
 							new Date(System.currentTimeMillis() - 1000*60*60*10),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer11 = new Computer("Computer11", 1, "G1C2", 
+		Computer computer11 = new Computer("Computer11", 2, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*11),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer12 = new Computer("Computer12", 1, "G1C2", 
+		Computer computer12 = new Computer("Computer12", 2, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*12),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer13 = new Computer("Computer13", 1, "G1C2", 
+		Computer computer13 = new Computer("Computer13", 4, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*13),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer14 = new Computer("Computer14", 1, "G1C2", 
+		Computer computer14 = new Computer("Computer14", 4, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*14),
 							new Date(System.currentTimeMillis()));
 					
-		Computer computer15 = new Computer("Computer15", 1, "G1C2", 
+		Computer computer15 = new Computer("Computer15", 2, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*15),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer16 = new Computer("Computer16", 1, "G1C2", 
+		Computer computer16 = new Computer("Computer16", 2, "G1C2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*16),
 							new Date(System.currentTimeMillis()));
 				
@@ -519,10 +521,12 @@ public class Main {
 		gridDAO			.setEntityManager(entityManager);
 		jobDAO			.setEntityManager(entityManager);
 		membershipDAO	.setEntityManager(entityManager);
+		personDAO		.setEntityManager(entityManager);
 		userDAO			.setEntityManager(entityManager);
 		
 		entityManager.getTransaction().begin();
 		
+		System.out.println("\n---------------  REMOVING USER  --------------");
 		System.out.println("\nRetrieving jobs and related entities");
 		List<Job> allJobs = jobDAO.getAllJobs();
 		for(Job job : allJobs) {
@@ -532,90 +536,135 @@ public class Main {
 		System.out.println("\nRemoving user with userId = 1");
 		userDAO.removeUser(1L);
 		
-//		System.out.println("\nRetrieving jobs and related entities");
-//		allJobs = jobDAO.getAllJobs();
-//		for(Job job : allJobs) {
-//			System.out.println(jobDAO.getRelatedEntities(job.getJobId()));
-//		}
-//		
-//		System.out.println("\nRetrieving user with userId = 2");
-//		User user = userDAO.findUser(2L);
-//		System.out.println(user.toExtendedString());
-//		
-//		System.out.println("Updating user ...");
-//		
-//		user.setFirstName("user2foo");
-//		user.setUsername("usr2foo");
-//		user.setPassword(Service.getMD5Hash("usr2foopw"));
-//		
-//		userDAO.updateUser(user);
-//		
-//		System.out.println("Retrieving user with userId = 2");
-//		user = userDAO.findUser(2L);
-//		System.out.println(user.toExtendedString());
+		System.out.println("\nRetrieving jobs and related entities");
+		allJobs = jobDAO.getAllJobs();
+		for(Job job : allJobs) {
+			System.out.println(jobDAO.getRelatedEntities(job.getJobId()));
+		}
 		
-	//	adminDAO.removeAdmin(5L);
+		System.out.println("\n---------------  UPDATING USER  --------------");
+		System.out.println("\nRetrieving user with userId = 2");
+		User user = userDAO.findUser(2L);
+		System.out.println(user.toExtendedString());
 		
-//		userDAO.removeUser(3L);
-//		userDAO.removeUser(4L);
-//		
-//		User user = userDAO.findUser(1L);
-//		System.out.println("User 1 jobs: ");
-//		System.out.println(user.getJobList());
-//		
-//		System.out.println("Removing job 1");
-//		jobDAO.removeJob(1L);
-//		System.out.println("User 1 jobs: ");
-//		System.out.println(user.getJobList());
-//		
-//		System.out.println("Removing grid 1");
-//		
-//		gridDAO.removeGrid(1L);
-//		
-//		System.out.println("Execution 3 computer list:");
-//		
-////		System.out.println("Execution:");
-////		System.out.println(executionDAO.find(1L).getComputerList());
-//		System.out.println(executionDAO.find(3L).getComputerList());
-////		
-////		System.out.println("Removing computer 4,5,9 and 10 ..");
-////		
-//		System.out.println("Removing computer 13 .. ");
-////		computerDAO.removeComputer(4L);
-////		computerDAO.removeComputer(5L);
-////		computerDAO.removeComputer(9L);
-////		computerDAO.removeComputer(10L);
-//		computerDAO.removeComputer(13L);
-////		
-//		System.out.println("Execution 3 computer list:");
-////		System.out.println("Execution:");
-////		System.out.println(executionDAO.find(1L).getComputerList());
-//		System.out.println(executionDAO.find(3L).getComputerList());
-//		
-//		System.out.println("cluster1 computers : \n"+clusterDAO.findCluster(1L).getComputers());
-//		System.out.println("cluster7 computers : \n"+clusterDAO.findCluster(7L).getComputers());
-//		
-//		System.out.println("------------  Remove cluster  -------------");
-//		
-//		System.out.println("Removing cluster 4");
-//		clusterDAO.removeCluster(4L);
-//		
-//		System.out.println("admin 2 and grid 2 should now have only one entry: ");
-//		System.out.println("admin2 clusters: "+adminDAO.findAdmin(2L).getClusterList());
-//		
-//		System.out.println("grid2 clusters: "+gridDAO.findGrid(2L).getClusterList());
-//		
-//		System.out.println("Removing execution 1 ..");
-//		executionDAO.removeExecution(1L);
-//		
-//		System.out.println("Removing environment 2 ..");
-//		environmentDAO.removeEnvironment(2L);
+		System.out.println("Updating user ...");
+		
+		user.setFirstName("user2foo");
+		user.setUsername("usr2foo");
+		user.setPassword(Service.getMD5Hash("usr2foopw"));
+		
+		userDAO.updateUser(user);
+		
+		System.out.println("Retrieving user with userId = 2");
+		user = userDAO.findUser(2L);
+		System.out.println(user.toExtendedString());
+		
+		System.out.println("\n---------------  INHERITANCE  --------------");
+		
+		System.out.println("\nRetrieving all persons");
+		List<Person> personList = personDAO.getAllPersons();
+		for(Person person : personList)
+			System.out.println(person.toExtendedString());
+		
+		System.out.println("\n---------------  GRIDS AND ADMINS  --------------");
 				
+		System.out.println("\nRetrieving memberships");
+		List<Membership> memberships = membershipDAO.getAllMemberships();
+		for(Membership membership : memberships)
+			System.out.println(membership.toExtendedString());
+				
+		System.out.println("\nRetrieving clusters");
+		List<Cluster> clusters = clusterDAO.getAllClusters();
+		for(Cluster cluster : clusters) 
+			System.out.println(cluster.toExtendedString());
+				
+		System.out.println("\nRemoving grid with id = 1");
+		gridDAO.removeGrid(1L);
+		System.out.println("Removing admin with id = 7");
+		adminDAO.removeAdmin(7L);
+		
+		System.out.println("\nRetrieving memberships");
+		memberships = membershipDAO.getAllMemberships();
+		for(Membership membership : memberships)
+			System.out.println(membership.toExtendedString());
+				
+		System.out.println("\nRetrieving clusters");
+		clusters = clusterDAO.getAllClusters();
+		for(Cluster cluster : clusters) 
+			System.out.println(cluster.toExtendedString());
+		
+		System.out.println("\n---------------  CLUSTERS AND COMPUTERS  --------------");
+				
+		System.out.println("\nRetrieving Computers");
+		List<Computer> computers = computerDAO.getComputersFromTo(7L, 10L);
+		for(Computer computer : computers) 
+			System.out.println(computer.toExtendedString());
+				
+		System.out.println("\nRetrieving Cluster Relations");
+				
+		clusters = clusterDAO.getAllClusters();
+		for(Cluster cluster : clusters) 
+			System.out.println(
+					clusterDAO.getAllChildrenString(
+							cluster.getClusterId()
+					));
+				
+		System.out.println("\nRemoving cluster with id = 4");
+		clusterDAO.removeCluster(4L);
+				
+		System.out.println("\nRetrieving Computers");
+		computers = computerDAO.getComputersFromTo(7L, 10L);
+		for(Computer computer : computers) 
+			System.out.println(computer.toExtendedString());
+				
+		System.out.println("\nRetrieving Cluster Relations");
+				
+		clusters = clusterDAO.getAllClusters();
+		for(Cluster cluster : clusters) 
+			System.out.println(
+					clusterDAO.getAllChildrenString(
+							cluster.getClusterId()
+					));
+		
+		
+		System.out.println("\n---------------  EXECUTION AND COMPUTERS  --------------");
+				
+		System.out.println("\nRetrieving all Executions");
+		List<Execution> executionList = executionDAO.getAllExecutions();
+		System.out.println("executionId   -> computerIds");
+		for(Execution execution : executionList) 
+			System.out.println(
+					executionDAO.getComputerListAsString(
+							execution.getExecutionId()
+					));
+				
+		System.out.println("\nRemoving Computers with id = 13 and id = 14");
+		computerDAO.removeComputer(13L);
+		computerDAO.removeComputer(14L);
+				
+		System.out.println("\nRetrieving all Executions");
+		executionList = executionDAO.getAllExecutions();
+		System.out.println("executionId   -> computerIds");
+		for(Execution execution : executionList) 
+			System.out.println(
+					executionDAO.getComputerListAsString(
+							execution.getExecutionId()
+					));
+		
+		System.out.println("\nRemoving Execution with id = 6");
+		executionDAO.removeExecution(6L);
+		
+		System.out.println("\nRetrieving all Executions");
+		executionList = executionDAO.getAllExecutions();
+		System.out.println("executionId   -> computerIds");
+		for(Execution execution : executionList) 
+			System.out.println(
+					executionDAO.getComputerListAsString(
+							execution.getExecutionId()
+					));
 		
 		entityManager.getTransaction().commit();
-		
 		entityManager.close();
-		
 		PersistenceUtil.freeResources();
 	}
 

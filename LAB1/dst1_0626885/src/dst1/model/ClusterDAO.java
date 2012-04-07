@@ -38,6 +38,29 @@ public class ClusterDAO {
 	}
 	
 	/**
+	 * Get all clusters currently managed
+	 * @return a list of persisted cluster objects
+	 */
+	public List<Cluster> getAllClusters() {
+		return entityManager.createQuery("from Cluster", Cluster.class).getResultList();
+	}
+	
+	/**
+	 * Gets a formatted String that represents the relation from the cluster
+	 * with the given id to its children / subclusters
+	 * @param clusterId the clusterId of the cluster to get its children from
+	 * @return a string representing the list of children of the given cluster
+	 */
+	public String getAllChildrenString(Long clusterId) {
+		Cluster cluster = findCluster(clusterId);
+		List<Cluster> children = cluster.getSubClusters();
+		String result = "id "+clusterId+" -> ";
+		for(Cluster cluster_ : children)
+			result += "id "+cluster_.getClusterId()+", ";
+		return result;
+	}
+	
+	/**
 	 * Saves a cluster to the persistence context
 	 * @param cluster the cluster to save
 	 * @return true if saved successfully, false otherwise

@@ -1,5 +1,7 @@
 package dst1.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 public class MembershipDAO {
@@ -24,6 +26,14 @@ public class MembershipDAO {
 	 */
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
+	}
+	
+	/**
+	 * Get all managed membership entities
+	 * @return a list of membership objects
+	 */
+	public List<Membership> getAllMemberships() {
+		return entityManager.createQuery("from Membership", Membership.class).getResultList();
 	}
 	
 	/**

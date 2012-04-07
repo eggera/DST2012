@@ -241,8 +241,10 @@ public class Cluster implements Serializable {
 	public String toExtendedString() {
 		return "clusterId = "+clusterId+", " +
 				"name = "+name+", " +
+				"gridId = "+(grid == null ? null : grid.getGridId())+", " +
+				"adminId = "+(admin == null ? null : admin.getId())/*+", " +
 				"lastService = "+lastService+", " +
-				"nextService = "+nextService;
+				"nextService = "+nextService*/;
 	}
 	
 }
