@@ -17,7 +17,7 @@ public class Job implements Serializable {
 	@ManyToOne
 	private User user;
 	
-	@OneToOne (cascade = CascadeType.PERSIST)
+	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Environment environment;
 	
 	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

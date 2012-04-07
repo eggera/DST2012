@@ -41,17 +41,12 @@ public class EnvironmentDAO {
 			return false;
 
 		// Get the jobs that are related to this environment
-		List<Job> jobResult = entityManager.createQuery(
+		Job job_ = (Job)entityManager.createQuery(
 										"select j from Job j where j.environment.environmentId = :id"
 								).setParameter("id", environment_.getEnvironmentId())
-								 .getResultList();
+								 .getSingleResult();
 		
-		JobDAO jobDAO = new JobDAO(entityManager);
-		
-		// job DAO ??? 
-		for(Job job : jobResult) 
-			jobDAO.removeJob(job.getJobId());
-			
+		entityManager.remove(job_);
 		entityManager.remove(environment_);
 		
 		return true;

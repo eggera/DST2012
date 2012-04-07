@@ -44,6 +44,7 @@ public class Main {
 		GridDAO 		gridDAO 		= new GridDAO		(entityManager);
 		MembershipDAO 	membershipDAO 	= new MembershipDAO	(entityManager);
 		AdminDAO 		adminDAO 		= new AdminDAO		(entityManager);
+		PersonDAO		personDAO		= new PersonDAO		(entityManager);
 		ClusterDAO 		clusterDAO 		= new ClusterDAO	(entityManager);
 		ComputerDAO 	computerDAO 	= new ComputerDAO	(entityManager);
 		JobDAO 			jobDAO 			= new JobDAO		(entityManager);
@@ -52,7 +53,8 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
-		
+		System.out.println("------------  TESTING CODE ASSIGNMENT 1B  --------------\n\n");
+		System.out.println("Creating users ... ");
 		
 		User user1 = new User("User1","User1Last", new Address("street1","city1","1000"), 
 								"usr1", Service.getMD5Hash("usr1"), "1234", "1000");
@@ -66,6 +68,8 @@ public class Main {
 		User user4 = new User("User4","User4Last", new Address("street4","city4","4000"), 
 								"usr4", Service.getMD5Hash("usr4"), "4567", "4000");
 		
+		System.out.println("Creating jobs ... ");
+		
 		Job job1 = new Job();
 		Job job2 = new Job();
 		Job job3 = new Job();
@@ -74,22 +78,34 @@ public class Main {
 		Job job5 = new Job();
 		Job job6 = new Job();
 		
-		List<String> params = new ArrayList<String>();
-		params.add("param1");
-		params.add("param2");
-		params.add("param3");
+		System.out.println("Creating environments ... ");
 		
-		Environment environment1 = new Environment("workflow1", params);
-		Environment environment2 = new Environment("workflow2", params);
-		Environment environment3 = new Environment("workflow3", params);
+		List<String> params1 = new ArrayList<String>();
+		params1.add("param1");
+		params1.add("param2");
+		params1.add("param3");
+		
+		List<String> params2 = new ArrayList<String>();
+		params2.add("param4");
+		
+		List<String> params3 = new ArrayList<String>();
+		params3.add("param5");
+		params3.add("param6");
+		
+		Environment environment1 = new Environment("workflow1", params1);
+		Environment environment2 = new Environment("workflow2", params1);
+		Environment environment3 = new Environment("workflow3", params1);
+		Environment environment4 = new Environment("workflow4", params2);
+		Environment environment5 = new Environment("workflow5", params3);
+		Environment environment6 = new Environment("workflow6", params3);
 		
 		job1.setEnvironment(environment1);
 		job2.setEnvironment(environment2);
 		job3.setEnvironment(environment3);
 		
-		job4.setEnvironment(environment1);
-		job5.setEnvironment(environment2);
-		job6.setEnvironment(environment3);
+		job4.setEnvironment(environment4);
+		job5.setEnvironment(environment5);
+		job6.setEnvironment(environment6);
 
 		
 		user1.addJob(job1);
@@ -100,6 +116,7 @@ public class Main {
 		user4.addJob(job5);
 		user4.addJob(job6);
 			
+		System.out.println("Creating executions ... ");
 		
 		Execution execution1 = new Execution(
 						new Date(System.currentTimeMillis()),
@@ -138,20 +155,26 @@ public class Main {
 		job5.setExecution(execution5);
 		job6.setExecution(execution6);
 		
+		System.out.println("Saving   users ... ");
+		
 		userDAO.saveUser(user1);
 		userDAO.saveUser(user2);
 		userDAO.saveUser(user3);
 		userDAO.saveUser(user4);
 		
+		System.out.println("Creating grids ... ");
 		
 		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.11));
 		Grid grid2 = new Grid("grid2", "G2", new BigDecimal(0.22));
 		Grid grid3 = new Grid("grid3", "G3", new BigDecimal(0.33));
 		
+		System.out.println("Saving   grids ... ");
+		
 		gridDAO.saveGrid(grid1);
 		gridDAO.saveGrid(grid2);
 		gridDAO.saveGrid(grid3);
 		
+		System.out.println("Creating memberships ... ");
 
 		Membership membership1 = new Membership(grid1, user1, 
 										new Date(System.currentTimeMillis()), 
@@ -177,6 +200,8 @@ public class Main {
 										new Date(System.currentTimeMillis()), 
 										new Double(6.6));
 		
+		System.out.println("Saving   memberships ... ");
+		
 		membershipDAO.saveMembership(membership1);
 		membershipDAO.saveMembership(membership2);
 		membershipDAO.saveMembership(membership3);
@@ -184,17 +209,21 @@ public class Main {
 		membershipDAO.saveMembership(membership5);
 		membershipDAO.saveMembership(membership6);
 		
+		System.out.println("Creating admins ... ");
 		
 		Admin admin1 = new Admin("Admin1", "Admin1Last", new Address("street11","city11","1111"));
 		Admin admin2 = new Admin("Admin2", "Admin2Last", new Address("street22","city22","2222"));
 		Admin admin3 = new Admin("Admin3", "Admin3Last", new Address("street33","city33","3333"));
 		Admin admin4 = new Admin("Admin4", "Admin4Last", new Address("street44","city44","4444"));
 		
+		System.out.println("Saving   admins ... ");
+		
 		adminDAO.saveAdmin(admin1);
 		adminDAO.saveAdmin(admin2);
 		adminDAO.saveAdmin(admin3);
 		adminDAO.saveAdmin(admin4);
 		
+		System.out.println("Creating clusters ... ");
 		
 		Cluster cluster1 = new Cluster("cluster1", 
 										new Date(System.currentTimeMillis() - 1000*60*60), 
@@ -296,6 +325,8 @@ public class Main {
 		cluster4.addSuperCluster(cluster8);
 		cluster7.addSuperCluster(cluster8);
 		
+		System.out.println("Saving   clusters ... ");
+		
 		clusterDAO.saveCluster(cluster1);
 		clusterDAO.saveCluster(cluster2);
 		clusterDAO.saveCluster(cluster3);
@@ -305,7 +336,8 @@ public class Main {
 		clusterDAO.saveCluster(cluster7);
 		clusterDAO.saveCluster(cluster8);
 	
-				
+		System.out.println("Creating computers ... ");
+		
 		Computer computer1 = new Computer("Computer1", 1, "G1C2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
 			  				new Date(System.currentTimeMillis()));
@@ -370,6 +402,9 @@ public class Main {
 							new Date(System.currentTimeMillis() - 1000*60*60*16),
 							new Date(System.currentTimeMillis()));
 				
+		
+		System.out.println("Saving   computers ... ");
+		
 		computerDAO.saveComputer(computer1);
 		computerDAO.saveComputer(computer2);
 		computerDAO.saveComputer(computer3);
@@ -488,8 +523,38 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 		
+		System.out.println("\nRetrieving jobs and related entities");
+		List<Job> allJobs = jobDAO.getAllJobs();
+		for(Job job : allJobs) {
+			System.out.println(jobDAO.getRelatedEntities(job.getJobId()));
+		}
 		
-		adminDAO.removeAdmin(5L);
+		System.out.println("\nRemoving user with userId = 1");
+		userDAO.removeUser(1L);
+		
+//		System.out.println("\nRetrieving jobs and related entities");
+//		allJobs = jobDAO.getAllJobs();
+//		for(Job job : allJobs) {
+//			System.out.println(jobDAO.getRelatedEntities(job.getJobId()));
+//		}
+//		
+//		System.out.println("\nRetrieving user with userId = 2");
+//		User user = userDAO.findUser(2L);
+//		System.out.println(user.toExtendedString());
+//		
+//		System.out.println("Updating user ...");
+//		
+//		user.setFirstName("user2foo");
+//		user.setUsername("usr2foo");
+//		user.setPassword(Service.getMD5Hash("usr2foopw"));
+//		
+//		userDAO.updateUser(user);
+//		
+//		System.out.println("Retrieving user with userId = 2");
+//		user = userDAO.findUser(2L);
+//		System.out.println(user.toExtendedString());
+		
+	//	adminDAO.removeAdmin(5L);
 		
 //		userDAO.removeUser(3L);
 //		userDAO.removeUser(4L);

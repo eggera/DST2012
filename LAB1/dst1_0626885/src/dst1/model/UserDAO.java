@@ -65,6 +65,10 @@ public class UserDAO {
 		return user;
 	}
 	
+	public void updateUser(User user) {
+		entityManager.merge(user);
+	}
+	
 	/**
 	 * Get all users currently stored in the persistence context
 	 * @return a list of all users

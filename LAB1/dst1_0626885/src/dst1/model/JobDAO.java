@@ -1,5 +1,7 @@
 package dst1.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 public class JobDAO {
@@ -36,6 +38,14 @@ public class JobDAO {
 	}
 	
 	/**
+	 * Get all jobs from the persistence context
+	 * @return a list of all jobs
+	 */
+	public List<Job> getAllJobs() {
+		return entityManager.createQuery("from Job", Job.class).getResultList();
+	}
+	
+	/**
 	 * Removes a job
 	 * @param jobId the jobId of the execution to remove
 	 * @return true if removed successfully, false otherwise
@@ -46,10 +56,32 @@ public class JobDAO {
 		if(job_ == null)
 			return false;
 		
+		if(job_.getEnvironment() != null)
+			entityManager.remove(job_.getEnvironment());
+//		EnvironmentDAO environmentDAO = new EnvironmentDAO(entityManager);
+//		environmentDAO.removeEnvironment(job_.getEnvironment().getEnvironmentId());
+		
 		job_.getUser().removeJob(job_);
 			
 		entityManager.remove(job_);
 		return true;
+	}
+	
+	/**
+	 * Gets all of the jobs related entities (environment, execution, user)
+	 * @param jobId the jobId of the job to query
+	 * @return a String representation of all job-related entities
+	 */
+	public String getRelatedEntities(Long jobId) {
+		Job job = entityManager.find(Job.class, jobId);		
+		if(job == null)
+			return null;
+		
+		return 		"jobId = "+job.getJobId()+", " +
+			"environmentId = "+job.getEnvironment().getEnvironmentId()+", " +
+			  "executionId = "+job.getExecution().getExecutionId()+", " +
+			  	   "userId = "+job.getUser().getId();
+		
 	}
 	
 }

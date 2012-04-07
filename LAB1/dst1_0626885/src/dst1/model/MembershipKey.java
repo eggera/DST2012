@@ -2,9 +2,6 @@ package dst1.model;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
-
-
 public final class MembershipKey implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -20,6 +17,34 @@ public final class MembershipKey implements Serializable {
 		this.grid = grid;
 		this.user = user;
 	}
+	
+//	/**
+//	 * Get the grid
+//	 */
+//	public Grid getGrid() {
+//		return this.grid;
+//	}
+//	
+//	/**
+//	 * Get the user
+//	 */
+//	public User getUser() {
+//		return this.user;
+//	}
+//	
+//	/**
+//	 * Set the grid
+//	 */
+//	public void setGrid(Grid grid) {
+//		this.grid = grid;
+//	}
+//	
+//	/**
+//	 * Set the user
+//	 */
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 	
 	
 	@Override

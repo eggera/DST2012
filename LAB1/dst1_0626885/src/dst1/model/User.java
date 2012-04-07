@@ -193,20 +193,13 @@ public class User extends Person implements Serializable {
 	 * Extended String representation of this User
 	 */
 	public String toExtendedString() {
-		String result = "";
-		if(id != null)
-			result = "user id = "+id+", ";
-		else
-			result = "user id = -, ";
-		
-		result += "firstName = "+getFirstName()+", " +
-				   "lastName = "+getLastName()+" \n";
-		
-		result += "Jobs: \n";
-		for(Job job : jobList) {
-			result += job.toString()+"\n";
-		}
-		return result;
+		return "userId = "+id+", " +
+			"firstName = "+firstName+", " +
+			 "lastName = "+lastName+" " +
+			 "username = "+username+", " +
+			 "password = "+password+", " +
+			"accountNo = "+accountNo+", " +
+			 "bankCode = "+bankCode;
 	}
 	
 	
