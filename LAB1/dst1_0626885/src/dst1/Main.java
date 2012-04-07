@@ -504,12 +504,11 @@ public class Main {
 		computer15.addExecution(execution6);
 		computer16.addExecution(execution6);
 		
-//		entityManager.flush();
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		
 		
-		// ------------------ DELETE ENTITIES ---------------------------
+		// ------------------ TESTING CODE ---------------------------
 		
 		entityManager = entityManagerFactory.createEntityManager();
 		
