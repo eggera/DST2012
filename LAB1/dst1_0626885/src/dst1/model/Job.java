@@ -14,7 +14,7 @@ public class Job implements Serializable {
 	private Long jobId;
 	private boolean isPaid;
 	
-	@ManyToOne
+	@ManyToOne (optional = false)
 	private User user;
 	
 	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

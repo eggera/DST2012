@@ -38,6 +38,14 @@ public class GridDAO {
 	}
 	
 	/**
+	 * Get all grids currently stored in the persistence context
+	 * @return all managed grids
+	 */
+	public List<Grid> getAllGrids() {
+		return entityManager.createQuery("from Grid", Grid.class).getResultList();
+	}
+	
+	/**
 	 * Saves a grid to the persistence context
 	 * @param grid the grid to save
 	 * @return true if saved successfully, false otherwise
@@ -64,6 +72,15 @@ public class GridDAO {
 		entityManager.remove(grid_);
 		
 		return true;
+	}
+	
+	/**
+	 * Removes all grids from the persistence context
+	 */
+	public void removeAllGrids() {
+		List<Grid> allGrids = getAllGrids();
+		for(Grid grid : allGrids) 
+			removeGrid(grid.getGridId());
 	}
 	
 }

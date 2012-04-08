@@ -10,6 +10,14 @@ import javax.persistence.*;
 @Table (uniqueConstraints = {
 		@UniqueConstraint (columnNames={"accountNo", "bankCode"})
 							})
+@NamedQueries({
+			@NamedQuery (name = "findAllUsers", query = "select u from User u"), 
+			@NamedQuery (name = "findExecutions", query = "select e from Execution e"),
+			@NamedQuery (name = "findActiveUsersForGrid", 
+						 query = "select u " +
+						 		"	from User u join u.membershipList m join m.grid g" +
+						 		"	where g.name = :gname")
+			 })
 public class User extends Person implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

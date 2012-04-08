@@ -70,7 +70,8 @@ public class ComputerDAO {
 		if(computer_ == null)
 			return false;
 		
-		computer_.getCluster().removeComputer(computer_);
+		if(computer_.getCluster() != null)
+			computer_.getCluster().removeComputer(computer_);
 		
 		for(Execution execution : computer_.getExecutionList()) {
 			execution.removeComputer(computer_);
@@ -80,5 +81,14 @@ public class ComputerDAO {
 		
 		entityManager.remove(computer_);
 		return true;
+	}
+	
+	/**
+	 * Remove all computers from the persistence context
+	 */
+	public void removeAllComputers() {
+		List<Computer> allComputers = getAllComputers();
+		for(Computer computer : allComputers)
+			removeComputer(computer.getComputerId());
 	}
 }

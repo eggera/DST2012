@@ -112,6 +112,15 @@ public class AdminDAO {
 	}
 	
 	/**
+	 * Removes all admins from the persistence context
+	 */
+	public void removeAllAdmins() {
+		List<Admin> allAdmins = getAllAdmins();
+		for(Admin admin : allAdmins) 
+			removeAdmin(admin.getId());
+	}
+	
+	/**
 	 * Frees allocated and created resources
 	 */
 	public void freeResources() {

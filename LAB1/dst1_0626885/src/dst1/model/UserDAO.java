@@ -106,6 +106,25 @@ public class UserDAO {
 	}
 	
 	/**
+	 * Remove all Users and related entities from the persistence context
+	 */
+	public void removeAllUsers() {
+		EntityManager entityManager = getEntityManager();
+		if(entityManager.getTransaction().isActive()) {
+			List<User> allUsers = getAllUsers();
+			for(User user : allUsers) 
+				entityManager.remove(user);
+			return;
+		}
+		
+		entityManager.getTransaction().begin();
+		List<User> allUsers = getAllUsers();
+		for(User user : allUsers) 
+			entityManager.remove(user);
+		entityManager.getTransaction().commit();
+	}
+	
+	/**
 	 * Frees allocated and created resources
 	 */
 	public void freeResources() {

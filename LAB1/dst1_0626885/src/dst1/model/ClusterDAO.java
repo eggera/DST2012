@@ -103,10 +103,23 @@ public class ClusterDAO {
 				
 		for(Computer computer : cluster_.getComputers()) 
 			computer.setCluster(null);
-		cluster_.getAdmin().removeCluster(cluster_);
-		cluster_.getGrid().removeCluster(cluster_);
+				
+		if(cluster_.getAdmin() != null)
+			cluster_.getAdmin().removeCluster(cluster_);
+				
+		if(cluster_.getGrid() != null)
+			cluster_.getGrid().removeCluster(cluster_);
 				
 		entityManager.remove(cluster_);
 		return true;
+	}
+	
+	/**
+	 * Remove all clusters from the persistence context
+	 */
+	public void removeAllClusters() {
+		List<Cluster> allClusters = getAllClusters();
+		for(Cluster cluster : allClusters)
+			removeCluster(cluster.getClusterId());
 	}
 }
