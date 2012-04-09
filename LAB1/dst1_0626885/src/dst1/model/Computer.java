@@ -5,6 +5,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.*;
+
+
+@NamedQueries({
+		@NamedQuery (name = "getViennaComputers", 
+					 query = "select distinct c " +
+							 "		from Computer c left join fetch c.executionList" +
+							 "		where c.location like 'AUT-VIE%'"),
+		})
 public class Computer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -19,7 +28,7 @@ public class Computer implements Serializable {
 	private Cluster cluster;
 	
 	private List<Execution> executionList;
-	
+	private Long totalUsage;
 	
 	public Computer() {
 		// used by Hibernate
@@ -159,11 +168,28 @@ public class Computer implements Serializable {
 	}
 	
 	/**
+	 * Gets the total usage of this computer, which comprises all execution times
+	 * on this computer
+	 * @return the total usage of this computer
+	 */
+	public Long getTotalUsage() {
+		return this.totalUsage;
+	}
+	
+	/**
+	 * Sets the total usage (total time of execution) of this computer
+	 * @param usage the usage of this computer
+	 */
+	public void setTotalUsage(Long usage) {
+		this.totalUsage = usage;
+	}
+	
+	/**
 	 * String representation of this computer
 	 */
 	public String toString() {
 		return  "id = "+ computerId + ", " +
-				"name = "+ name + "\n";
+				"name = "+ name;
 	}
 	
 	/**

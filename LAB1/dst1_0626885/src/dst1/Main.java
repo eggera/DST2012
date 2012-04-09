@@ -35,11 +35,11 @@ public class Main {
 
 		Test2A.insertEntities();
 		Test2A.test();
-		Test.freeResources();
 	}
 
 	public static void dst02b() {
-
+		
+		Test2B.test();
 	}
 
 	public static void dst02c() {
@@ -75,6 +75,6 @@ public class Main {
         }
 
         public static void dst05c() {
-
+        	Test.freeResources();
         }
 }

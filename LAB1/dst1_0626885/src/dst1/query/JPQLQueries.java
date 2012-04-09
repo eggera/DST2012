@@ -1,5 +1,6 @@
 package dst1.query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,6 +30,8 @@ public class JPQLQueries {
 		return this.entityManager;
 	}
 	
+//	==========================  ASSIGNMENT 2A  =====================================
+	
 	/**
 	 * Gets all users with a membership assigned to a given grid and with a minimum
 	 * of minJobs jobs assigned to this grid
@@ -50,6 +53,29 @@ public class JPQLQueries {
 	public List<User> getMostActiveUsers() {
 		return entityManager.createNamedQuery("mostActiveUsers")
 							.getResultList();
+	}
+	
+//	==========================  ASSIGNMENT 2B  =====================================
+	
+	/**
+	 * Get 
+	 * @return
+	 */
+	public List<Long> getExecutionTimes() {
+		List<Computer> computers = entityManager.createNamedQuery("getViennaComputers").getResultList();
+		List<Long> executionTimes = new ArrayList<Long>();
+		
+		for(Computer computer : computers) {
+			System.out.println(computer);
+			Long difference = 0L;
+			for(Execution execution : computer.getExecutionList()) {
+				System.out.println(execution.toExtendedString());
+				difference += execution.getEnd().getTime() - execution.getStart().getTime();
+			}
+			executionTimes.add(difference);
+		}
+		
+		return executionTimes;
 	}
 	
 }
