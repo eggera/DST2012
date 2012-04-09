@@ -15,10 +15,7 @@ public class Test2B {
 	 * Test code for assignment 2B
 	 */
 	public static void test() {
-//		------------------------------  ASSIGNMENT 2B  ----------------------------------------
-		
-		// ---------------------------- TESTING CODE -----------------------------------
-		
+
 		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 2B  --------------\n\n");
 		
 		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();

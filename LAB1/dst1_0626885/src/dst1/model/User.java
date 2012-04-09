@@ -38,17 +38,17 @@ public class User extends Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Column (unique=true, nullable=false)
-	private String username;
+	protected String username;
 	@Column (columnDefinition = "CHARACTER(32)")
-	private byte[] password;
-	private String accountNo;
-	private String bankCode;
+	protected byte[] password;
+	protected String accountNo;
+	protected String bankCode;
 	
 	@OneToMany (mappedBy="user", cascade=CascadeType.ALL)
-	private List<Job> jobList;
+	protected List<Job> jobList;
 	
 	@OneToMany (mappedBy="user", cascade=CascadeType.ALL)
-	private List<Membership> membershipList;
+	protected List<Membership> membershipList;
 	
 	
 	public User() {
