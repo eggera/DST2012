@@ -16,8 +16,23 @@ import javax.persistence.*;
 			@NamedQuery (name = "findActiveUsersForGrid", 
 						 query = "select u " +
 						 		"	from User u join u.membershipList m join m.grid g" +
-						 		"	where g.name = :gname")
-			 })
+						 		"	where g.name = :gname"),
+			@NamedQuery (name = "activeUsersWithXJobs",
+						 query = "select u" +
+						 		"	from User u join u.membershipList m join m.grid g" +
+								"				join u.jobList j 		join j.execution e" +
+						 		" 				join e.computerList c 	join c.cluster cl" +
+								"				join cl.grid cGrid" +
+						 		"	where g.name = :gname and cGrid.name = :gname " +
+								"	group by u having count(distinct j) >= :minJobs"),
+			@NamedQuery (name = "mostActiveUsers",
+						 query = "select u" +
+						 		"	from User u join u.jobList j" +
+						 		"	group by u having count(j) >= " +
+						 		"					all (select count(jobs)" +
+						 		"						from User usr join usr.jobList jobs" +
+						 		"						group by usr)")
+			})
 public class User extends Person implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
