@@ -290,67 +290,67 @@ public class Test2A {
 	
 		System.out.println("Creating computers ... ");
 		
-		Computer computer1 = new Computer("Computer1", 1, "G1C2", 
+		Computer computer1 = new Computer("Computer1", 1, "AUT-VIE-1", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60),
 			  				new Date(System.currentTimeMillis()));
 				
-		Computer computer2 = new Computer("Computer2", 1, "G1C2", 
+		Computer computer2 = new Computer("Computer2", 1, "AUT-VIE-2", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60*2),
 			  				new Date(System.currentTimeMillis()));
 				
-		Computer computer3 = new Computer("Computer3", 2, "G1C2", 
+		Computer computer3 = new Computer("Computer3", 2, "AUT-VIE-3", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60*3),
 			  				new Date(System.currentTimeMillis()));
 				
-		Computer computer4 = new Computer("Computer4", 2, "G1C2", 
+		Computer computer4 = new Computer("Computer4", 2, "AUT-VIE-4", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60*4),
 			  				new Date(System.currentTimeMillis()));
 		
-		Computer computer5 = new Computer("Computer5", 4, "G1C3", 
+		Computer computer5 = new Computer("Computer5", 4, "AUT-VIE-5", 
 			  				new Date(System.currentTimeMillis() - 1000*60*60*5),
 			  				new Date(System.currentTimeMillis()));
 	
-		Computer computer6 = new Computer("Computer6", 4, "G1C3", 
+		Computer computer6 = new Computer("Computer6", 4, "AUT-VIE-6", 
 							new Date(System.currentTimeMillis() - 1000*60*60*6),
 							new Date(System.currentTimeMillis()));
 			
-		Computer computer7 = new Computer("Computer7", 2, "G2C4", 
+		Computer computer7 = new Computer("Computer7", 2, "AUT-KTN-1", 
 							new Date(System.currentTimeMillis() - 1000*60*60*7),
 							new Date(System.currentTimeMillis()));
 			
-		Computer computer8 = new Computer("Computer8", 2, "G2C4", 
+		Computer computer8 = new Computer("Computer8", 2, "AUT-KTN-2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*8),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer9 = new Computer("Computer9", 1, "G2C4", 
+		Computer computer9 = new Computer("Computer9", 1, "AUT-KTN-3", 
 							new Date(System.currentTimeMillis() - 1000*60*60*9),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer10 = new Computer("Computer10", 1, "G2C4", 
+		Computer computer10 = new Computer("Computer10", 1, "AUT-KTN-4", 
 							new Date(System.currentTimeMillis() - 1000*60*60*10),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer11 = new Computer("Computer11", 2, "G2C5", 
+		Computer computer11 = new Computer("Computer11", 2, "AUT-KTN-5", 
 							new Date(System.currentTimeMillis() - 1000*60*60*11),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer12 = new Computer("Computer12", 2, "G2C5", 
+		Computer computer12 = new Computer("Computer12", 2, "AUT-KTN-6", 
 							new Date(System.currentTimeMillis() - 1000*60*60*12),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer13 = new Computer("Computer13", 4, "G3C8", 
+		Computer computer13 = new Computer("Computer13", 4, "AUT-SBG-1", 
 							new Date(System.currentTimeMillis() - 1000*60*60*13),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer14 = new Computer("Computer14", 4, "G3C8", 
+		Computer computer14 = new Computer("Computer14", 4, "AUT-SBG-2", 
 							new Date(System.currentTimeMillis() - 1000*60*60*14),
 							new Date(System.currentTimeMillis()));
 					
-		Computer computer15 = new Computer("Computer15", 2, "G3C8", 
+		Computer computer15 = new Computer("Computer15", 2, "AUT-SBG-3", 
 							new Date(System.currentTimeMillis() - 1000*60*60*15),
 							new Date(System.currentTimeMillis()));
 		
-		Computer computer16 = new Computer("Computer16", 2, "G3C8", 
+		Computer computer16 = new Computer("Computer16", 2, "AUT-SBG-4", 
 							new Date(System.currentTimeMillis() - 1000*60*60*16),
 							new Date(System.currentTimeMillis()));
 				
@@ -455,7 +455,9 @@ public class Test2A {
 		entityManager.close();
 	}
 	
-	@SuppressWarnings("unchecked")
+	/**
+	 * Test code for assignment 2A
+	 */
 	public static void test() {
 //		------------------------------  ASSIGNMENT 2A  ----------------------------------------
 		
@@ -463,17 +465,6 @@ public class Test2A {
 		
 		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		
-		UserDAO 		userDAO 		= new UserDAO		(entityManager);
-		GridDAO 		gridDAO 		= new GridDAO		(entityManager);
-		MembershipDAO 	membershipDAO 	= new MembershipDAO	(entityManager);
-		AdminDAO 		adminDAO 		= new AdminDAO		(entityManager);
-		PersonDAO		personDAO		= new PersonDAO		(entityManager);
-		ClusterDAO 		clusterDAO 		= new ClusterDAO	(entityManager);
-		ComputerDAO 	computerDAO 	= new ComputerDAO	(entityManager);
-		JobDAO 			jobDAO 			= new JobDAO		(entityManager);
-		ExecutionDAO 	executionDAO 	= new ExecutionDAO	(entityManager);
-//		EnvironmentDAO 	environmentDAO 	= new EnvironmentDAO(entityManager);
 		
 		
 		entityManager.getTransaction().begin();
@@ -486,15 +477,32 @@ public class Test2A {
 //		for(User user : allUsers)
 //			System.out.println(user);
 				
-		System.out.println("\n ACTUAL TEST \n");
-				
-		JPQLQueries jpqlQueries = new JPQLQueries(entityManager);
 				
 //		List<User> usersAndGrids = entityManager.createNamedQuery("findActiveUsersForGrid")
 //												.setParameter("gname", "grid1")
 //												.getResultList();
 //		for(User user : usersAndGrids)
 //			System.out.println(user);
+		
+//		List<Object> usersAndJobs = entityManager.createNamedQuery("activeUsersWithXJobs")
+//		  .setParameter("gname", "grid1")
+//		  .getResultList();
+//
+//
+//		System.out.println("Users and Jobs:");
+//		
+//		Object[] users1 = (Object[])usersAndJobs.get(0);
+//		Object[] users2 = (Object[])usersAndJobs.get(1);
+//		
+//		for(Object user : users1) 
+//		System.out.println(user);
+//		
+//		for(Object user : users2) 
+//		System.out.println(user);
+		
+		System.out.println("\n ACTUAL TEST \n");
+		
+		JPQLQueries jpqlQueries = new JPQLQueries(entityManager);
 				
 		System.out.println("Users with membership to grid1 and at least 2 jobs assigned to it:");
 				
@@ -510,111 +518,7 @@ public class Test2A {
 		
 		for(User user : userList)
 			System.out.println(user);
-				
-//		List<Object> usersAndJobs = entityManager.createNamedQuery("activeUsersWithXJobs")
-//					 						  .setParameter("gname", "grid1")
-//					 						  .getResultList();
-//		
-//
-//		System.out.println("Users and Jobs:");
-//		
-//		Object[] users1 = (Object[])usersAndJobs.get(0);
-//		Object[] users2 = (Object[])usersAndJobs.get(1);
-//
-//		for(Object user : users1) 
-//			System.out.println(user);
-//		
-//		for(Object user : users2) 
-//			System.out.println(user);
-				
-				
-//		List<Job> jobs = entityManager.createNamedQuery("jobsOfActiveUsers")
-//											  .setParameter("gname", "grid1")
-//											  .getResultList();
-//				
-//		for(Job job : jobs)
-//			System.out.println(job);
-				
-//		Long countUsers = (Long)entityManager.createNamedQuery("activeUsersWithXJobs")
-//				  .setParameter("gname", "grid1")
-//				  .setParameter("cgname", "grid1")
-//				  .getSingleResult();
-//
-//		System.out.println(countUsers);
-		
-		
-				
-//		System.out.println("\n---------------  GRIDS AND ADMINS  --------------");
-//				
-//		System.out.println("\nRetrieving memberships");
-//		List<Membership> memberships = membershipDAO.getAllMemberships();
-//		for(Membership membership : memberships)
-//			System.out.println(membership.toExtendedString());
-//				
-//		System.out.println("\nRetrieving clusters");
-//		List<Cluster> clusters = clusterDAO.getAllClusters();
-//		for(Cluster cluster : clusters) 
-//			System.out.println(cluster.toExtendedString());
-//
-//		
-//		System.out.println("\n---------------  CLUSTERS AND COMPUTERS  --------------");
-//				
-//		System.out.println("\nRetrieving Computers");
-//		List<Computer> computers = computerDAO.getComputersFromTo(7L, 10L);
-//		for(Computer computer : computers) 
-//			System.out.println(computer.toExtendedString());
-//				
-//				
-//		System.out.println("\nRetrieving Computers");
-//		computers = computerDAO.getComputersFromTo(7L, 10L);
-//		for(Computer computer : computers) 
-//			System.out.println(computer.toExtendedString());
-//				
-//		System.out.println("\nRetrieving Cluster Relations");
-//				
-//		clusters = clusterDAO.getAllClusters();
-//		for(Cluster cluster : clusters) 
-//			System.out.println(
-//					clusterDAO.getAllChildrenString(
-//							cluster.getClusterId()
-//					));
-//		
-//		
-//		System.out.println("\n---------------  EXECUTION AND COMPUTERS  --------------");
-//				
-//		System.out.println("\nRetrieving all Executions");
-//		List<Execution> executionList = executionDAO.getAllExecutions();
-//		System.out.println("executionId   -> computerIds");
-//		for(Execution execution : executionList) 
-//			System.out.println(
-//					executionDAO.getComputerListAsString(
-//							execution.getExecutionId()
-//					));
-//				
-//		System.out.println("\nRemoving Computers with id = 13 and id = 14");
-//		computerDAO.removeComputer(13L);
-//		computerDAO.removeComputer(14L);
-//				
-//		System.out.println("\nRetrieving all Executions");
-//		executionList = executionDAO.getAllExecutions();
-//		System.out.println("executionId   -> computerIds");
-//		for(Execution execution : executionList) 
-//			System.out.println(
-//					executionDAO.getComputerListAsString(
-//							execution.getExecutionId()
-//					));
-//		
-//		System.out.println("\nRemoving Execution with id = 6");
-//		executionDAO.removeExecution(6L);
-//		
-//		System.out.println("\nRetrieving all Executions");
-//		executionList = executionDAO.getAllExecutions();
-//		System.out.println("executionId   -> computerIds");
-//		for(Execution execution : executionList) 
-//			System.out.println(
-//					executionDAO.getComputerListAsString(
-//							execution.getExecutionId()
-//					));
+	
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();

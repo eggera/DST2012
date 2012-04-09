@@ -58,24 +58,25 @@ public class JPQLQueries {
 //	==========================  ASSIGNMENT 2B  =====================================
 	
 	/**
-	 * Get 
-	 * @return
+	 * Get the total usage for each computer in a list
+	 * @return a list of a wrapper class for a computer and its usage
 	 */
-	public List<Long> getExecutionTimes() {
+	public List<ComputerUsage> getComputerUsage() {
 		List<Computer> computers = entityManager.createNamedQuery("getViennaComputers").getResultList();
 		List<Long> executionTimes = new ArrayList<Long>();
+		System.out.println("computers : "+ computers.size());
+		List<ComputerUsage> computerUsageList = new ArrayList<ComputerUsage>();
 		
 		for(Computer computer : computers) {
-			System.out.println(computer);
-			Long difference = 0L;
+			Long usage = 0L;
 			for(Execution execution : computer.getExecutionList()) {
-				System.out.println(execution.toExtendedString());
-				difference += execution.getEnd().getTime() - execution.getStart().getTime();
+				usage += execution.getEnd().getTime() - execution.getStart().getTime();
 			}
-			executionTimes.add(difference);
+			executionTimes.add(usage);
+			computerUsageList.add(new ComputerUsage(computer, usage));
 		}
 		
-		return executionTimes;
+		return computerUsageList;
 	}
 	
 }

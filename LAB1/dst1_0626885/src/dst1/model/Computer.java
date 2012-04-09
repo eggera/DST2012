@@ -28,7 +28,6 @@ public class Computer implements Serializable {
 	private Cluster cluster;
 	
 	private List<Execution> executionList;
-	private Long totalUsage;
 	
 	public Computer() {
 		// used by Hibernate
@@ -165,23 +164,6 @@ public class Computer implements Serializable {
 	 */
 	public void setExecutionList(List<Execution> list) {
 		this.executionList = list;
-	}
-	
-	/**
-	 * Gets the total usage of this computer, which comprises all execution times
-	 * on this computer
-	 * @return the total usage of this computer
-	 */
-	public Long getTotalUsage() {
-		return this.totalUsage;
-	}
-	
-	/**
-	 * Sets the total usage (total time of execution) of this computer
-	 * @param usage the usage of this computer
-	 */
-	public void setTotalUsage(Long usage) {
-		this.totalUsage = usage;
 	}
 	
 	/**

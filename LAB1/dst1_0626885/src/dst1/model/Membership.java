@@ -8,8 +8,6 @@ import javax.persistence.*;
 
 @IdClass( value = MembershipKey.class )
 @Entity
-//@NamedQuery ( name = "discountJobsOnGrid",
-//			  query = "")
 public class Membership implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
