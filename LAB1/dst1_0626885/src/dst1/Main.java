@@ -33,7 +33,7 @@ public class Main {
 
 	public static void dst02a() {
 
-		Test2A.insertEntities();
+//		Test2A.insertEntities();
 //		Test2A.test();
 	}
 
