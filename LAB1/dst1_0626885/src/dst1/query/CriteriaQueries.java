@@ -15,6 +15,7 @@ import dst1.model.Environment;
 import dst1.model.Job;
 import dst1.model.User;
 
+
 public class CriteriaQueries {
 
 	private EntityManager entityManager;
@@ -47,7 +48,23 @@ public class CriteriaQueries {
 	 */
 	public List<Job> findJobs(String username, String workflow) {
 		
-		System.out.println("Find jobs created by user: "+username+" with the workflow: "+workflow);
+		boolean userSpecified = true;
+		boolean workflowSpecified = true;
+		
+		if(username == null  ||  username.equals(""))
+			userSpecified = false;
+		
+		if(workflow == null  ||  workflow.equals(""))
+			workflowSpecified = false;
+		
+		String info = "Find all jobs ";
+		if(userSpecified)
+			info += "created by user: "+username+" ";
+		
+		if(workflowSpecified)
+			info += "with workflow: "+workflow;
+		
+		System.out.println(info);
 		
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		Metamodel m = entityManager.getMetamodel();
@@ -66,14 +83,27 @@ public class CriteriaQueries {
 
 		
 		cq.select(job);
-		cq.where(cb.and(
-					cb.equal(
+		
+		if(userSpecified  &&  workflowSpecified) {
+			cq.where(cb.and(
+						cb.equal(
+								user.get(User_.getSingularAttribute("username", String.class)), 
+								username),
+						cb.equal(
+								environment.get(Environment_.getSingularAttribute("workflow", String.class)), 
+								workflow)
+						));
+		} else if(userSpecified) {
+			cq.where(cb.equal(
 							user.get(User_.getSingularAttribute("username", String.class)), 
-							username),
-					cb.equal(
+							username
+					 ));
+		} else if(workflowSpecified) {
+			cq.where(cb.equal(
 							environment.get(Environment_.getSingularAttribute("workflow", String.class)), 
 							workflow)
-					));
+					 );
+		}
 		
 		TypedQuery<Job> q = entityManager.createQuery(cq);
 		List<Job> jobList = q.getResultList();

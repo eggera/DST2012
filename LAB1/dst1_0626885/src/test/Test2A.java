@@ -56,6 +56,9 @@ public class Test2A {
 		Job job5 = new Job();
 		Job job6 = new Job();
 		
+		job4.setPaid(true);
+		job5.setPaid(true);
+		
 		System.out.println("Creating environments ... ");
 		
 		List<String> params1 = new ArrayList<String>();
@@ -107,24 +110,24 @@ public class Test2A {
 						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution3 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*2),
-						new Date(System.currentTimeMillis() + 1000*60*60*3),
-						Execution.JobStatus.SCHEDULED);
+						new Date(System.currentTimeMillis() - 1000*60*60*5),
+						new Date(System.currentTimeMillis() - 1000*60*60*3),
+						Execution.JobStatus.FINISHED);
 		
 		Execution execution4 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*3),
-						new Date(System.currentTimeMillis() + 1000*60*60*4),
-						Execution.JobStatus.SCHEDULED);
+						new Date(System.currentTimeMillis() - 1000*60*60*4),
+						new Date(System.currentTimeMillis() - 1000*60*60*1),
+						Execution.JobStatus.FINISHED);
 		
 		Execution execution5 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*4),
+						new Date(System.currentTimeMillis() + 1000*60*60*3),
 						new Date(System.currentTimeMillis() + 1000*60*60*5),
 						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution6 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*5),
-						new Date(System.currentTimeMillis() + 1000*60*60*6),
-						Execution.JobStatus.SCHEDULED);
+						new Date(System.currentTimeMillis() - 1000*60*60*8),
+						new Date(System.currentTimeMillis() - 1000*60*60*6),
+						Execution.JobStatus.FINISHED);
 		
 		job1.setExecution(execution1);
 		job2.setExecution(execution2);

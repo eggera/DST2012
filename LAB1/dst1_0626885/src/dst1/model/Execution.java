@@ -24,8 +24,10 @@ public class Execution implements Serializable {
 	public enum JobStatus { SCHEDULED, RUNNING, FAILED, FINISHED }
 	@Enumerated (EnumType.ORDINAL)
 	private JobStatus status;
+	
 	@OneToOne (mappedBy="execution", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Job job;
+	
 	
 	@ManyToMany /*(mappedBy="executionList")*/
 	@JoinTable (
@@ -34,9 +36,9 @@ public class Execution implements Serializable {
 			joinColumns = 
 					@JoinColumn (name="executionId", referencedColumnName="executionId"), 
 			inverseJoinColumns = 
-					@JoinColumn (name="computerId", referencedColumnName="computerId")
-		   )
+					@JoinColumn (name="computerId", referencedColumnName="computerId"))
 	private List<Computer> computerList;
+	
 	
 	public Execution() {
 		// used by Hibernate
