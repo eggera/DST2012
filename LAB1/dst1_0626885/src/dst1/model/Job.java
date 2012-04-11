@@ -1,6 +1,7 @@
 package dst1.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -103,14 +104,20 @@ public class Job implements Serializable {
 			execution.setJob(this);
 	}
 	
-	// Derived Properties (calculated from other entities)
+//	 ----------------------------------------------------------------
+//	       Derived Properties (calculated from other entities)
+//	 ----------------------------------------------------------------
 	
 	/**
 	 * @return the number of cpus on which this job is executed
 	 */
 	@Transient
 	public int getNumCPUs() {
-		return -1;
+		List<Computer> computerList = execution.getComputerList();
+		int cpus = 0;
+		for(Computer computer : computerList) 
+			cpus += computer.getCpus();
+		return cpus;
 	}
 	
 	/**
@@ -118,7 +125,8 @@ public class Job implements Serializable {
 	 */
 	@Transient
 	public Integer getExecutionTime() {
-		return null;
+		int time = (int)(execution.getEnd().getTime() - execution.getStart().getTime());
+		return time;
 	}
 	
 	/**

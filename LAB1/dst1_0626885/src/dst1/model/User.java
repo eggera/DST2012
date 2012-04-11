@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Index;
+
 @Entity
 @Table (uniqueConstraints = {
 		@UniqueConstraint (columnNames={"accountNo", "bankCode"})
@@ -38,8 +40,10 @@ public class User extends Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Column (unique=true, nullable=false)
+	@Index (name = "userIndex")
 	protected String username;
 	@Column (columnDefinition = "CHARACTER(32)")
+	@Index (name = "passwordIndex")
 	protected byte[] password;
 	protected String accountNo;
 	protected String bankCode;
