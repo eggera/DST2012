@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
 
@@ -39,8 +40,8 @@ public class User extends Person implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Column (unique=true, nullable=false)
-	@Index (name = "userIndex")
+	@Column (unique=true)
+	@NotNull
 	protected String username;
 	@Column (columnDefinition = "CHARACTER(32)")
 	@Index (name = "passwordIndex")

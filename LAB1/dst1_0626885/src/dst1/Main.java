@@ -26,9 +26,9 @@ public class Main {
 
 	public static void dst01() {
 		
-//		Test1B.insertEntities();
-//		Test1B.test();
-//		Test.freeResources();
+		Test1B.insertEntities();
+		Test1B.test();
+		Test.freeResources();
 	}
 
 	public static void dst02a() {
@@ -48,7 +48,8 @@ public class Main {
 	}
 
 	public static void dst03() {
-
+		
+		Test3.test();
 	}
 
 	public static void dst04a() {

@@ -1,6 +1,5 @@
 package dst1.query;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import javax.persistence.metamodel.Metamodel;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+//import org.hibernate.cfg.Configuration;
 
 import dst1.model.Environment;
 import dst1.model.Execution;

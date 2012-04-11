@@ -95,35 +95,37 @@ public class Test1B {
 			
 		System.out.println("Creating executions ... ");
 		
+		Date date = Service.getReferenceDate();
+
 		Execution execution1 = new Execution(
-						new Date(System.currentTimeMillis()),
-						new Date(System.currentTimeMillis() + 1000*60*60),
+						new Date(date.getTime() - 1000*60*60*4),
+						new Date(date.getTime() + 1000*60*60),
 						Execution.JobStatus.RUNNING);
 		
 		Execution execution2 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60),
-						new Date(System.currentTimeMillis() + 1000*60*60*2),
+						new Date(date.getTime() + 1000*60*60),
+						new Date(date.getTime() + 1000*60*60*2),
 						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution3 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*2),
-						new Date(System.currentTimeMillis() + 1000*60*60*3),
-						Execution.JobStatus.SCHEDULED);
+						new Date(date.getTime() - 1000*60*60*4),
+						new Date(date.getTime() - 1000*60*60*3),
+						Execution.JobStatus.FINISHED);
 		
 		Execution execution4 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*3),
-						new Date(System.currentTimeMillis() + 1000*60*60*4),
-						Execution.JobStatus.SCHEDULED);
+						new Date(date.getTime() - 1000*60*60*4),
+						new Date(date.getTime() - 1000*60*60*1),
+						Execution.JobStatus.FINISHED);
 		
 		Execution execution5 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*4),
-						new Date(System.currentTimeMillis() + 1000*60*60*5),
+						new Date(date.getTime() + 1000*60*60*3),
+						new Date(date.getTime() + 1000*60*60*5),
 						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution6 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*5),
-						new Date(System.currentTimeMillis() + 1000*60*60*6),
-						Execution.JobStatus.SCHEDULED);
+						new Date(date.getTime() - 1000*60*60*8),
+						new Date(date.getTime() - 1000*60*60*3),
+						Execution.JobStatus.FINISHED);
 		
 		job1.setExecution(execution1);
 		job2.setExecution(execution2);
@@ -153,28 +155,30 @@ public class Test1B {
 		
 		System.out.println("Creating memberships ... ");
 
+		date = Service.getReferenceDate();
+
 		Membership membership1 = new Membership(grid1, user1, 
-										new Date(System.currentTimeMillis()), 
+										new Date(date.getTime()), 
 										new Double(1.1));
 		
-		Membership membership2 = new Membership(grid1, user2, 
-										new Date(System.currentTimeMillis()), 
+		Membership membership2 = new Membership(grid1, user4, 
+										new Date(date.getTime()), 
 										new Double(2.2));
 		
-		Membership membership3 = new Membership(grid2, user3, 
-										new Date(System.currentTimeMillis()), 
+		Membership membership3 = new Membership(grid2, user2, 
+										new Date(date.getTime()), 
 										new Double(3.3));
 		
-		Membership membership4 = new Membership(grid2, user4, 
-										new Date(System.currentTimeMillis()), 
+		Membership membership4 = new Membership(grid2, user3, 
+										new Date(date.getTime()), 
 										new Double(4.4));
 		
 		Membership membership5 = new Membership(grid3, user2, 
-										new Date(System.currentTimeMillis()), 
+										new Date(date.getTime()), 
 										new Double(5.5));
 		
 		Membership membership6 = new Membership(grid3, user4, 
-										new Date(System.currentTimeMillis()), 
+										new Date(date.getTime()), 
 										new Double(6.6));
 		
 		System.out.println("Saving   memberships ... ");
@@ -202,37 +206,39 @@ public class Test1B {
 		
 		System.out.println("Creating clusters ... ");
 		
+		date = Service.getReferenceDate();
+		
 		Cluster cluster1 = new Cluster("cluster1", 
-										new Date(System.currentTimeMillis() - 1000*60*60), 
-										new Date(System.currentTimeMillis() + 1000*60*60));
+										new Date(date.getTime() - 1000*60*60), 
+										new Date(date.getTime() + 1000*60*60));
 		
 		Cluster cluster2 = new Cluster("cluster2", 
-										new Date(System.currentTimeMillis() - 1000*60*60*2), 
-										new Date(System.currentTimeMillis() + 1000*60*60*2));
+										new Date(date.getTime() - 1000*60*60*2), 
+										new Date(date.getTime() + 1000*60*60*2));
 		
 		Cluster cluster3 = new Cluster("cluster3", 
-										new Date(System.currentTimeMillis() - 1000*60*60*3), 
-										new Date(System.currentTimeMillis() + 1000*60*60*3));
+										new Date(date.getTime() - 1000*60*60*3), 
+										new Date(date.getTime() + 1000*60*60*3));
 
 		Cluster cluster4 = new Cluster("cluster4", 
-										new Date(System.currentTimeMillis() - 1000*60*60*4), 
-										new Date(System.currentTimeMillis() + 1000*60*60*4));
+										new Date(date.getTime() - 1000*60*60*4), 
+										new Date(date.getTime() + 1000*60*60*4));
 		
 		Cluster cluster5 = new Cluster("cluster5", 
-										new Date(System.currentTimeMillis() - 1000*60*60*5), 
-										new Date(System.currentTimeMillis() + 1000*60*60*5));
+										new Date(date.getTime() - 1000*60*60*5), 
+										new Date(date.getTime() + 1000*60*60*5));
 		
 		Cluster cluster6 = new Cluster("cluster6", 
-										new Date(System.currentTimeMillis() - 1000*60*60*6), 
-										new Date(System.currentTimeMillis() + 1000*60*60*6));
+										new Date(date.getTime() - 1000*60*60*6), 
+										new Date(date.getTime() + 1000*60*60*6));
 		
 		Cluster cluster7 = new Cluster("cluster7", 
-										new Date(System.currentTimeMillis() - 1000*60*60*7), 
-										new Date(System.currentTimeMillis() + 1000*60*60*7));
+										new Date(date.getTime() - 1000*60*60*7), 
+										new Date(date.getTime() + 1000*60*60*7));
 		
 		Cluster cluster8 = new Cluster("cluster8", 
-										new Date(System.currentTimeMillis() - 1000*60*60*8), 
-										new Date(System.currentTimeMillis() + 1000*60*60*8));
+										new Date(date.getTime() - 1000*60*60*8), 
+										new Date(date.getTime() + 1000*60*60*8));
 		
 		
 		admin1.addCluster(cluster1);
@@ -315,69 +321,71 @@ public class Test1B {
 	
 		System.out.println("Creating computers ... ");
 		
-		Computer computer1 = new Computer("Computer1", 1, "G1C2", 
-			  				new Date(System.currentTimeMillis() - 1000*60*60),
-			  				new Date(System.currentTimeMillis()));
-				
-		Computer computer2 = new Computer("Computer2", 1, "G1C2", 
-			  				new Date(System.currentTimeMillis() - 1000*60*60*2),
-			  				new Date(System.currentTimeMillis()));
-				
-		Computer computer3 = new Computer("Computer3", 2, "G1C2", 
-			  				new Date(System.currentTimeMillis() - 1000*60*60*3),
-			  				new Date(System.currentTimeMillis()));
-				
-		Computer computer4 = new Computer("Computer4", 2, "G1C2", 
-			  				new Date(System.currentTimeMillis() - 1000*60*60*4),
-			  				new Date(System.currentTimeMillis()));
+		date = Service.getReferenceDate();
 		
-		Computer computer5 = new Computer("Computer5", 4, "G1C2", 
-			  				new Date(System.currentTimeMillis() - 1000*60*60*5),
-			  				new Date(System.currentTimeMillis()));
-	
-		Computer computer6 = new Computer("Computer6", 4, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*6),
-							new Date(System.currentTimeMillis()));
+		Computer computer1 = new Computer("Computer1", 4, "AUT-VIE@1200", 
+		  				new Date(date.getTime() - 1000*60*60),
+		  				new Date(date.getTime() - 1000*60*30));
 			
-		Computer computer7 = new Computer("Computer7", 2, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*7),
-							new Date(System.currentTimeMillis()));
+		Computer computer2 = new Computer("Computer2", 4, "AUT-VIE@1010", 
+		  				new Date(date.getTime() - 1000*60*60*2),
+		  				new Date(date.getTime() - 1000*60*30));
 			
-		Computer computer8 = new Computer("Computer8", 2, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*8),
-							new Date(System.currentTimeMillis()));
+		Computer computer3 = new Computer("Computer3", 6, "AUT-VIE@1010", 
+		  				new Date(date.getTime() - 1000*60*60*3),
+		  				new Date(date.getTime() - 1000*60*30));
+			
+		Computer computer4 = new Computer("Computer4", 6, "AUT-VIE@1200", 
+		  				new Date(date.getTime() - 1000*60*60*4),
+		  				new Date(date.getTime() - 1000*60*30));
 		
-		Computer computer9 = new Computer("Computer9", 1, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*9),
-							new Date(System.currentTimeMillis()));
+		Computer computer5 = new Computer("Computer5", 8, "AUT-VIE@1200", 
+		  				new Date(date.getTime() - 1000*60*60*5),
+		  				new Date(date.getTime() - 1000*60*30));
 		
-		Computer computer10 = new Computer("Computer10", 1, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*10),
-							new Date(System.currentTimeMillis()));
+		Computer computer6 = new Computer("Computer6", 8, "AUT-VIE@1010", 
+						new Date(date.getTime() - 1000*60*60*6),
+						new Date(date.getTime() - 1000*60*30));
 		
-		Computer computer11 = new Computer("Computer11", 2, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*11),
-							new Date(System.currentTimeMillis()));
+		Computer computer7 = new Computer("Computer7", 6, "AUT-KTN@9020", 
+						new Date(date.getTime() - 1000*60*60*7),
+						new Date(date.getTime() - 1000*60*30));
 		
-		Computer computer12 = new Computer("Computer12", 2, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*12),
-							new Date(System.currentTimeMillis()));
+		Computer computer8 = new Computer("Computer8", 6, "AUT-KTN@9500", 
+						new Date(date.getTime() - 1000*60*60*8),
+						new Date(date.getTime() - 1000*60*30));
 		
-		Computer computer13 = new Computer("Computer13", 4, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*13),
-							new Date(System.currentTimeMillis()));
+		Computer computer9 = new Computer("Computer9", 4, "AUT-KTN@9500", 
+						new Date(date.getTime() - 1000*60*60*9),
+						new Date(date.getTime() - 1000*60*30));
 		
-		Computer computer14 = new Computer("Computer14", 4, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*14),
-							new Date(System.currentTimeMillis()));
-					
-		Computer computer15 = new Computer("Computer15", 2, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*15),
-							new Date(System.currentTimeMillis()));
+		Computer computer10 = new Computer("Computer10", 4, "AUT-KTN@9010", 
+						new Date(date.getTime() - 1000*60*60*10),
+						new Date(date.getTime() - 1000*60*30));
 		
-		Computer computer16 = new Computer("Computer16", 2, "G1C2", 
-							new Date(System.currentTimeMillis() - 1000*60*60*16),
-							new Date(System.currentTimeMillis()));
+		Computer computer11 = new Computer("Computer11", 6, "AUT-KTN@9560", 
+						new Date(date.getTime() - 1000*60*60*11),
+						new Date(date.getTime() - 1000*60*30));
+		
+		Computer computer12 = new Computer("Computer12", 6, "AUT-KTN@9560", 
+						new Date(date.getTime() - 1000*60*60*12),
+						new Date(date.getTime() - 1000*60*30));
+		
+		Computer computer13 = new Computer("Computer13", 8, "AUT-SBG@5010", 
+						new Date(date.getTime() - 1000*60*60*13),
+						new Date(date.getTime() - 1000*60*30));
+		
+		Computer computer14 = new Computer("Computer14", 8, "AUT-SBG@5010", 
+						new Date(date.getTime() - 1000*60*60*14),
+						new Date(date.getTime() - 1000*60*30));
+				
+		Computer computer15 = new Computer("Computer15", 6, "AUT-SBG@5030", 
+						new Date(date.getTime() - 1000*60*60*15),
+						new Date(date.getTime() - 1000*60*30));
+		
+		Computer computer16 = new Computer("Computer16", 6, "AUT-SBG@5030", 
+						new Date(date.getTime() - 1000*60*60*16),
+						new Date(date.getTime() - 1000*60*30));
 				
 		
 		System.out.println("Saving   computers ... ");
@@ -550,19 +558,19 @@ public class Test1B {
 		
 		System.out.println("\n---------------  INHERITANCE  --------------");
 		
-		System.out.println("\nRetrieving all persons");
+		System.out.println("\nRetrieving all Persons");
 		List<Person> personList = personDAO.getAllPersons();
 		for(Person person : personList)
 			System.out.println(person.toExtendedString());
 		
 		System.out.println("\n---------------  GRIDS AND ADMINS  --------------");
 				
-		System.out.println("\nRetrieving memberships");
+		System.out.println("\nRetrieving all Memberships");
 		List<Membership> memberships = membershipDAO.getAllMemberships();
 		for(Membership membership : memberships)
 			System.out.println(membership.toExtendedString());
 				
-		System.out.println("\nRetrieving clusters");
+		System.out.println("\nRetrieving all Clusters");
 		List<Cluster> clusters = clusterDAO.getAllClusters();
 		for(Cluster cluster : clusters) 
 			System.out.println(cluster.toExtendedString());
@@ -572,12 +580,12 @@ public class Test1B {
 		System.out.println("Removing admin with id = 7");
 		adminDAO.removeAdmin(7L);
 		
-		System.out.println("\nRetrieving memberships");
+		System.out.println("\nRetrieving all Memberships");
 		memberships = membershipDAO.getAllMemberships();
 		for(Membership membership : memberships)
 			System.out.println(membership.toExtendedString());
 				
-		System.out.println("\nRetrieving clusters");
+		System.out.println("\nRetrieving all Clusters");
 		clusters = clusterDAO.getAllClusters();
 		for(Cluster cluster : clusters) 
 			System.out.println(cluster.toExtendedString());
@@ -618,7 +626,7 @@ public class Test1B {
 		
 		System.out.println("\n---------------  EXECUTION AND COMPUTERS  --------------");
 				
-		System.out.println("\nRetrieving all Executions");
+		System.out.println("\nRetrieving all Executions and related Computers");
 		List<Execution> executionList = executionDAO.getAllExecutions();
 		System.out.println("executionId   -> computerIds");
 		for(Execution execution : executionList) 
@@ -631,7 +639,7 @@ public class Test1B {
 		computerDAO.removeComputer(13L);
 		computerDAO.removeComputer(14L);
 				
-		System.out.println("\nRetrieving all Executions");
+		System.out.println("\nRetrieving all Executions and related Computers");
 		executionList = executionDAO.getAllExecutions();
 		System.out.println("executionId   -> computerIds");
 		for(Execution execution : executionList) 
@@ -643,7 +651,7 @@ public class Test1B {
 		System.out.println("\nRemoving Execution with id = 6");
 		executionDAO.removeExecution(6L);
 		
-		System.out.println("\nRetrieving all Executions");
+		System.out.println("\nRetrieving all Executions and related Computers");
 		executionList = executionDAO.getAllExecutions();
 		System.out.println("executionId   -> computerIds");
 		for(Execution execution : executionList) 

@@ -1,6 +1,5 @@
 package test;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -9,24 +8,16 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import dst1.model.Execution;
-import dst1.model.Execution.JobStatus;
 import dst1.model.Job;
 import dst1.model.PersistenceUtil;
 import dst1.model.Service;
-import dst1.model.User;
 import dst1.query.CriteriaQueries;
-
-import org.hibernate.*;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.*;
 
 public class Test2C {
 
 	/**
 	 * Test code for assignment 2C
 	 */
-	@SuppressWarnings("unchecked")
 	public static void test() {
 
 		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 2C  --------------\n\n");

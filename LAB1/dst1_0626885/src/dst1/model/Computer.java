@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import dst1.validator.CPUs;
 
 
 @NamedQueries({
@@ -19,10 +22,17 @@ public class Computer implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long computerId;
+	@Size (min=5, max=25)
 	private String name;
+	@CPUs (min = 4, max = 8)
 	private Integer cpus;
+	@Pattern (regexp="^[A-Z]{3}-[A-Z]{3}@\\d{4,}$",
+			  message="muss in der Form <COUNTRY>-<CITY>@<postal-code> angegeben werden, " +
+			  		"zB. AUT-VIE@1030")
 	private String location;
+	@Past
 	private Date creation;
+	@Past
 	private Date lastUpdate;
 	
 	private Cluster cluster;

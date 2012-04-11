@@ -54,7 +54,7 @@ public class Service {
 	public static Date getReferenceDate() {
 		if(date == null) {
 			Calendar cal = Calendar.getInstance();
-			cal.set(2012, 04, 10);
+			cal.set(2012, 02, 02);
 			date = cal.getTime();
 		}
 		return date;
