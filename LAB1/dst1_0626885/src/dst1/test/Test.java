@@ -1,4 +1,4 @@
-package test;
+package dst1.test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

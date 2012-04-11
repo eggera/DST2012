@@ -1,4 +1,4 @@
-package test;
+package dst1.test;
 
 import java.util.List;
 

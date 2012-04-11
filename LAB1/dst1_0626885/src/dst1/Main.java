@@ -1,6 +1,6 @@
 package dst1;
 
-import test.*;
+import dst1.test.*;
 
 
 public class Main {
@@ -10,11 +10,11 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		dst01();
-		dst02a();
-		dst02b();
-		dst02c();
-		dst03();
+//		dst01();
+//		dst02a();
+//		dst02b();
+//		dst02c();
+//		dst03();
 		dst04a();
 		dst04b();
 		dst04c();
@@ -53,7 +53,8 @@ public class Main {
 	}
 
 	public static void dst04a() {
-
+		
+		Test4A.test();
 	}
 
 	public static void dst04b() {

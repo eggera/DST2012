@@ -1,4 +1,4 @@
-package test;
+package dst1.test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -9,9 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import dst1.model.*;
-import dst1.query.JPQLQueries;
 
-public class Test2A {
+public class Test1B {
 
 	
 	public static void insertEntities() {
@@ -31,7 +30,7 @@ public class Test2A {
 		
 		entityManager.getTransaction().begin();
 		
-		System.out.println("\n\n------------  INSERT ENTITIES  --------------\n\n");
+		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 1B  --------------\n\n");
 		System.out.println("Creating users ... ");
 		
 		User user1 = new User("User1","User1Last", new Address("street1","city1","1000"), 
@@ -55,9 +54,6 @@ public class Test2A {
 		Job job4 = new Job();
 		Job job5 = new Job();
 		Job job6 = new Job();
-		
-		job4.setPaid(true);
-		job5.setPaid(true);
 		
 		System.out.println("Creating environments ... ");
 		
@@ -158,7 +154,7 @@ public class Test2A {
 		gridDAO.saveGrid(grid3);
 		
 		System.out.println("Creating memberships ... ");
-		
+
 		date = Service.getReferenceDate();
 
 		Membership membership1 = new Membership(grid1, user1, 
@@ -247,10 +243,10 @@ public class Test2A {
 		
 		admin1.addCluster(cluster1);
 		admin1.addCluster(cluster2);
-		admin1.addCluster(cluster3);
+		admin2.addCluster(cluster3);
 		admin2.addCluster(cluster4);
-		admin2.addCluster(cluster5);
-		admin4.addCluster(cluster6);
+		admin3.addCluster(cluster5);
+		admin3.addCluster(cluster6);
 		admin4.addCluster(cluster7);
 		admin4.addCluster(cluster8);
 	
@@ -264,15 +260,20 @@ public class Test2A {
 		grid3.addCluster(cluster7);
 		grid3.addCluster(cluster8);
 		
-		//  grid    1 --> cluster 1
+		
+		//  cluster 8 --> cluster 2
+		//  cluster 8 --> cluster 4
+		//  cluster 8 --> cluster 7
 		//  cluster 1 --> cluster 2
 		//  cluster 1 --> cluster 3
-		//  grid    2 --> cluster 4
-		//  grid    2 --> cluster 5
-		//  grid    3 --> cluster 6
-		//  grid    3 --> cluster 7
-		//  cluster 6 --> cluster 8
-		//  cluster 7 --> cluster 8
+		//  cluster 2 --> cluster 4
+		//  cluster 2 --> cluster 6
+		//  cluster 3 --> cluster 4
+		//  cluster 3 --> cluster 5
+		//  cluster 4 --> cluster 6
+		//  cluster 4 --> cluster 7
+		//  cluster 5 --> cluster 6
+		//  cluster 5 --> cluster 7
 		
 		
 		cluster1.addSubCluster(cluster2);
@@ -280,11 +281,32 @@ public class Test2A {
 		cluster2.addSuperCluster(cluster1);
 		cluster3.addSuperCluster(cluster1);
 		
-		cluster6.addSubCluster(cluster8);
-		cluster7.addSubCluster(cluster8);
-		cluster8.addSuperCluster(cluster6);
-		cluster8.addSuperCluster(cluster7);
-
+		cluster2.addSubCluster(cluster4);
+		cluster2.addSubCluster(cluster6);
+		cluster4.addSuperCluster(cluster2);
+		cluster6.addSuperCluster(cluster2);
+		
+		cluster3.addSubCluster(cluster4);
+		cluster3.addSubCluster(cluster5);
+		cluster4.addSuperCluster(cluster3);
+		cluster5.addSuperCluster(cluster3);
+		
+		cluster4.addSubCluster(cluster6);
+		cluster4.addSubCluster(cluster7);
+		cluster6.addSuperCluster(cluster4);
+		cluster7.addSuperCluster(cluster4);
+		
+		cluster5.addSubCluster(cluster6);
+		cluster5.addSubCluster(cluster7);
+		cluster6.addSuperCluster(cluster5);
+		cluster7.addSuperCluster(cluster5);
+		
+		cluster8.addSubCluster(cluster2);
+		cluster8.addSubCluster(cluster4);
+		cluster8.addSubCluster(cluster7);
+		cluster2.addSuperCluster(cluster8);
+		cluster4.addSuperCluster(cluster8);
+		cluster7.addSuperCluster(cluster8);
 		
 		System.out.println("Saving   clusters ... ");
 		
@@ -302,68 +324,68 @@ public class Test2A {
 		date = Service.getReferenceDate();
 		
 		Computer computer1 = new Computer("Computer1", 4, "AUT-VIE@1200", 
-			  				new Date(date.getTime() - 1000*60*60),
-			  				new Date(date.getTime() - 1000*60*30));
-				
+		  				new Date(date.getTime() - 1000*60*60),
+		  				new Date(date.getTime() - 1000*60*30));
+			
 		Computer computer2 = new Computer("Computer2", 4, "AUT-VIE@1010", 
-			  				new Date(date.getTime() - 1000*60*60*2),
-			  				new Date(date.getTime() - 1000*60*30));
-				
+		  				new Date(date.getTime() - 1000*60*60*2),
+		  				new Date(date.getTime() - 1000*60*30));
+			
 		Computer computer3 = new Computer("Computer3", 6, "AUT-VIE@1010", 
-			  				new Date(date.getTime() - 1000*60*60*3),
-			  				new Date(date.getTime() - 1000*60*30));
-				
+		  				new Date(date.getTime() - 1000*60*60*3),
+		  				new Date(date.getTime() - 1000*60*30));
+			
 		Computer computer4 = new Computer("Computer4", 6, "AUT-VIE@1200", 
-			  				new Date(date.getTime() - 1000*60*60*4),
-			  				new Date(date.getTime() - 1000*60*30));
+		  				new Date(date.getTime() - 1000*60*60*4),
+		  				new Date(date.getTime() - 1000*60*30));
 		
 		Computer computer5 = new Computer("Computer5", 8, "AUT-VIE@1200", 
-			  				new Date(date.getTime() - 1000*60*60*5),
-			  				new Date(date.getTime() - 1000*60*30));
-	
+		  				new Date(date.getTime() - 1000*60*60*5),
+		  				new Date(date.getTime() - 1000*60*30));
+		
 		Computer computer6 = new Computer("Computer6", 8, "AUT-VIE@1010", 
-							new Date(date.getTime() - 1000*60*60*6),
-							new Date(date.getTime() - 1000*60*30));
-			
+						new Date(date.getTime() - 1000*60*60*6),
+						new Date(date.getTime() - 1000*60*30));
+		
 		Computer computer7 = new Computer("Computer7", 6, "AUT-KTN@9020", 
-							new Date(date.getTime() - 1000*60*60*7),
-							new Date(date.getTime() - 1000*60*30));
-			
+						new Date(date.getTime() - 1000*60*60*7),
+						new Date(date.getTime() - 1000*60*30));
+		
 		Computer computer8 = new Computer("Computer8", 6, "AUT-KTN@9500", 
-							new Date(date.getTime() - 1000*60*60*8),
-							new Date(date.getTime() - 1000*60*30));
+						new Date(date.getTime() - 1000*60*60*8),
+						new Date(date.getTime() - 1000*60*30));
 		
 		Computer computer9 = new Computer("Computer9", 4, "AUT-KTN@9500", 
-							new Date(date.getTime() - 1000*60*60*9),
-							new Date(date.getTime() - 1000*60*30));
+						new Date(date.getTime() - 1000*60*60*9),
+						new Date(date.getTime() - 1000*60*30));
 		
 		Computer computer10 = new Computer("Computer10", 4, "AUT-KTN@9010", 
-							new Date(date.getTime() - 1000*60*60*10),
-							new Date(date.getTime() - 1000*60*30));
+						new Date(date.getTime() - 1000*60*60*10),
+						new Date(date.getTime() - 1000*60*30));
 		
 		Computer computer11 = new Computer("Computer11", 6, "AUT-KTN@9560", 
-							new Date(date.getTime() - 1000*60*60*11),
-							new Date(date.getTime() - 1000*60*30));
+						new Date(date.getTime() - 1000*60*60*11),
+						new Date(date.getTime() - 1000*60*30));
 		
 		Computer computer12 = new Computer("Computer12", 6, "AUT-KTN@9560", 
-							new Date(date.getTime() - 1000*60*60*12),
-							new Date(date.getTime() - 1000*60*30));
+						new Date(date.getTime() - 1000*60*60*12),
+						new Date(date.getTime() - 1000*60*30));
 		
 		Computer computer13 = new Computer("Computer13", 8, "AUT-SBG@5010", 
-							new Date(date.getTime() - 1000*60*60*13),
-							new Date(date.getTime() - 1000*60*30));
+						new Date(date.getTime() - 1000*60*60*13),
+						new Date(date.getTime() - 1000*60*30));
 		
 		Computer computer14 = new Computer("Computer14", 8, "AUT-SBG@5010", 
-							new Date(date.getTime() - 1000*60*60*14),
-							new Date(date.getTime() - 1000*60*30));
-					
+						new Date(date.getTime() - 1000*60*60*14),
+						new Date(date.getTime() - 1000*60*30));
+				
 		Computer computer15 = new Computer("Computer15", 6, "AUT-SBG@5030", 
-							new Date(date.getTime() - 1000*60*60*15),
-							new Date(date.getTime() - 1000*60*30));
+						new Date(date.getTime() - 1000*60*60*15),
+						new Date(date.getTime() - 1000*60*30));
 		
 		Computer computer16 = new Computer("Computer16", 6, "AUT-SBG@5030", 
-							new Date(date.getTime() - 1000*60*60*16),
-							new Date(date.getTime() - 1000*60*30));
+						new Date(date.getTime() - 1000*60*60*16),
+						new Date(date.getTime() - 1000*60*30));
 				
 		
 		System.out.println("Saving   computers ... ");
@@ -385,140 +407,258 @@ public class Test2A {
 		computerDAO.saveComputer(computer15);
 		computerDAO.saveComputer(computer16);
 		
-		cluster2.addComputer(computer1);
-		cluster2.addComputer(computer2);
-		cluster2.addComputer(computer3);
-		cluster2.addComputer(computer4);
-		cluster3.addComputer(computer5);
-		cluster3.addComputer(computer6);
-		cluster4.addComputer(computer7);
-		cluster4.addComputer(computer8);
+		cluster1.addComputer(computer1);
+		cluster1.addComputer(computer2);
+		cluster1.addComputer(computer3);
+		cluster1.addComputer(computer4);
+		cluster2.addComputer(computer5);
+		cluster2.addComputer(computer6);
+		cluster3.addComputer(computer7);
+		cluster3.addComputer(computer8);
 		cluster4.addComputer(computer9);
 		cluster4.addComputer(computer10);
 		cluster5.addComputer(computer11);
-		cluster5.addComputer(computer12);
-		cluster8.addComputer(computer13);
-		cluster8.addComputer(computer14);
+		cluster6.addComputer(computer12);
+		cluster6.addComputer(computer13);
+		cluster7.addComputer(computer14);
 		cluster8.addComputer(computer15);
 		cluster8.addComputer(computer16);
 		
 		
 //	------------  COMPUTER AND EXECUTION  -------------
 		
-		// job 1 -> 6 cpus		Computer 1,2,3,4		(G1C2)		cpus 1,1,2,2
-		// job 2 -> 8 cpus		Computer 5,6			(G1C3)		cpus 4,4
-		// job 3 -> 4 cpus		Computer 11,12			(G2C5)		cpus 2,2
-		// job 4 -> 4 cpus		Computer 7,8			(G2C4)		cpus 2,2
-		// job 5 -> 10 cpus		Computer 1,2,5,6		(G1C1)		cpus 1,1,4,4
-		// job 6 -> 12 cpus		Computer 13,14,15,16	(G3C8)		cpus 4,4,2,2
-		
 		execution1.addComputer(computer1);
 		execution1.addComputer(computer2);
 		execution1.addComputer(computer3);
 		execution1.addComputer(computer4);
+		execution1.addComputer(computer5);
+		execution1.addComputer(computer6);
+		execution1.addComputer(computer7);
+		execution1.addComputer(computer8);
 		
-		execution2.addComputer(computer5);
-		execution2.addComputer(computer6);
+		computer1.addExecution(execution1);
+		computer2.addExecution(execution1);
+		computer3.addExecution(execution1);
+		computer4.addExecution(execution1);
+		computer5.addExecution(execution1);
+		computer6.addExecution(execution1);
+		computer7.addExecution(execution1);
+		computer8.addExecution(execution1);
 		
-		execution3.addComputer(computer11);
-		execution3.addComputer(computer12);
+		execution2.addComputer(computer9);
+		execution2.addComputer(computer10);
+		execution2.addComputer(computer11);
+		execution2.addComputer(computer12);
 		
-		execution4.addComputer(computer7);
-		execution4.addComputer(computer8);
+		computer9.addExecution(execution2);
+		computer10.addExecution(execution2);
+		computer11.addExecution(execution2);
+		computer12.addExecution(execution2);
 		
-		execution5.addComputer(computer1);
-		execution5.addComputer(computer2);
+		execution3.addComputer(computer13);
+		execution3.addComputer(computer14);
+		
+		computer13.addExecution(execution3);
+		computer14.addExecution(execution3);
+		
+		execution4.addComputer(computer15);
+		execution4.addComputer(computer16);
+		
+		computer15.addExecution(execution4);
+		computer16.addExecution(execution4);
+		
 		execution5.addComputer(computer5);
 		execution5.addComputer(computer6);
+		execution5.addComputer(computer7);
+		execution5.addComputer(computer8);
+		
+		computer5.addExecution(execution5);
+		computer6.addExecution(execution5);
+		computer7.addExecution(execution5);
+		computer8.addExecution(execution5);
 		
 		execution6.addComputer(computer13);
 		execution6.addComputer(computer14);
 		execution6.addComputer(computer15);
 		execution6.addComputer(computer16);
 		
-		
-		computer1.addExecution(execution1);
-		computer2.addExecution(execution1);
-		computer3.addExecution(execution1);
-		computer4.addExecution(execution1);
-		
-		computer5.addExecution(execution2);
-		computer6.addExecution(execution2);
-		
-		computer11.addExecution(execution3);
-		computer12.addExecution(execution3);
-		
-		computer7.addExecution(execution4);
-		computer8.addExecution(execution4);
-		
-		computer1.addExecution(execution5);
-		computer2.addExecution(execution5);
-		computer5.addExecution(execution5);
-		computer6.addExecution(execution5);
-		
 		computer13.addExecution(execution6);
 		computer14.addExecution(execution6);
 		computer15.addExecution(execution6);
 		computer16.addExecution(execution6);
 		
-		
 		entityManager.getTransaction().commit();
 		entityManager.close();
 	}
 	
-	/**
-	 * Test code for assignment 2A
-	 */
 	public static void test() {
-//		------------------------------  ASSIGNMENT 2A  ----------------------------------------
+//		------------------------------  ASSIGNMENT 1B  ----------------------------------------
 		
 		// ---------------------------- TESTING CODE -----------------------------------
 		
 		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
+		UserDAO 		userDAO 		= new UserDAO		(entityManager);
+		GridDAO 		gridDAO 		= new GridDAO		(entityManager);
+		MembershipDAO 	membershipDAO 	= new MembershipDAO	(entityManager);
+		AdminDAO 		adminDAO 		= new AdminDAO		(entityManager);
+		PersonDAO		personDAO		= new PersonDAO		(entityManager);
+		ClusterDAO 		clusterDAO 		= new ClusterDAO	(entityManager);
+		ComputerDAO 	computerDAO 	= new ComputerDAO	(entityManager);
+		JobDAO 			jobDAO 			= new JobDAO		(entityManager);
+		ExecutionDAO 	executionDAO 	= new ExecutionDAO	(entityManager);
+//		EnvironmentDAO 	environmentDAO 	= new EnvironmentDAO(entityManager);
+		
+//		adminDAO		.setEntityManager(entityManager);
+//		clusterDAO		.setEntityManager(entityManager);
+//		computerDAO		.setEntityManager(entityManager);
+//		environmentDAO	.setEntityManager(entityManager);
+//		executionDAO	.setEntityManager(entityManager);
+//		gridDAO			.setEntityManager(entityManager);
+//		jobDAO			.setEntityManager(entityManager);
+//		membershipDAO	.setEntityManager(entityManager);
+//		personDAO		.setEntityManager(entityManager);
+//		userDAO			.setEntityManager(entityManager);
 		
 		entityManager.getTransaction().begin();
 		
+		System.out.println("\n---------------  REMOVING USER  --------------");
+		System.out.println("\nRetrieving jobs and related entities");
+		List<Job> allJobs = jobDAO.getAllJobs();
+		for(Job job : allJobs) {
+			System.out.println(jobDAO.getRelatedEntities(job.getJobId()));
+		}
 		
-//		List<Object> usersAndJobs = entityManager.createNamedQuery("activeUsersWithXJobs")
-//		  .setParameter("gname", "grid1")
-//		  .getResultList();
-//		System.out.println("Users and Jobs:");
-//		
-//		Object[] users1 = (Object[])usersAndJobs.get(0);
-//		Object[] users2 = (Object[])usersAndJobs.get(1);
-//		
-//		for(Object user : users1) 
-//		System.out.println(user);
-//		
-//		for(Object user : users2) 
-//		System.out.println(user);
+		System.out.println("\nRemoving user with userId = 1");
+		userDAO.removeUser(1L);
 		
-		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 2A  --------------\n\n");
+		System.out.println("\nRetrieving jobs and related entities");
+		allJobs = jobDAO.getAllJobs();
+		for(Job job : allJobs) {
+			System.out.println(jobDAO.getRelatedEntities(job.getJobId()));
+		}
 		
-		JPQLQueries jpqlQueries = new JPQLQueries(entityManager);
-				
-		System.out.println("Find users by active membership and minimum job count:");
-		System.out.println("grid: grid1");
-		System.out.println("minimum jobs: 2");
-//		System.out.println("Users with membership to grid1 and at least 2 jobs assigned to it:");
-				
-		List<User> activeUsers = jpqlQueries.getActiveUsersWithMinJobs("grid1", 2L);
-			
-		System.out.println("\nresults: "+activeUsers.size());
-		for(User user : activeUsers)
-			System.out.println(user);
-				
-				
-		System.out.println("\nGet most active users:");
-				
-		List<User> userList = jpqlQueries.getMostActiveUsers();
+		System.out.println("\n---------------  UPDATING USER  --------------");
+		System.out.println("\nRetrieving user with userId = 2");
+		User user = userDAO.findUser(2L);
+		System.out.println(user.toExtendedString());
 		
-		System.out.println("\nresults: "+userList.size());
-		for(User user : userList)
-			System.out.println(user);
-	
+		System.out.println("Updating user ...");
+		
+		user.setFirstName("user2foo");
+		user.setUsername("usr2foo");
+		user.setPassword(Service.getMD5Hash("usr2foopw"));
+		
+		userDAO.updateUser(user);
+		
+		System.out.println("Retrieving user with userId = 2");
+		user = userDAO.findUser(2L);
+		System.out.println(user.toExtendedString());
+		
+		System.out.println("\n---------------  INHERITANCE  --------------");
+		
+		System.out.println("\nRetrieving all Persons");
+		List<Person> personList = personDAO.getAllPersons();
+		for(Person person : personList)
+			System.out.println(person.toExtendedString());
+		
+		System.out.println("\n---------------  GRIDS AND ADMINS  --------------");
+				
+		System.out.println("\nRetrieving all Memberships");
+		List<Membership> memberships = membershipDAO.getAllMemberships();
+		for(Membership membership : memberships)
+			System.out.println(membership.toExtendedString());
+				
+		System.out.println("\nRetrieving all Clusters");
+		List<Cluster> clusters = clusterDAO.getAllClusters();
+		for(Cluster cluster : clusters) 
+			System.out.println(cluster.toExtendedString());
+				
+		System.out.println("\nRemoving grid with id = 1");
+		gridDAO.removeGrid(1L);
+		System.out.println("Removing admin with id = 7");
+		adminDAO.removeAdmin(7L);
+		
+		System.out.println("\nRetrieving updated Memberships");
+		memberships = membershipDAO.getAllMemberships();
+		for(Membership membership : memberships)
+			System.out.println(membership.toExtendedString());
+				
+		System.out.println("\nRetrieving updated Clusters");
+		clusters = clusterDAO.getAllClusters();
+		for(Cluster cluster : clusters) 
+			System.out.println(cluster.toExtendedString());
+		
+		System.out.println("\n---------------  CLUSTERS AND COMPUTERS  --------------");
+				
+		System.out.println("\nRetrieving Computers");
+		List<Computer> computers = computerDAO.getComputersFromTo(7L, 10L);
+		for(Computer computer : computers) 
+			System.out.println(computer.toExtendedString());
+				
+		System.out.println("\nRetrieving Cluster Relations");
+				
+		clusters = clusterDAO.getAllClusters();
+		for(Cluster cluster : clusters) 
+			System.out.println(
+					clusterDAO.getAllChildrenString(
+							cluster.getClusterId()
+					));
+				
+		System.out.println("\nRemoving cluster with id = 4");
+		clusterDAO.removeCluster(4L);
+				
+		System.out.println("\nRetrieving updated Computers");
+		computers = computerDAO.getComputersFromTo(7L, 10L);
+		for(Computer computer : computers) 
+			System.out.println(computer.toExtendedString());
+				
+		System.out.println("\nRetrieving updated Cluster Relations");
+				
+		clusters = clusterDAO.getAllClusters();
+		for(Cluster cluster : clusters) 
+			System.out.println(
+					clusterDAO.getAllChildrenString(
+							cluster.getClusterId()
+					));
+		
+		
+		System.out.println("\n---------------  EXECUTION AND COMPUTERS  --------------");
+				
+		System.out.println("\nRetrieving all Executions and related Computers");
+		List<Execution> executionList = executionDAO.getAllExecutions();
+		System.out.println("executionId   -> computerIds");
+		for(Execution execution : executionList) 
+			System.out.println(
+					executionDAO.getComputerListAsString(
+							execution.getExecutionId()
+					));
+				
+		System.out.println("\nRemoving Computers with id = 13 and id = 14");
+		computerDAO.removeComputer(13L);
+		computerDAO.removeComputer(14L);
+				
+		System.out.println("\nRetrieving updated Executions and related Computers");
+		executionList = executionDAO.getAllExecutions();
+		System.out.println("executionId   -> computerIds");
+		for(Execution execution : executionList) 
+			System.out.println(
+					executionDAO.getComputerListAsString(
+							execution.getExecutionId()
+					));
+		
+		System.out.println("\nRemoving Execution with id = 6");
+		executionDAO.removeExecution(6L);
+		
+		System.out.println("\nRetrieving updated Executions and related Computers");
+		executionList = executionDAO.getAllExecutions();
+		System.out.println("executionId   -> computerIds");
+		for(Execution execution : executionList) 
+			System.out.println(
+					executionDAO.getComputerListAsString(
+							execution.getExecutionId()
+					));
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
