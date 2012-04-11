@@ -2,6 +2,7 @@ package test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Test2A {
 		
 		entityManager.getTransaction().begin();
 		
-		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 2A  --------------\n\n");
+		System.out.println("\n\n------------  INSERT ENTITIES  --------------\n\n");
 		System.out.println("Creating users ... ");
 		
 		User user1 = new User("User1","User1Last", new Address("street1","city1","1000"), 
@@ -99,34 +100,36 @@ public class Test2A {
 			
 		System.out.println("Creating executions ... ");
 		
+		Date date = Service.getReferenceDate();
+
 		Execution execution1 = new Execution(
-						new Date(System.currentTimeMillis()),
-						new Date(System.currentTimeMillis() + 1000*60*60),
+						new Date(date.getTime() - 1000*60*60*4),
+						new Date(date.getTime() + 1000*60*60),
 						Execution.JobStatus.RUNNING);
 		
 		Execution execution2 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60),
-						new Date(System.currentTimeMillis() + 1000*60*60*2),
+						new Date(date.getTime() + 1000*60*60),
+						new Date(date.getTime() + 1000*60*60*2),
 						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution3 = new Execution(
-						new Date(System.currentTimeMillis() - 1000*60*60*5),
-						new Date(System.currentTimeMillis() - 1000*60*60*3),
+						new Date(date.getTime() - 1000*60*60*4),
+						new Date(date.getTime() - 1000*60*60*3),
 						Execution.JobStatus.FINISHED);
 		
 		Execution execution4 = new Execution(
-						new Date(System.currentTimeMillis() - 1000*60*60*4),
-						new Date(System.currentTimeMillis() - 1000*60*60*1),
+						new Date(date.getTime() - 1000*60*60*4),
+						new Date(date.getTime() - 1000*60*60*1),
 						Execution.JobStatus.FINISHED);
 		
 		Execution execution5 = new Execution(
-						new Date(System.currentTimeMillis() + 1000*60*60*3),
-						new Date(System.currentTimeMillis() + 1000*60*60*5),
+						new Date(date.getTime() + 1000*60*60*3),
+						new Date(date.getTime() + 1000*60*60*5),
 						Execution.JobStatus.SCHEDULED);
 		
 		Execution execution6 = new Execution(
-						new Date(System.currentTimeMillis() - 1000*60*60*8),
-						new Date(System.currentTimeMillis() - 1000*60*60*6),
+						new Date(date.getTime() - 1000*60*60*8),
+						new Date(date.getTime() - 1000*60*60*3),
 						Execution.JobStatus.FINISHED);
 		
 		job1.setExecution(execution1);
@@ -472,26 +475,10 @@ public class Test2A {
 		
 		entityManager.getTransaction().begin();
 		
-//		List<Execution> allExecutions = entityManager.createNamedQuery("findExecutions").getResultList();
-//		for(Execution execution : allExecutions) 
-//			System.out.println(execution);
-//		
-//		List<User> allUsers = entityManager.createNamedQuery("findAllUsers").getResultList();
-//		for(User user : allUsers)
-//			System.out.println(user);
-				
-				
-//		List<User> usersAndGrids = entityManager.createNamedQuery("findActiveUsersForGrid")
-//												.setParameter("gname", "grid1")
-//												.getResultList();
-//		for(User user : usersAndGrids)
-//			System.out.println(user);
 		
 //		List<Object> usersAndJobs = entityManager.createNamedQuery("activeUsersWithXJobs")
 //		  .setParameter("gname", "grid1")
 //		  .getResultList();
-//
-//
 //		System.out.println("Users and Jobs:");
 //		
 //		Object[] users1 = (Object[])usersAndJobs.get(0);
@@ -503,14 +490,18 @@ public class Test2A {
 //		for(Object user : users2) 
 //		System.out.println(user);
 		
-		System.out.println("\n ACTUAL TEST \n");
+		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 2A  --------------\n\n");
 		
 		JPQLQueries jpqlQueries = new JPQLQueries(entityManager);
 				
-		System.out.println("Users with membership to grid1 and at least 2 jobs assigned to it:");
+		System.out.println("Find users by active membership and minimum job count:");
+		System.out.println("grid: grid1");
+		System.out.println("minimum jobs: 2");
+//		System.out.println("Users with membership to grid1 and at least 2 jobs assigned to it:");
 				
 		List<User> activeUsers = jpqlQueries.getActiveUsersWithMinJobs("grid1", 2L);
-				
+			
+		System.out.println("\nresults: "+activeUsers.size());
 		for(User user : activeUsers)
 			System.out.println(user);
 				
@@ -519,6 +510,7 @@ public class Test2A {
 				
 		List<User> userList = jpqlQueries.getMostActiveUsers();
 		
+		System.out.println("\nresults: "+userList.size());
 		for(User user : userList)
 			System.out.println(user);
 	

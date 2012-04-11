@@ -1,6 +1,8 @@
 package test;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import dst1.model.Execution;
 import dst1.model.Execution.JobStatus;
 import dst1.model.Job;
 import dst1.model.PersistenceUtil;
+import dst1.model.Service;
 import dst1.model.User;
 import dst1.query.CriteriaQueries;
 
@@ -36,7 +39,9 @@ public class Test2C {
 		
 		
 		CriteriaQueries criteriaQueries = new CriteriaQueries(entityManager);
-		List<Job> jobList = criteriaQueries.findJobs("usr1", "workflow2");
+		List<Job> jobList = criteriaQueries.findJobsByUsernameAndWorkflow("usr1", "workflow2");
+		
+		System.out.println("results: "+jobList.size());
 		
 		for(Job j : jobList)
 			System.out.println(j.toExtendedString());
@@ -45,46 +50,30 @@ public class Test2C {
 			System.out.println("No results");
 				
 		entityManager.getTransaction().commit();
-		entityManager.close();
+//		entityManager.close();
 		
 		
 //		----------------------------- SECOND PART -------------------------------------
 		
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 04, 10);
 		
-		System.out.println("\n Hibernate Queries: \n");
+		Date date = Service.getReferenceDate();
+
+		Date start = null;
+		Date end = null;
 		
-		SessionFactory sessionFactory = new Configuration()
-												.configure("/META-INF/hibernate.cfg.xml")
-												.buildSessionFactory();
-		Session session = sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(Job.class);
+		start = new Date(date.getTime() - 1000*60*60*4);
+//		end = new Date(date.getTime() - 1000*60*60*3);
 		
-		Job exampleJob = new Job();
-		Execution exampleExecution = new Execution();
-		exampleExecution.setStatus(JobStatus.FINISHED);
-		exampleJob.setExecution(exampleExecution);
-//		exampleJob.setJobId(1L);
-		
-		Example example = Example.create(exampleJob);
-		example.excludeProperty("isPaid");
-		
-		List<Job> results = criteria.add(example)
-									.createCriteria("execution")
-										.add( Example.create(exampleJob.getExecution()) )
-									.list();
-//		criteria.setMaxResults(3);
-		
-		System.out.println("results: "+results.size());
+		List<Job> results = criteriaQueries.findJobsByStatusAndDate(start, end);
 		
 		Iterator<Job> iter = results.listIterator();
 		
-		while(iter.hasNext())
-			System.out.println(iter.next());
+		System.out.println("results: "+results.size());
 		
-//		
-//		session.beginTransaction();
-//		session.save(new Grid("newGrid","location",new BigDecimal(10)));
-//		session.getTransaction().commit();
-		session.close();
+		while(iter.hasNext())
+			System.out.println(iter.next().toExtendedString());		
+
 	}
 }

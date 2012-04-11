@@ -33,13 +33,13 @@ public class Main {
 
 	public static void dst02a() {
 
-//		Test2A.insertEntities();
-//		Test2A.test();
+		Test2A.insertEntities();
+		Test2A.test();
 	}
 
 	public static void dst02b() {
 		
-//		Test2B.test();
+		Test2B.test();
 	}
 
 	public static void dst02c() {
