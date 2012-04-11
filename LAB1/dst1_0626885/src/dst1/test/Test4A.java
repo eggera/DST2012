@@ -24,7 +24,7 @@ public class Test4A {
 		System.out.println("--> persistent state: New");
 		// Job and User: persistence state = New (pure Java objects)
 		
-		user.setUsername("username5");
+		user.setUsername("username8");
 		job.setUser(user);
 
 		System.out.println("\nbegin Transaction");
@@ -63,6 +63,8 @@ public class Test4A {
 //		// this is required by the job entity which needs a valid reference to the user object
 //		System.out.println("--> persistent state: Managed");
 
+		User usr = entityManager.find(User.class, 3L);
+		System.out.println("User with id 3: "+usr);
 		
 		entityManager.close();
 	}
