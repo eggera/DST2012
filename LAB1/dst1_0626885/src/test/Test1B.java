@@ -580,12 +580,12 @@ public class Test1B {
 		System.out.println("Removing admin with id = 7");
 		adminDAO.removeAdmin(7L);
 		
-		System.out.println("\nRetrieving all Memberships");
+		System.out.println("\nRetrieving updated Memberships");
 		memberships = membershipDAO.getAllMemberships();
 		for(Membership membership : memberships)
 			System.out.println(membership.toExtendedString());
 				
-		System.out.println("\nRetrieving all Clusters");
+		System.out.println("\nRetrieving updated Clusters");
 		clusters = clusterDAO.getAllClusters();
 		for(Cluster cluster : clusters) 
 			System.out.println(cluster.toExtendedString());
@@ -609,12 +609,12 @@ public class Test1B {
 		System.out.println("\nRemoving cluster with id = 4");
 		clusterDAO.removeCluster(4L);
 				
-		System.out.println("\nRetrieving Computers");
+		System.out.println("\nRetrieving updated Computers");
 		computers = computerDAO.getComputersFromTo(7L, 10L);
 		for(Computer computer : computers) 
 			System.out.println(computer.toExtendedString());
 				
-		System.out.println("\nRetrieving Cluster Relations");
+		System.out.println("\nRetrieving updated Cluster Relations");
 				
 		clusters = clusterDAO.getAllClusters();
 		for(Cluster cluster : clusters) 
@@ -639,7 +639,7 @@ public class Test1B {
 		computerDAO.removeComputer(13L);
 		computerDAO.removeComputer(14L);
 				
-		System.out.println("\nRetrieving all Executions and related Computers");
+		System.out.println("\nRetrieving updated Executions and related Computers");
 		executionList = executionDAO.getAllExecutions();
 		System.out.println("executionId   -> computerIds");
 		for(Execution execution : executionList) 
@@ -651,7 +651,7 @@ public class Test1B {
 		System.out.println("\nRemoving Execution with id = 6");
 		executionDAO.removeExecution(6L);
 		
-		System.out.println("\nRetrieving all Executions and related Computers");
+		System.out.println("\nRetrieving updated Executions and related Computers");
 		executionList = executionDAO.getAllExecutions();
 		System.out.println("executionId   -> computerIds");
 		for(Execution execution : executionList) 
