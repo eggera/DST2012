@@ -17,7 +17,7 @@
    			<property name="hibernate.connection.password" value="" />
    			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" />
    			<property name="hibernate.show_sql" value="false" />
-   			<property name="hibernate.hbm2ddl.auto" value="create"/>
+   			<property name="hibernate.hbm2ddl.auto" value="update"/>
    			<property name="javax.persistence.validation.mode" value="auto"/>
    			<property name="hibernate.ejb.interceptor" value="dst1.interceptor.SQLInterceptor"/>
    		</properties>

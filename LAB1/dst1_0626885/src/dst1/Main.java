@@ -10,15 +10,15 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		dst01();
-		dst02a();
-		dst02b();
-		dst02c();
-		dst03();
-		dst04a();
-		dst04b();
-		dst04c();
-		dst04d();
+//		dst01();
+//		dst02a();
+//		dst02b();
+//		dst02c();
+//		dst03();
+//		dst04a();
+//		dst04b();
+//		dst04c();
+//		dst04d();
 		dst05a();
 		dst05b();
 		dst05c();
@@ -74,6 +74,7 @@ public class Main {
 
         public static void dst05a() {
 
+        	Test5A.test();
         }
 
         public static void dst05b() {
