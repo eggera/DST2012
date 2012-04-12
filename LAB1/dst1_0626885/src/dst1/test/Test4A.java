@@ -27,7 +27,6 @@ public class Test4A {
 		user.setUsername("username");
 		job.setUser(user);
 
-		System.out.println("\nbegin Transaction");
 		entityManager.getTransaction().begin();
 
 		System.out.println("Persist Job");
@@ -41,7 +40,6 @@ public class Test4A {
 		// due to a cascade-persist in Job with respect to its related User
 		// the user gets managed as soon as one of its jobs get managed
 
-		System.out.println("commit Transaction");
 		entityManager.getTransaction().commit();
 		
 		// after clearing the persistence context of this EntityManager

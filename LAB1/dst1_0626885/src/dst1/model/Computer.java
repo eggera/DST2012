@@ -194,7 +194,7 @@ public class Computer implements Serializable {
 				"name = "+ name + ", " +
 				"cpus = "+ cpus + ", " +
 				"location = "+ location + ", " +
-	"\n		creation = "+ creation + ", " +
+	"\n	creation = "+ creation + ", " +
 				"lastUpdate = "+ lastUpdate + ", " +
 				"clusterId = "+ (cluster == null ? null : cluster.getClusterId());
 	}

@@ -31,9 +31,9 @@ public class Test4B {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Updating computer3 ...");
-		System.out.println("Updating computer7 ...");
-		System.out.println("Updating computer10 ...");
+		System.out.println("Updating computer3: name = computer003");
+		System.out.println("Updating computer7: cpus = 8");
+		System.out.println("Updating computer10: location = AUT-SBG@5040");
 		
 		computer3.setName("computer003");
 		computer7.setCpus(8);

@@ -16,7 +16,7 @@ public class Main {
 //		dst02c();
 //		dst03();
 //		dst04a();
-		dst04b();
+//		dst04b();
 		dst04c();
 		dst04d();
 		dst05a();
@@ -64,6 +64,7 @@ public class Main {
 
 	public static void dst04c() {
 
+		Test4C.test();
 	}
 
 	public static void dst04d() {
