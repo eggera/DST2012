@@ -48,9 +48,9 @@ public class Test4A {
 		// all its managed entities become detached
 		System.out.println("\nclear persistence context");
 		entityManager.clear();
-		System.out.println("User");
-		System.out.println("--> persistent state: Detached");
 		System.out.println("Job");
+		System.out.println("--> persistent state: Detached");
+		System.out.println("User");
 		System.out.println("--> persistent state: Detached");
 		
 		// the detached job is merged and a new managed object is retrieved (jobMerged)
@@ -88,15 +88,15 @@ public class Test4A {
 		entityManager.close();
 		
 		entityManager = entityManagerFactory.createEntityManager();
-		User usr3 = entityManager.find(User.class, 3L);
+		Job job3 = entityManager.find(Job.class, 3L);
 		
-		System.out.println("\nFind user without active transaction");
-		System.out.println("User with id 3: \n"+usr3);
-		System.out.println("User managed: "+entityManager.contains(usr3));
+		System.out.println("\nFind job without active transaction");
+		System.out.println("Job with id 3: \n"+job3);
+		System.out.println("Job managed: "+entityManager.contains(job3));
 		
-		System.out.println("\nRemove User with id 3");
-		entityManager.remove(usr3);
-		System.out.println("User managed: "+entityManager.contains(usr3));
+		System.out.println("\nRemove Job with id 3");
+		entityManager.remove(job3);
+		System.out.println("Job managed: "+entityManager.contains(job3));
 		
 		entityManager.close();
 	}

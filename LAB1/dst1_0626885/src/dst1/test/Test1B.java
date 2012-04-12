@@ -577,8 +577,8 @@ public class Test1B {
 				
 		System.out.println("\nRemoving grid with id = 1");
 		gridDAO.removeGrid(1L);
-		System.out.println("Removing admin with id = 7");
-		adminDAO.removeAdmin(7L);
+		System.out.println("Removing admin with id = 6");
+		adminDAO.removeAdmin(6L);
 		
 		System.out.println("\nRetrieving updated Memberships");
 		memberships = membershipDAO.getAllMemberships();

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import dst1.listener.ComputerListener;
 import dst1.validator.CPUs;
 
 
@@ -17,6 +18,7 @@ import dst1.validator.CPUs;
 							 "		from Computer c left join fetch c.executionList" +
 							 "		where c.location like 'AUT-VIE%'"),
 		})
+@EntityListeners(value = { ComputerListener.class })
 public class Computer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -191,9 +193,9 @@ public class Computer implements Serializable {
 		return  "id = "+ computerId + ", " +
 				"name = "+ name + ", " +
 				"cpus = "+ cpus + ", " +
+				"location = "+ location + ", " +
+	"\n		creation = "+ creation + ", " +
+				"lastUpdate = "+ lastUpdate + ", " +
 				"clusterId = "+ (cluster == null ? null : cluster.getClusterId());
-//				"location = "+ location + ", " +
-//				"creation = "+ creation + ", " +
-//				"lastUpdate = "+ lastUpdate;
 	}
 }
