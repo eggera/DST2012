@@ -28,6 +28,7 @@ public class Test2B {
 		JPQLQueries jpqlQueries = new JPQLQueries(entityManager);
 		
 		List<ComputerUsage> computerUsageList = jpqlQueries.getComputerUsage();
+		System.out.println("computers : "+ computerUsageList.size());
 		
 		for(ComputerUsage computerUsage : computerUsageList) {
 			System.out.println(computerUsage.getComputer());

@@ -19,9 +19,9 @@ public class Test4C {
 		entityManager.getTransaction().begin();
 		
 		System.out.println("Load-Operations		: "+DefaultListener.getLoadOperations());
-		System.out.println("Update-Operations	: "+DefaultListener.getUpdateOperations());
-		System.out.println("Remove-Operations	: "+DefaultListener.getRemoveOperations());
-		System.out.println("\nPersist-Operations	: "+DefaultListener.getPersistOperations());
+		System.out.println("Update-Operations		: "+DefaultListener.getUpdateOperations());
+		System.out.println("Remove-Operations		: "+DefaultListener.getRemoveOperations());
+		System.out.println("\nPersist-Operations		: "+DefaultListener.getPersistOperations());
 		System.out.println("Overall time to persist	: "+DefaultListener.getTotalPersistTime()+"ms");
 		System.out.println("Average time to persist	: "+DefaultListener.getAveragePersistTime()+"ms");
 		

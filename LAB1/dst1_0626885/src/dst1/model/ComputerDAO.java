@@ -56,7 +56,7 @@ public class ComputerDAO {
 	 */
 	public List<Computer> getComputersFromTo(Long id1, Long id2) {
 		return entityManager.createQuery(
-					"select c from Computer c where computerId between 7 and 10", 
+					"select c from Computer c where computerId between "+id1+" and "+id2, 
 					Computer.class).getResultList();
 	}
 	

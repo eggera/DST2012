@@ -29,7 +29,7 @@ public class Test4A {
 
 		entityManager.getTransaction().begin();
 
-		System.out.println("Persist Job");
+		System.out.println("\nPersist Job");
 		entityManager.persist(job);
 		
 		System.out.println("Job");
@@ -61,8 +61,8 @@ public class Test4A {
 		System.out.println("User");
 		System.out.println("--> persistent state: Managed");
 		
-		System.out.println("Job managed: "+entityManager.contains(jobMerged));
-		System.out.println("User managed: "+entityManager.contains(jobMerged.getUser()));
+//		System.out.println("Job managed: "+entityManager.contains(jobMerged));
+//		System.out.println("User managed: "+entityManager.contains(jobMerged.getUser()));
 		
 		// the entityManager keeps track of all changes of its managed entities (transparent update)
 		// on a transaction commit all managed entities are synchronized with the database
@@ -88,13 +88,17 @@ public class Test4A {
 		entityManager = entityManagerFactory.createEntityManager();
 		Job job3 = entityManager.find(Job.class, 3L);
 		
-		System.out.println("\nFind job without active transaction");
-		System.out.println("Job with id 3: \n"+job3);
-		System.out.println("Job managed: "+entityManager.contains(job3));
+//		System.out.println("\nFind job without active transaction");
+//		System.out.println("Job with id 3: \n"+job3);
+//		System.out.println("Job managed: "+entityManager.contains(job3));
 		
-		System.out.println("\nRemove Job with id 3");
+		System.out.println("\nRemove Job");
 		entityManager.remove(job3);
-		System.out.println("Job managed: "+entityManager.contains(job3));
+		
+		System.out.println("Job");
+		System.out.println("--> persistent state: Removed");
+		System.out.println("User");
+		System.out.println("--> persistent state: Removed");
 		
 		entityManager.close();
 	}

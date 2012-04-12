@@ -224,7 +224,7 @@ public class User extends Person implements Serializable {
 		return "userId = "+id+", " +
 			"firstName = "+firstName+", " +
 			 "lastName = "+lastName+" " +
-			 "username = "+username+", " +
+		"\n		username = "+username+", " +
 			 "password = "+password+", " +
 			"accountNo = "+accountNo+", " +
 			 "bankCode = "+bankCode;

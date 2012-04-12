@@ -64,7 +64,7 @@ public class JPQLQueries {
 	public List<ComputerUsage> getComputerUsage() {
 		List<Computer> computers = entityManager.createNamedQuery("getViennaComputers").getResultList();
 		List<Long> executionTimes = new ArrayList<Long>();
-		System.out.println("computers : "+ computers.size());
+		
 		List<ComputerUsage> computerUsageList = new ArrayList<ComputerUsage>();
 		
 		for(Computer computer : computers) {

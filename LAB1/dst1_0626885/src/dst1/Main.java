@@ -10,13 +10,13 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-//		dst01();
+		dst01();
 		dst02a();
-//		dst02b();
-//		dst02c();
-//		dst03();
-//		dst04a();
-//		dst04b();
+		dst02b();
+		dst02c();
+		dst03();
+		dst04a();
+		dst04b();
 		dst04c();
 		dst04d();
 		dst05a();
@@ -69,6 +69,7 @@ public class Main {
 
 	public static void dst04d() {
 
+		Test4D.test();
 	}
 
         public static void dst05a() {

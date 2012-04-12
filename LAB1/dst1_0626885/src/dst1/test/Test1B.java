@@ -577,8 +577,8 @@ public class Test1B {
 				
 		System.out.println("\nRemoving grid with id = 1");
 		gridDAO.removeGrid(1L);
-		System.out.println("Removing admin with id = 6");
-		adminDAO.removeAdmin(6L);
+		System.out.println("Removing admin with id = 7");
+		adminDAO.removeAdmin(7L);
 		
 		System.out.println("\nRetrieving updated Memberships");
 		memberships = membershipDAO.getAllMemberships();
@@ -593,7 +593,7 @@ public class Test1B {
 		System.out.println("\n---------------  CLUSTERS AND COMPUTERS  --------------");
 				
 		System.out.println("\nRetrieving Computers");
-		List<Computer> computers = computerDAO.getComputersFromTo(7L, 10L);
+		List<Computer> computers = computerDAO.getComputersFromTo(9L, 10L);
 		for(Computer computer : computers) 
 			System.out.println(computer.toExtendedString());
 				
@@ -610,7 +610,7 @@ public class Test1B {
 		clusterDAO.removeCluster(4L);
 				
 		System.out.println("\nRetrieving updated Computers");
-		computers = computerDAO.getComputersFromTo(7L, 10L);
+		computers = computerDAO.getComputersFromTo(9L, 10L);
 		for(Computer computer : computers) 
 			System.out.println(computer.toExtendedString());
 				
