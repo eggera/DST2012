@@ -11,7 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {
 //		dst01();
-//		dst02a();
+		dst02a();
 //		dst02b();
 //		dst02c();
 //		dst03();

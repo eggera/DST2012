@@ -24,7 +24,7 @@ public class Test4A {
 		System.out.println("--> persistent state: New");
 		// Job and User: persistence state = New (pure Java objects)
 		
-		user.setUsername("username8");
+		user.setUsername("username");
 		job.setUser(user);
 
 		System.out.println("\nbegin Transaction");
@@ -41,30 +41,62 @@ public class Test4A {
 		// due to a cascade-persist in Job with respect to its related User
 		// the user gets managed as soon as one of its jobs get managed
 
-		System.out.println("\ncommit Transaction");
+		System.out.println("commit Transaction");
 		entityManager.getTransaction().commit();
 		
-		System.out.println("clear persistence context");
+		// after clearing the persistence context of this EntityManager
+		// all its managed entities become detached
+		System.out.println("\nclear persistence context");
 		entityManager.clear();
 		System.out.println("User");
 		System.out.println("--> persistent state: Detached");
 		System.out.println("Job");
 		System.out.println("--> persistent state: Detached");
 		
-		System.out.println("close EntityManager");
+		// the detached job is merged and a new managed object is retrieved (jobMerged)
+		// which also contains a reference to a newly managed user (eager fetch)
+		System.out.println("\nMerge Job");
+		Job jobMerged = entityManager.merge(job);
+		
+		System.out.println("Job");
+		System.out.println("--> persistent state: Managed");
+		System.out.println("User");
+		System.out.println("--> persistent state: Managed");
+		
+		System.out.println("Job managed: "+entityManager.contains(jobMerged));
+		System.out.println("User managed: "+entityManager.contains(jobMerged.getUser()));
+		
+		// the entityManager keeps track of all changes of its managed entities (transparent update)
+		// on a transaction commit all managed entities are synchronized with the database
+		jobMerged.setPaid(true);
+		
+		entityManager.getTransaction().begin();
+		
+//		// Performance check with many entities being persisted
+//		int nrOfUsers = 1000;
+//		System.out.println("\nPersisting "+nrOfUsers+" Users");
+//		Address address = new Address("str","cty","zip");
+//		for(int i = 0; i < nrOfUsers; i++) {
+//			entityManager.persist(new User("F","L",address,"user"+i,Service.getMD5Hash("user"+i)));
+//			if(i % 1000  ==  0) {
+//				entityManager.getTransaction().commit();
+//				entityManager.getTransaction().begin();
+//			}
+//		}
+		
+		entityManager.getTransaction().commit();
 		entityManager.close();
 		
 		entityManager = entityManagerFactory.createEntityManager();
+		User usr3 = entityManager.find(User.class, 3L);
 		
-//		System.out.println("job managed: "+entityManager.contains(job));
-//		System.out.println("user managed: "+entityManager.contains(user));
+		System.out.println("\nFind user without active transaction");
+		System.out.println("User with id 3: \n"+usr3);
+		System.out.println("User managed: "+entityManager.contains(usr3));
 		
-//		// user becomes managed and is assigned a unique id
-//		// this is required by the job entity which needs a valid reference to the user object
-//		System.out.println("--> persistent state: Managed");
-
-		User usr = entityManager.find(User.class, 3L);
-		System.out.println("User with id 3: "+usr);
+		System.out.println("\nRemove User with id 3");
+		entityManager.remove(usr3);
+		System.out.println("User managed: "+entityManager.contains(usr3));
 		
 		entityManager.close();
 	}
