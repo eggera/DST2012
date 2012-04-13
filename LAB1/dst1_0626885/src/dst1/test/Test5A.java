@@ -27,6 +27,8 @@ public class Test5A {
 		mongoDBTask.dropDB();
 		mongoDBTask.init();
 		
+		System.out.println("Creating workflows ... ");
+		
 		for(int workflow = 1; workflow <= 5; workflow++) {
 			Job job = finishedJobs.get(workflow-1);
 			mongoDBTask.createWorkflow(job.getJobId(), workflow);

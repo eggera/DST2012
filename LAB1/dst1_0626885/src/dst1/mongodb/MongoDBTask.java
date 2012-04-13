@@ -13,6 +13,32 @@ public class MongoDBTask {
 	private Mongo mongoDB;
 	private DB db;
 	
+	private String map = "function() {" +
+						"for(var i in this) {" +
+						"	if(i == \"_id\"  ||  i == \"job_id\"  ||  i == \"last_update\") {" +
+						"		continue;" +
+						"	}" +
+						"	var val = {};" +
+						"	val[\"val\"] = 1;" +
+						"	emit(i, val);" +
+						"}" +
+						"}";
+	private String reduce = "function(key, values) {" +
+							"	var out = {};" +
+							"	function merge(a,b) {" +
+							"		for (var k in b) { " +
+							"			if (!b.hasOwnProperty(k)) { "+
+							"				continue;"+ 
+      						"			} " +
+      						"			a[k] = (a[k] || 0) + b[k];" + 
+    						"		} " +
+  							"	}" +
+  							"	for(var i = 0; i < values.length; i++) {" +
+  							"		merge(out, values[i]);" +
+  							"	}" +
+  							"	return out;" +
+  							"}";
+	
 	public static final int log_record = 1;
 	public static final int matrix_record = 2;
 	public static final int chromosome_record = 3;
@@ -258,18 +284,47 @@ public class MongoDBTask {
 				break;
 				
 		case person_record:
+			
+//		outline:
+//		"alignment_block" :
+//			{
+//			     "firstName": "John",
+//			     "lastName" : "Smith",
+//			     "age"      : 25,
+//			     "address"  :
+//			     {
+//			         "streetAddress": "21 2nd Street",
+//			         "city"         : "New York",
+//			         "state"        : "NY",
+//			         "postalCode"   : "10021"
+//			     },
+//			     "phoneNumber":
+//			     [
+//			         {
+//			           "type"  : "home",
+//			           "number": "212 555-1234"
+//			         },
+//			         {
+//			           "type"  : "fax",
+//			           "number": "646 555-4567"
+//			         }
+//			     ]
+//			 }
 				
 				workflowObject.put("last_update", 1328469221L);
-				workflowObject.put("firstName", "John");
-				workflowObject.put("lastName", "Manson");
-				workflowObject.put("age", 30);
+			
+				BasicDBObject alignment = new BasicDBObject();
+				
+				alignment.put("firstName", "John");
+				alignment.put("lastName", "Manson");
+				alignment.put("age", 30);
 				
 				BasicDBObject address = new BasicDBObject();
 				address.put("street", "405 Carter Street");
 				address.put("city", "Vidalia, LA ");
 				address.put("state", "California");
 				address.put("postal_code", "71373");
-				workflowObject.put("address", address);
+				alignment.put("address", address);
 			
 				BasicDBList phoneList = new BasicDBList();
 				BasicDBObject phone1 = new BasicDBObject();
@@ -284,7 +339,8 @@ public class MongoDBTask {
 				phoneList.add(phone1);
 				phoneList.add(phone2);
 				
-				workflowObject.put("phone_number", phoneList);
+				alignment.put("phone_number", phoneList);
+				workflowObject.put("alignment_block", alignment);
 				workflowCollection.insert(workflowObject);
 				break;
 			
@@ -338,6 +394,17 @@ public class MongoDBTask {
 		DBCursor cursor = workflowCollection.find(query, filter);
 		while(cursor.hasNext())
 			System.out.println(cursor.next());
+	}
+	
+	public void mapReduce() {
+		DBCollection collection = db.getCollection("workflows");
+		
+		MapReduceOutput out = collection.mapReduce(map, reduce, null, 
+									MapReduceCommand.OutputType.INLINE, null);
+		
+		for(DBObject obj : out.results()) {
+			System.out.println(obj);
+		}
 	}
 	
 	/**

@@ -11,6 +11,7 @@ public class Test5C {
 		MongoDBTask mongoDBTask = new MongoDBTask();
 		mongoDBTask.init();
 		
+		mongoDBTask.mapReduce();
 		
 		mongoDBTask.freeResources();
 		
