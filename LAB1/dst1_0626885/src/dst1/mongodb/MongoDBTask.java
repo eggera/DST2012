@@ -145,10 +145,9 @@ public class MongoDBTask {
 		BasicDBObject workflowObject = new BasicDBObject();
 		
 		workflowObject.put("job_id", jobId);
-		workflowObject.put("last_update", System.currentTimeMillis()/1000);
 		
 		switch(workflow) {
-		case log_record:	
+		case log_record:
 				BasicDBList statusList = new BasicDBList();
 				statusList.add("Starting");
 				statusList.add("Interrupted");
@@ -156,6 +155,7 @@ public class MongoDBTask {
 				statusList.add("Finished");
 			
 				BasicDBObject log_set = new BasicDBObject("log_set", statusList);
+				workflowObject.put("last_update", 1329469221L);
 				workflowObject.put("logs", log_set);
 				workflowCollection.insert(workflowObject);
 				break;
@@ -192,6 +192,7 @@ public class MongoDBTask {
 				matrix.add(row3);
 				matrix.add(row4);
 				
+				workflowObject.put("last_update", 1326830283L);
 				workflowObject.put("result_matrix", matrix);
 				workflowObject.put("type", "integer_matrix");
 				
@@ -221,12 +222,14 @@ public class MongoDBTask {
 				seqList.add("TCTGTTCATAAACCACCTGCCATGACAAGCCTGGCCTGTTCCCAAGACAATGTCCAGGCTCAGA");
 				alignmentBlock.put("seq", seqList);
 				
+				workflowObject.put("last_update", 1323469221L);
 				workflowObject.put("alignment_block", alignmentBlock);
 				workflowCollection.insert(workflowObject);
 				break;
 				
 		case menu_record:
 
+				workflowObject.put("last_update", 1321469221L);
 				workflowObject.put("menu_id", "file");
 				workflowObject.put("value", "File");
 				
@@ -256,6 +259,7 @@ public class MongoDBTask {
 				
 		case person_record:
 				
+				workflowObject.put("last_update", 1328469221L);
 				workflowObject.put("firstName", "John");
 				workflowObject.put("lastName", "Manson");
 				workflowObject.put("age", 30);
@@ -300,6 +304,40 @@ public class MongoDBTask {
 		System.out.println("All indices on the collection \"workflows\":");
 		for(DBObject obj : indexList) 
 			System.out.println(obj);
+	}
+	
+	/**
+	 * Gets the document for a given jobId
+	 * @param jobId the jobId of the document to retrieve
+	 */
+	public void getDocumentForJob(Long jobId) {
+		DBCollection workflowCollection = db.getCollection("workflows");
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put("job_id", jobId);
+		DBCursor cursor = workflowCollection.find(query);
+		
+		while(cursor.hasNext())
+			System.out.println(cursor.next());
+	}
+	
+	/**
+	 * Gets all documents that are updated after a given timestamp
+	 * @param timestamp the timestamp to filter the documents
+	 */
+	public void getLastUpdatedAfter(Long timestamp) {
+		DBCollection workflowCollection = db.getCollection("workflows");
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put("last_update", new BasicDBObject("$gt", timestamp));
+		
+		BasicDBObject filter = new BasicDBObject();
+		filter.put("_id", 0);
+		filter.put("job_id", 0);
+		filter.put("last_update", 0);
+		DBCursor cursor = workflowCollection.find(query, filter);
+		while(cursor.hasNext())
+			System.out.println(cursor.next());
 	}
 	
 	/**

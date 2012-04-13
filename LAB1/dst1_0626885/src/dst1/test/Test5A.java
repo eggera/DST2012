@@ -30,20 +30,10 @@ public class Test5A {
 		for(int workflow = 1; workflow <= 5; workflow++) {
 			Job job = finishedJobs.get(workflow-1);
 			mongoDBTask.createWorkflow(job.getJobId(), workflow);
-//			System.out.println(job.toExtendedString());
 		}
 		
 		mongoDBTask.createWorkflowIndex();
 		mongoDBTask.printAllWorkflows();
-		
-//		mongoDBTask.insert();
-//		mongoDBTask.findFirst();
-//		mongoDBUtil.findAll();
-//		mongoDBUtil.basicQuery();
-		
-//		mongoDBUtil.anotherQuery();
-//		mongoDBUtil.listQuery();
-		
 		
 		mongoDBTask.freeResources();
 	}

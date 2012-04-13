@@ -12,7 +12,6 @@ public class SQLInterceptor extends EmptyInterceptor {
 		
 		if(sql.startsWith("select")) {
 			++countSQLSelects;
-//			System.out.println("select: "+sql);
 		}
 		return sql;
 	}

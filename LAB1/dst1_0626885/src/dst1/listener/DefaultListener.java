@@ -80,6 +80,8 @@ public class DefaultListener {
 	}
 	
 	public static double getAveragePersistTime() {
+		if(persistOperations == 0)
+			return 0;
 		return totalPersistTime / persistOperations;
 	}
 	

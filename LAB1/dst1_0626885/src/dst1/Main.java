@@ -79,9 +79,12 @@ public class Main {
 
         public static void dst05b() {
 
+        	Test5B.test();
         }
 
         public static void dst05c() {
+        	
+        	Test5C.test();
         	Test.freeResources();
         }
 }
