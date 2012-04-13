@@ -49,7 +49,8 @@ public class Test3 {
 			Iterator<ConstraintViolation<Computer>> iter = constraintViolations.iterator();
 			
 			while(iter.hasNext()) {
-				System.out.println(iter.next().getMessage());
+				ConstraintViolation<Computer> cv = iter.next();
+				System.out.println(cv.getPropertyPath()+" ("+cv.getInvalidValue()+"): "+cv.getMessage());
 			}
 		}
 		
@@ -70,7 +71,7 @@ public class Test3 {
 			
 			while(iter.hasNext()) {
 				ConstraintViolation<Computer> cv = iter.next();
-				System.out.println(cv.getPropertyPath()+": "+cv.getMessage());
+				System.out.println(cv.getPropertyPath()+" ("+cv.getInvalidValue()+"): "+cv.getMessage());
 			}
 		}
 		

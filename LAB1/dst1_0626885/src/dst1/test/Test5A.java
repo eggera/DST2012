@@ -1,6 +1,14 @@
 package dst1.test;
 
-import dst1.mongodb.MongoDBUtil;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
+import dst1.model.Job;
+import dst1.model.PersistenceUtil;
+import dst1.mongodb.MongoDBTask;
+import dst1.query.CriteriaQueries;
 
 public class Test5A {
 
@@ -8,15 +16,35 @@ public class Test5A {
 		
 		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 5A  --------------\n\n");
 	
-		MongoDBUtil mongoDBUtil = new MongoDBUtil();
+		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
-		mongoDBUtil.dropDB();
-		mongoDBUtil.init();
-		mongoDBUtil.insert();
-//		mongoDBUtil.findFirst();
+		CriteriaQueries criteriaQueries = new CriteriaQueries(entityManager);
+		List<Job> finishedJobs = criteriaQueries.findJobsByStatusAndDate(null, null);
+		
+		MongoDBTask mongoDBTask = new MongoDBTask();
+		
+		mongoDBTask.dropDB();
+		mongoDBTask.init();
+		
+		for(int workflow = 1; workflow <= 5; workflow++) {
+			Job job = finishedJobs.get(workflow-1);
+			mongoDBTask.createWorkflow(job.getJobId(), workflow);
+//			System.out.println(job.toExtendedString());
+		}
+		
+		mongoDBTask.createWorkflowIndex();
+		mongoDBTask.printAllWorkflows();
+		
+//		mongoDBTask.insert();
+//		mongoDBTask.findFirst();
 //		mongoDBUtil.findAll();
 //		mongoDBUtil.basicQuery();
-		mongoDBUtil.anotherQuery();
-		mongoDBUtil.freeResources();
+		
+//		mongoDBUtil.anotherQuery();
+//		mongoDBUtil.listQuery();
+		
+		
+		mongoDBTask.freeResources();
 	}
 }

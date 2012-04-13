@@ -107,9 +107,9 @@ public class Test2A {
 						Execution.JobStatus.RUNNING);
 		
 		Execution execution2 = new Execution(
-						new Date(date.getTime() + 1000*60*60),
-						new Date(date.getTime() + 1000*60*60*2),
-						Execution.JobStatus.SCHEDULED);
+						new Date(date.getTime() - 1000*60*60*2),
+						new Date(date.getTime() - 1000*60*60),
+						Execution.JobStatus.FINISHED);
 		
 		Execution execution3 = new Execution(
 						new Date(date.getTime() - 1000*60*60*4),
@@ -122,9 +122,9 @@ public class Test2A {
 						Execution.JobStatus.FINISHED);
 		
 		Execution execution5 = new Execution(
-						new Date(date.getTime() + 1000*60*60*3),
-						new Date(date.getTime() + 1000*60*60*5),
-						Execution.JobStatus.SCHEDULED);
+						new Date(date.getTime() - 1000*60*60*6),
+						new Date(date.getTime() - 1000*60*60*4),
+						Execution.JobStatus.FINISHED);
 		
 		Execution execution6 = new Execution(
 						new Date(date.getTime() - 1000*60*60*8),

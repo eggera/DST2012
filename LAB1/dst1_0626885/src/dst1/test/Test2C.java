@@ -57,6 +57,11 @@ public class Test2C {
 		start = new Date(date.getTime() - 1000*60*60*4);
 //		end = new Date(date.getTime() - 1000*60*60*3);
 		
+		System.out.println("\nFind jobs by status and date: ");
+		System.out.println("Date1: "+(start == null ? "not specified" : start));
+		System.out.println("Date2: "+(end == null ? "not specified" : end));
+		System.out.println();
+		
 		List<Job> results = criteriaQueries.findJobsByStatusAndDate(start, end);
 		
 		Iterator<Job> iter = results.listIterator();

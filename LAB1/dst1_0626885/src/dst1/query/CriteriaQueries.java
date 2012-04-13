@@ -127,10 +127,6 @@ public class CriteriaQueries {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Job> findJobsByStatusAndDate(Date start, Date end) {
-		System.out.println("\nFind jobs by status and date: ");
-		System.out.println("Date1: "+(start == null ? "not specified" : start));
-		System.out.println("Date2: "+(end == null ? "not specified" : end));
-		System.out.println();
 		
 		Session session = (Session) entityManager.getDelegate();
 		
