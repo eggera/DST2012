@@ -1,9 +1,5 @@
 package dst1.test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
-import dst1.model.PersistenceUtil;
 import dst1.mongodb.MongoDBTask;
 
 public class Test5B {

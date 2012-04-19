@@ -6,22 +6,20 @@ import java.util.Set;
 
 import com.mongodb.*;
 
-import dst1.model.Job;
-
 public class MongoDBTask {
 
 	private Mongo mongoDB;
 	private DB db;
 	
 	private String map = "function() {" +
-						"for(var i in this) {" +
-						"	if(i == \"_id\"  ||  i == \"job_id\"  ||  i == \"last_update\") {" +
-						"		continue;" +
-						"	}" +
-						"	var val = {};" +
-						"	val[\"val\"] = 1;" +
-						"	emit(i, val);" +
-						"}" +
+							"for(var i in this) {" +
+							"	if(i == \"_id\"  ||  i == \"job_id\"  ||  i == \"last_update\") {" +
+							"		continue;" +
+							"	}" +
+							"	var val = {};" +
+							"	val[\"val\"] = 1;" +
+							"	emit(i, val);" +
+							"}" +
 						"}";
 	private String reduce = "function(key, values) {" +
 							"	var out = {};" +
@@ -173,20 +171,40 @@ public class MongoDBTask {
 		workflowObject.put("job_id", jobId);
 		
 		switch(workflow) {
+		
+//		{ 
+//		  "job_id" : 2,
+//		  "last_updated" : 1329469221,
+//		  "logs" : { 
+//		    "log_set" : [ "Starting" , "Interrupted" , "Running" , "Finished"]}
+//		}
+		
 		case log_record:
+				workflowObject.put("last_update", 1329469221L);
+			
 				BasicDBList statusList = new BasicDBList();
 				statusList.add("Starting");
 				statusList.add("Interrupted");
 				statusList.add("Running");
 				statusList.add("Finished");
-			
 				BasicDBObject log_set = new BasicDBObject("log_set", statusList);
-				workflowObject.put("last_update", 1329469221L);
+				
 				workflowObject.put("logs", log_set);
 				workflowCollection.insert(workflowObject);
 				break;
 				
+//		{
+//		  "job_id" : 3,
+//		  "last_updated" :  1326830283L,
+//		  "result_matrix" : { 
+//		    "matrix" : [ [ 4 , 8 , 10 , 2] , [ 12 , 5 , 9 , 1] , [ 3 , 4 , 5 , 11] , [ 7 , 13 , 6 , 2]]
+//		  },
+//		  "type" : "integer_matrix"
+//		}
+		
 		case matrix_record: 
+				workflowObject.put("last_update", 1326830283L);
+			
 				BasicDBList matrix = new BasicDBList();
 				BasicDBList row1 = new BasicDBList();
 				BasicDBList row2 = new BasicDBList();
@@ -218,14 +236,38 @@ public class MongoDBTask {
 				matrix.add(row3);
 				matrix.add(row4);
 				
-				workflowObject.put("last_update", 1326830283L);
 				workflowObject.put("result_matrix", matrix);
 				workflowObject.put("type", "integer_matrix");
 				
 				workflowCollection.insert(workflowObject);
 				break;
 				
+//		{
+//		  "job_id" : 4,
+//		  "last_updated" :  1323376688L,
+//		  "alignment_block" : { 
+//		    "alignment_nr" : 1,
+//		    "primary" : {
+//		      "chromosome" : "chr11",
+//		      "start" : 3001012,
+//		      "end" : 3001075
+//		    },
+//		    "align" : {
+//		      "chromosome" : "chr13",
+//		      "start" : 70568380,
+//		      "end" : 70568443
+//		    },
+//		    "blastz" : 3500,
+//		    "seq" : [
+//		      "TCAGCTCATAAATCACCTCCTGCCACAAGCCTGGCCTGGTCCCAGGAGAGTGTCCAGGCTCAGA",
+//		      "TCTGTTCATAAACCACCTGCCATGACAAGCCTGGCCTGTTCCCAAGACAATGTCCAGGCTCAGA"
+//		     ]
+//		  }
+//		}
+
 		case chromosome_record:
+				workflowObject.put("last_update", 1323376688L);
+			
 				BasicDBObject alignmentBlock = new BasicDBObject();
 				alignmentBlock.put("alignment_nr", 1);
 				
@@ -248,14 +290,13 @@ public class MongoDBTask {
 				seqList.add("TCTGTTCATAAACCACCTGCCATGACAAGCCTGGCCTGTTCCCAAGACAATGTCCAGGCTCAGA");
 				alignmentBlock.put("seq", seqList);
 				
-				workflowObject.put("last_update", 1323469221L);
 				workflowObject.put("alignment_block", alignmentBlock);
 				workflowCollection.insert(workflowObject);
 				break;
 				
 		case menu_record:
 
-				workflowObject.put("last_update", 1321469221L);
+				workflowObject.put("last_update", 1321738551L);
 				workflowObject.put("menu_id", "file");
 				workflowObject.put("value", "File");
 				
@@ -285,33 +326,34 @@ public class MongoDBTask {
 				
 		case person_record:
 			
-//		outline:
+//		"job_id" : 4,
+//		"last_updated" :  1328097386L,
 //		"alignment_block" :
 //			{
 //			     "firstName": "John",
-//			     "lastName" : "Smith",
-//			     "age"      : 25,
+//			     "lastName" : "Manson",
+//			     "age"      : 30,
 //			     "address"  :
 //			     {
-//			         "streetAddress": "21 2nd Street",
-//			         "city"         : "New York",
-//			         "state"        : "NY",
-//			         "postalCode"   : "10021"
+//			         "streetAddress": "405 Carter Street",
+//			         "city"         : "Vidalia, LA ",
+//			         "state"        : "California",
+//			         "postalCode"   : "71373"
 //			     },
 //			     "phoneNumber":
 //			     [
 //			         {
 //			           "type"  : "home",
-//			           "number": "212 555-1234"
+//			           "number": "(714) 842-2001"
 //			         },
 //			         {
 //			           "type"  : "fax",
-//			           "number": "646 555-4567"
+//			           "number": "(715) 842-2002"
 //			         }
 //			     ]
 //			 }
 				
-				workflowObject.put("last_update", 1328469221L);
+				workflowObject.put("last_update", 1328097386L);
 			
 				BasicDBObject alignment = new BasicDBObject();
 				
@@ -385,12 +427,13 @@ public class MongoDBTask {
 		DBCollection workflowCollection = db.getCollection("workflows");
 		
 		BasicDBObject query = new BasicDBObject();
-		query.put("last_update", new BasicDBObject("$gt", timestamp));
+		query.put("last_updated", new BasicDBObject("$gt", timestamp));
 		
+		// filter out the first three attributes
 		BasicDBObject filter = new BasicDBObject();
 		filter.put("_id", 0);
 		filter.put("job_id", 0);
-		filter.put("last_update", 0);
+		filter.put("last_updated", 0);
 		DBCursor cursor = workflowCollection.find(query, filter);
 		while(cursor.hasNext())
 			System.out.println(cursor.next());

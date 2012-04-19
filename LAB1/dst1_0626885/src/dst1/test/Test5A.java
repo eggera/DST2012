@@ -27,6 +27,7 @@ public class Test5A {
 		mongoDBTask.dropDB();
 		mongoDBTask.init();
 		
+		// Creating a workflow (= unstructered output document) for each finished job
 		System.out.println("Creating workflows ... ");
 		
 		for(int workflow = 1; workflow <= 5; workflow++) {
@@ -34,6 +35,7 @@ public class Test5A {
 			mongoDBTask.createWorkflow(job.getJobId(), workflow);
 		}
 		
+		// create an index on the job_id, in order to get the data quicker
 		mongoDBTask.createWorkflowIndex();
 		mongoDBTask.printAllWorkflows();
 		
