@@ -10,6 +10,7 @@ public class SQLInterceptor extends EmptyInterceptor {
 	
 	public String onPrepareStatement(String sql) {
 		
+		// only count select statements on computers or executions
 		if(sql.startsWith("select")  &&  (sql.contains("computer0_")  ||
 				 						  sql.contains("execution0_"))) {
 			++countSQLSelects;

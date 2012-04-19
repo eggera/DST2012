@@ -24,11 +24,13 @@ public class Test4B {
 		Computer computer7 = entityManager.find(Computer.class, 7L);
 		Computer computer10 = entityManager.find(Computer.class, 10L);
 		
+		// wait for one second so that the "update" date and the "creation" date
+		// can be distinguished
+		
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Interrupted: "+e.getMessage());
 		}
 		
 		System.out.println("Updating computer3: name = computer003");

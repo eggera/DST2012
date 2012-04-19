@@ -12,6 +12,9 @@ import dst1.query.JPQLQueries;
 
 public class Test4D {
 
+	/**
+	 * Evaluate if the task 2B was implemented efficiently (number of select statements)
+	 */
 	public static void test() {
 		
 		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 4D  --------------\n\n");
