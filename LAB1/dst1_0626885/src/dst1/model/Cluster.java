@@ -22,10 +22,10 @@ public class Cluster implements Serializable {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date nextService;
 	
-	@ManyToOne
+	@ManyToOne (optional=false)
 	private Admin admin;
 	
-	@ManyToOne
+	@ManyToOne (optional=false)
 	private Grid grid;
 	
 	@ManyToMany

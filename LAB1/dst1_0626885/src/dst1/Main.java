@@ -13,15 +13,15 @@ public class Main {
 		dst01();
 		dst02a();
 		dst02b();
-		dst02c();
-		dst03();
-		dst04a();
-		dst04b();
-		dst04c();
+//		dst02c();
+//		dst03();
+//		dst04a();
+//		dst04b();
+//		dst04c();
 		dst04d();
-		dst05a();
-		dst05b();
-		dst05c();
+//		dst05a();
+//		dst05b();
+//		dst05c();
 	}
 
 	public static void dst01() {

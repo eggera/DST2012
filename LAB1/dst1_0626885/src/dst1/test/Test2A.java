@@ -22,13 +22,9 @@ public class Test2A {
 		GridDAO 		gridDAO 		= new GridDAO		(entityManager);
 		MembershipDAO 	membershipDAO 	= new MembershipDAO	(entityManager);
 		AdminDAO 		adminDAO 		= new AdminDAO		(entityManager);
-//		PersonDAO		personDAO		= new PersonDAO		(entityManager);
 		ClusterDAO 		clusterDAO 		= new ClusterDAO	(entityManager);
 		ComputerDAO 	computerDAO 	= new ComputerDAO	(entityManager);
-//		JobDAO 			jobDAO 			= new JobDAO		(entityManager);
-//		ExecutionDAO 	executionDAO 	= new ExecutionDAO	(entityManager);
-//		EnvironmentDAO 	environmentDAO 	= new EnvironmentDAO(entityManager);
-		
+
 		entityManager.getTransaction().begin();
 		
 		System.out.println("\n\n------------  INSERT ENTITIES  --------------\n\n");
@@ -477,23 +473,8 @@ public class Test2A {
 		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
-		
 		entityManager.getTransaction().begin();
 		
-		
-//		List<Object> usersAndJobs = entityManager.createNamedQuery("activeUsersWithXJobs")
-//		  .setParameter("gname", "grid1")
-//		  .getResultList();
-//		System.out.println("Users and Jobs:");
-//		
-//		Object[] users1 = (Object[])usersAndJobs.get(0);
-//		Object[] users2 = (Object[])usersAndJobs.get(1);
-//		
-//		for(Object user : users1) 
-//		System.out.println(user);
-//		
-//		for(Object user : users2) 
-//		System.out.println(user);
 		
 		System.out.println("\n\n------------  TESTING CODE ASSIGNMENT 2A  --------------\n\n");
 		
@@ -502,7 +483,6 @@ public class Test2A {
 		System.out.println("Find users by active membership and minimum job count:");
 		System.out.println("grid: grid1");
 		System.out.println("minimum jobs: 2");
-//		System.out.println("Users with membership to grid1 and at least 2 jobs assigned to it:");
 				
 		List<User> activeUsers = jpqlQueries.getActiveUsersWithMinJobs("grid1", 2L);
 			
@@ -513,10 +493,10 @@ public class Test2A {
 				
 		System.out.println("\nGet most active users:");
 				
-		List<User> userList = jpqlQueries.getMostActiveUsers();
+		List<User> mostActiveUsers = jpqlQueries.getMostActiveUsers();
 		
-		System.out.println("\nresults: "+userList.size());
-		for(User user : userList)
+		System.out.println("\nresults: "+mostActiveUsers.size());
+		for(User user : mostActiveUsers)
 			System.out.println(user);
 	
 		

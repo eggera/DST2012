@@ -21,12 +21,8 @@ public class Test1B {
 		GridDAO 		gridDAO 		= new GridDAO		(entityManager);
 		MembershipDAO 	membershipDAO 	= new MembershipDAO	(entityManager);
 		AdminDAO 		adminDAO 		= new AdminDAO		(entityManager);
-//		PersonDAO		personDAO		= new PersonDAO		(entityManager);
 		ClusterDAO 		clusterDAO 		= new ClusterDAO	(entityManager);
 		ComputerDAO 	computerDAO 	= new ComputerDAO	(entityManager);
-//		JobDAO 			jobDAO 			= new JobDAO		(entityManager);
-//		ExecutionDAO 	executionDAO 	= new ExecutionDAO	(entityManager);
-//		EnvironmentDAO 	environmentDAO 	= new EnvironmentDAO(entityManager);
 		
 		entityManager.getTransaction().begin();
 		
@@ -390,22 +386,6 @@ public class Test1B {
 		
 		System.out.println("Saving   computers ... ");
 		
-		computerDAO.saveComputer(computer1);
-		computerDAO.saveComputer(computer2);
-		computerDAO.saveComputer(computer3);
-		computerDAO.saveComputer(computer4);
-		computerDAO.saveComputer(computer5);
-		computerDAO.saveComputer(computer6);
-		computerDAO.saveComputer(computer7);
-		computerDAO.saveComputer(computer8);
-		computerDAO.saveComputer(computer9);
-		computerDAO.saveComputer(computer10);
-		computerDAO.saveComputer(computer11);
-		computerDAO.saveComputer(computer12);
-		computerDAO.saveComputer(computer13);
-		computerDAO.saveComputer(computer14);
-		computerDAO.saveComputer(computer15);
-		computerDAO.saveComputer(computer16);
 		
 		cluster1.addComputer(computer1);
 		cluster1.addComputer(computer2);
@@ -423,6 +403,23 @@ public class Test1B {
 		cluster7.addComputer(computer14);
 		cluster8.addComputer(computer15);
 		cluster8.addComputer(computer16);
+		
+		computerDAO.saveComputer(computer1);
+		computerDAO.saveComputer(computer2);
+		computerDAO.saveComputer(computer3);
+		computerDAO.saveComputer(computer4);
+		computerDAO.saveComputer(computer5);
+		computerDAO.saveComputer(computer6);
+		computerDAO.saveComputer(computer7);
+		computerDAO.saveComputer(computer8);
+		computerDAO.saveComputer(computer9);
+		computerDAO.saveComputer(computer10);
+		computerDAO.saveComputer(computer11);
+		computerDAO.saveComputer(computer12);
+		computerDAO.saveComputer(computer13);
+		computerDAO.saveComputer(computer14);
+		computerDAO.saveComputer(computer15);
+		computerDAO.saveComputer(computer16);
 		
 		
 //	------------  COMPUTER AND EXECUTION  -------------
@@ -508,18 +505,7 @@ public class Test1B {
 		ComputerDAO 	computerDAO 	= new ComputerDAO	(entityManager);
 		JobDAO 			jobDAO 			= new JobDAO		(entityManager);
 		ExecutionDAO 	executionDAO 	= new ExecutionDAO	(entityManager);
-//		EnvironmentDAO 	environmentDAO 	= new EnvironmentDAO(entityManager);
-		
-//		adminDAO		.setEntityManager(entityManager);
-//		clusterDAO		.setEntityManager(entityManager);
-//		computerDAO		.setEntityManager(entityManager);
-//		environmentDAO	.setEntityManager(entityManager);
-//		executionDAO	.setEntityManager(entityManager);
-//		gridDAO			.setEntityManager(entityManager);
-//		jobDAO			.setEntityManager(entityManager);
-//		membershipDAO	.setEntityManager(entityManager);
-//		personDAO		.setEntityManager(entityManager);
-//		userDAO			.setEntityManager(entityManager);
+
 		
 		entityManager.getTransaction().begin();
 		

@@ -10,9 +10,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Index;
 
 @Entity
-@Table (uniqueConstraints = {
-		@UniqueConstraint (columnNames={"accountNo", "bankCode"})
-							})
 @NamedQueries({
 			@NamedQuery (name = "findAllUsers", query = "select u from User u"), 
 			@NamedQuery (name = "findExecutions", query = "select e from Execution e"),
@@ -36,6 +33,9 @@ import org.hibernate.annotations.Index;
 						 		"						from User usr join usr.jobList jobs" +
 						 		"						group by usr)")
 			})
+@Table (uniqueConstraints = {
+		@UniqueConstraint (columnNames={"accountNo", "bankCode"})
+							})
 public class User extends Person implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

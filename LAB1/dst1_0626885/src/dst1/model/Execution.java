@@ -25,7 +25,7 @@ public class Execution implements Serializable {
 	@Enumerated (EnumType.ORDINAL)
 	private JobStatus status;
 	
-	@OneToOne (mappedBy="execution", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne (fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Job job;
 	
 	

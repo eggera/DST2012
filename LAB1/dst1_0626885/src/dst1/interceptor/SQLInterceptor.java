@@ -10,7 +10,8 @@ public class SQLInterceptor extends EmptyInterceptor {
 	
 	public String onPrepareStatement(String sql) {
 		
-		if(sql.startsWith("select")) {
+		if(sql.startsWith("select")  &&  (sql.contains("computer0_")  ||
+				 						  sql.contains("execution0_"))) {
 			++countSQLSelects;
 		}
 		return sql;

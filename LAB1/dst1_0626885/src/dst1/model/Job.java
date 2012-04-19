@@ -15,13 +15,14 @@ public class Job implements Serializable {
 	private Long jobId;
 	private boolean isPaid;
 	
-	@ManyToOne (optional = false, cascade = CascadeType.PERSIST)
+	@ManyToOne (optional = false, fetch=FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private User user;
 	
-	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne (fetch=FetchType.LAZY, optional=false, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OrderColumn
 	private Environment environment;
 	
-	@OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne (mappedBy="job", optional=false, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Execution execution;
 	
 	
