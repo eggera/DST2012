@@ -14,6 +14,9 @@ public class CPUSValidator implements ConstraintValidator<CPUs, Integer>{
 		this.max = cpus.max();
 	}
 
+	/**
+	 * Checks if the CPUs constraints value is in the right range
+	 */
 	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext constraintContext) {
 		if(value == null)
