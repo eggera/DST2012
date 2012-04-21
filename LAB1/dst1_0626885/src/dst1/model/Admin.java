@@ -11,7 +11,7 @@ public class Admin extends Person implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany (mappedBy = "admin")
+	@OneToMany (mappedBy = "admin", cascade=CascadeType.REMOVE)
 	private List<Cluster> clusterList;
 	
 	public Admin() {

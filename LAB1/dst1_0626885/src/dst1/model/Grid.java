@@ -23,7 +23,7 @@ public class Grid implements Serializable {
 	@OneToMany (mappedBy="grid", cascade=CascadeType.ALL)
 	private List<Membership> membershipList;
 	
-	@OneToMany (mappedBy="grid")
+	@OneToMany (mappedBy="grid", cascade=CascadeType.REMOVE)
 	private List<Cluster> clusterList;
 	
 	public Grid() {

@@ -516,6 +516,8 @@ public class Test1B {
 			System.out.println(jobDAO.getRelatedEntities(job.getJobId()));
 		}
 		
+//		executionDAO.removeExecution(1L);
+//		computerDAO.removeComputer(6L);
 		System.out.println("\nRemoving user with userId = 1");
 		userDAO.removeUser(1L);
 		

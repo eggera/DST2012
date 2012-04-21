@@ -24,11 +24,11 @@
             	<temporal>TIMESTAMP</temporal>
             </basic>
             <many-to-one name="cluster" fetch="LAZY" optional="false"/>
-            <many-to-many name="executionList" mapped-by="computerList">
-            	<!--join-table>
+            <many-to-many name="executionList"> <!--mapped-by="computerList"-->
+            	<join-table>
 					<join-column name="computerId" referenced-column-name="computerId"/>
 					<inverse-join-column name="executionId" referenced-column-name="executionId"/>
-				</join-table-->
+				</join-table>
        		</many-to-many>
         </attributes>
    </entity>

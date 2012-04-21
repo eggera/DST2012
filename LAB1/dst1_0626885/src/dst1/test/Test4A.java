@@ -1,5 +1,8 @@
 package dst1.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import dst1.model.*;
@@ -24,11 +27,21 @@ public class Test4A {
 		System.out.println("--> persistent state: New");
 		// Job and User: persistence state = New (pure Java objects)
 		
+		List<String> params = new ArrayList<String>();
+		params.add("param1");
+		params.add("param2");
+		
+		Environment environment = new Environment("workflow", params);
+		job.setEnvironment(environment);
+		
+		Execution execution = new Execution();
+		job.setExecution(execution);
+		
 		user.setUsername("username");
 		job.setUser(user);
 
 		entityManager.getTransaction().begin();
-
+		
 		System.out.println("\nPersist Job");
 		entityManager.persist(job);
 		

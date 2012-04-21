@@ -22,7 +22,7 @@ public class Job implements Serializable {
 	@OrderColumn
 	private Environment environment;
 	
-	@OneToOne (mappedBy="job", optional=false, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne (optional=false, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private Execution execution;
 	
 	

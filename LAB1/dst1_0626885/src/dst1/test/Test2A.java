@@ -364,23 +364,6 @@ public class Test2A {
 		
 		System.out.println("Saving   computers ... ");
 		
-		computerDAO.saveComputer(computer1);
-		computerDAO.saveComputer(computer2);
-		computerDAO.saveComputer(computer3);
-		computerDAO.saveComputer(computer4);
-		computerDAO.saveComputer(computer5);
-		computerDAO.saveComputer(computer6);
-		computerDAO.saveComputer(computer7);
-		computerDAO.saveComputer(computer8);
-		computerDAO.saveComputer(computer9);
-		computerDAO.saveComputer(computer10);
-		computerDAO.saveComputer(computer11);
-		computerDAO.saveComputer(computer12);
-		computerDAO.saveComputer(computer13);
-		computerDAO.saveComputer(computer14);
-		computerDAO.saveComputer(computer15);
-		computerDAO.saveComputer(computer16);
-		
 		cluster2.addComputer(computer1);
 		cluster2.addComputer(computer2);
 		cluster2.addComputer(computer3);
@@ -397,6 +380,23 @@ public class Test2A {
 		cluster8.addComputer(computer14);
 		cluster8.addComputer(computer15);
 		cluster8.addComputer(computer16);
+		
+		computerDAO.saveComputer(computer1);
+		computerDAO.saveComputer(computer2);
+		computerDAO.saveComputer(computer3);
+		computerDAO.saveComputer(computer4);
+		computerDAO.saveComputer(computer5);
+		computerDAO.saveComputer(computer6);
+		computerDAO.saveComputer(computer7);
+		computerDAO.saveComputer(computer8);
+		computerDAO.saveComputer(computer9);
+		computerDAO.saveComputer(computer10);
+		computerDAO.saveComputer(computer11);
+		computerDAO.saveComputer(computer12);
+		computerDAO.saveComputer(computer13);
+		computerDAO.saveComputer(computer14);
+		computerDAO.saveComputer(computer15);
+		computerDAO.saveComputer(computer16);
 		
 		
 //	------------  COMPUTER AND EXECUTION  -------------

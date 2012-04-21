@@ -101,9 +101,6 @@ public class ClusterDAO {
 		for(Cluster child : childrenOfDeleted) 
 			child.removeSuperCluster(cluster_);
 				
-		for(Computer computer : cluster_.getComputers()) 
-			computer.setCluster(null);
-				
 		if(cluster_.getAdmin() != null)
 			cluster_.getAdmin().removeCluster(cluster_);
 				

@@ -66,9 +66,6 @@ public class GridDAO {
 		if(grid_ == null)
 			return false;
 		
-		List<Cluster> gridClusterList = grid_.getClusterList();
-		for(Cluster cluster : gridClusterList) 
-			cluster.setGrid(null);
 		entityManager.remove(grid_);
 		
 		return true;

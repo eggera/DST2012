@@ -38,10 +38,10 @@ public class Cluster implements Serializable {
 					@JoinColumn(name = "sub_cluster_id", referencedColumnName="clusterId"))
 	private List<Cluster> subClusters;
 	
-	@ManyToMany (mappedBy = "subClusters")
+	@ManyToMany (mappedBy = "subClusters", cascade=CascadeType.REMOVE)
 	private List<Cluster> superClusters;
 	
-	@OneToMany (mappedBy = "cluster")
+	@OneToMany (mappedBy = "cluster", cascade=CascadeType.REMOVE)
 	private List<Computer> computers;
 	
 	public Cluster() {

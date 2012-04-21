@@ -91,9 +91,6 @@ public class AdminDAO {
 			Admin admin_ = entityManager.find(Admin.class, adminId);
 			if(admin_ == null)
 				return;
-			List<Cluster> adminClusterList = admin_.getClusterList();
-			for(Cluster cluster : adminClusterList) 
-				cluster.setAdmin(null);
 					
 			entityManager.remove(admin_);
 			return;
@@ -103,9 +100,6 @@ public class AdminDAO {
 		Admin admin_ = entityManager.find(Admin.class, adminId);
 		if(admin_ == null)
 			return;
-		List<Cluster> adminClusterList = admin_.getClusterList();
-		for(Cluster cluster : adminClusterList) 
-			cluster.setAdmin(null);
 				
 		entityManager.remove(admin_);
 		entityManager.getTransaction().commit();

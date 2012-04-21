@@ -66,18 +66,14 @@ public class ComputerDAO {
 	 * @return true if successfully removed, false otherwise
 	 */
 	public boolean removeComputer(Long computerId) {
+		
 		Computer computer_ = entityManager.find(Computer.class, computerId);
+		
 		if(computer_ == null)
 			return false;
 		
 		if(computer_.getCluster() != null)
 			computer_.getCluster().removeComputer(computer_);
-		
-		for(Execution execution : computer_.getExecutionList()) {
-			execution.removeComputer(computer_);
-			if(execution.getComputerList().size() == 0)
-				entityManager.remove(execution);
-		}
 		
 		entityManager.remove(computer_);
 		return true;

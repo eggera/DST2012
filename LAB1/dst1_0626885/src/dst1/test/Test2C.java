@@ -40,11 +40,16 @@ public class Test2C {
 		if(jobList.size() == 0)
 			System.out.println("No results");
 				
-		entityManager.getTransaction().commit();
+//		entityManager.getTransaction().commit();
 //		entityManager.close();
-		
-		
-//		----------------------------- SECOND PART -------------------------------------
+//		
+//		
+////		----------------------------- SECOND PART -------------------------------------
+//		
+//		entityManager = entityManagerFactory.createEntityManager();
+//		entityManager.getTransaction().begin();
+//		
+//		criteriaQueries = new CriteriaQueries(entityManager);
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(2012, 04, 10);
@@ -55,7 +60,7 @@ public class Test2C {
 		Date end = null;
 		
 		start = new Date(date.getTime() - 1000*60*60*4);
-//		end = new Date(date.getTime() - 1000*60*60*3);
+//		end = new Date(date.getTime() - 1000*60*60*3); --> null
 		
 		System.out.println("\nFind jobs by status and date: ");
 		System.out.println("Date1: "+(start == null ? "not specified" : start));
@@ -69,7 +74,10 @@ public class Test2C {
 		System.out.println("results: "+results.size());
 		
 		while(iter.hasNext())
-			System.out.println(iter.next().toExtendedString());		
+			System.out.println(iter.next().toExtendedString());
+		
+		entityManager.getTransaction().commit();
+		entityManager.close();
 
 	}
 }

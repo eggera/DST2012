@@ -161,7 +161,7 @@ public class CriteriaQueries {
 //		session.beginTransaction();
 //		session.save(new Grid("newGrid","location",new BigDecimal(10)));
 //		session.getTransaction().commit();
-		session.close();
+//		session.close();
 		
 		return results;
 	}

@@ -56,11 +56,9 @@ public class JobDAO {
 		if(job_ == null)
 			return false;
 		
-		if(job_.getEnvironment() != null)
-			entityManager.remove(job_.getEnvironment());
-//		EnvironmentDAO environmentDAO = new EnvironmentDAO(entityManager);
-//		environmentDAO.removeEnvironment(job_.getEnvironment().getEnvironmentId());
-		
+//		if(job_.getEnvironment() != null)
+//			entityManager.remove(job_.getEnvironment());
+
 		job_.getUser().removeJob(job_);
 			
 		entityManager.remove(job_);
