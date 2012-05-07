@@ -7,3 +7,8 @@ build
 examples
 docs
 LAB1/test
+dst2_1_Client
+dst2_1_Server
+dist
+remoting_artifacts
+
