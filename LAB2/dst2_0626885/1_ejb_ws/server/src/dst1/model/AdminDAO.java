@@ -6,11 +6,11 @@ import javax.persistence.*;
 
 public class AdminDAO {
 
-	private EntityManagerFactory entityManagerFactory;
+//	private EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
 	
 	public AdminDAO() {
-		this.entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
+//		this.entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 	}
 	
 	public AdminDAO (EntityManager entityManager) {
@@ -29,8 +29,8 @@ public class AdminDAO {
 	 * Gets the only EntityManager for this object
 	 */
 	public EntityManager getEntityManager() {
-		if(entityManager == null)
-			this.entityManager = entityManagerFactory.createEntityManager();
+//		if(entityManager == null)
+//			this.entityManager = entityManagerFactory.createEntityManager();
 		return this.entityManager;
 	}
 	
@@ -39,15 +39,7 @@ public class AdminDAO {
 	 * @param admin the admin to save
 	 */
 	public void saveAdmin(Admin admin) {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive()) {
-			entityManager.persist(admin);
-			return;
-		}
-		
-		entityManager.getTransaction().begin();
 		entityManager.persist(admin);
-		entityManager.getTransaction().commit();
 	}
 	
 	/**
@@ -56,13 +48,7 @@ public class AdminDAO {
 	 * @return the admin object if found, null otherwise
 	 */
 	public Admin findAdmin(Long adminID) {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive())
-			return entityManager.find(Admin.class, adminID);
-		
-		entityManager.getTransaction().begin();
 		Admin admin = entityManager.find(Admin.class, adminID);
-		entityManager.getTransaction().commit();
 		return admin;
 	}
 	
@@ -71,13 +57,7 @@ public class AdminDAO {
 	 * @return a list of all admins
 	 */
 	public List<Admin> getAllAdmins() {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive())
-			return entityManager.createQuery( "from Admin", Admin.class ).getResultList();
-		
-		entityManager.getTransaction().begin();
 		List<Admin> result = entityManager.createQuery( "from Admin", Admin.class ).getResultList();
-		entityManager.getTransaction().commit();
 		return result;
 	}
 	
@@ -86,23 +66,11 @@ public class AdminDAO {
 	 * @param adminId the adminId of the admin to remove
 	 */
 	public void removeAdmin(Long adminId) {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive()) {
-			Admin admin_ = entityManager.find(Admin.class, adminId);
-			if(admin_ == null)
-				return;
-					
-			entityManager.remove(admin_);
-			return;
-		}
-		
-		entityManager.getTransaction().begin();
 		Admin admin_ = entityManager.find(Admin.class, adminId);
 		if(admin_ == null)
 			return;
 				
 		entityManager.remove(admin_);
-		entityManager.getTransaction().commit();
 	}
 	
 	/**

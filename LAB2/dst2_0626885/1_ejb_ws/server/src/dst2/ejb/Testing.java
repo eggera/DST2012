@@ -5,5 +5,5 @@ import javax.ejb.Remote;
 @Remote
 public interface Testing {
 
-	String saveEntities(String entity);
+	void saveEntities();
 }

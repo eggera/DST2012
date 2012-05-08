@@ -6,45 +6,45 @@ public final class MembershipKey implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Grid grid;
-	private User user;
+	private Long grid;
+	private Long user;
 	
 	public MembershipKey() {
 		// used by Hibernate
 	}
 	
-	public MembershipKey(Grid grid, User user) {
-		this.grid = grid;
-		this.user = user;
+	public MembershipKey(Long gridId, Long userId) {
+		this.grid = gridId;
+		this.user = userId;
 	}
 	
-//	/**
-//	 * Get the grid
-//	 */
-//	public Grid getGrid() {
-//		return this.grid;
-//	}
-//	
-//	/**
-//	 * Get the user
-//	 */
-//	public User getUser() {
-//		return this.user;
-//	}
-//	
-//	/**
-//	 * Set the grid
-//	 */
-//	public void setGrid(Grid grid) {
-//		this.grid = grid;
-//	}
-//	
-//	/**
-//	 * Set the user
-//	 */
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
+	/**
+	 * Get the grid
+	 */
+	public Long getGrid() {
+		return this.grid;
+	}
+	
+	/**
+	 * Get the user
+	 */
+	public Long getUser() {
+		return this.user;
+	}
+	
+	/**
+	 * Set the grid
+	 */
+	public void setGrid(Long grid) {
+		this.grid = grid;
+	}
+	
+	/**
+	 * Set the user
+	 */
+	public void setUser(Long user) {
+		this.user = user;
+	}
 	
 	
 	@Override
@@ -57,13 +57,13 @@ public final class MembershipKey implements Serializable {
 		
 		MembershipKey other = (MembershipKey) otherObj;
 		return (
-				grid.getGridId() == null 
-							? other.grid.getGridId() == null 
-							: grid.getGridId().equals(other.grid.getGridId())
+				grid == null 
+							? other.grid == null 
+							: grid.equals(other.grid)
 					&&
-				user.getId() == null 
-							? other.user.getId() == null 
-							: user.getId().equals(other.user.getId())
+				user == null 
+							? other.user == null 
+							: user.equals(other.user)
 			   );				
 				
 	}
@@ -71,9 +71,9 @@ public final class MembershipKey implements Serializable {
 	@Override
 	public int hashCode() {
 		return (
-				(grid.getGridId() == null ? 0 : grid.getGridId().hashCode())
+				(grid == null ? 0 : grid.hashCode())
 						^
-				(user.getId() == null ? 0 : user.getId().hashCode())
+				(user == null ? 0 : user.hashCode())
 			   );
 	}
 	
@@ -81,6 +81,6 @@ public final class MembershipKey implements Serializable {
 	 * Get the String representation of this primary key class
 	 */
 	public String toString() {
-		return "gridId = "+grid.getGridId()+", userId = "+user.getId();
+		return "gridId = "+grid+", userId = "+user;
 	}
 }

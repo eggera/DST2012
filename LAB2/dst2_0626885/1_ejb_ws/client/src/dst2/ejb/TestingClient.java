@@ -23,8 +23,8 @@ public class TestingClient {
 	}
 
 	
-	public String saveEntities(String entity) {
-		return testingBean.saveEntities(entity);
+	public void saveEntities() {
+		testingBean.saveEntities();
 	}
 	
 	
@@ -38,6 +38,6 @@ public class TestingClient {
 		
 		TestingClient testingClient = new TestingClient();
 		
-		System.out.println(testingClient.saveEntities(entity));
+		testingClient.saveEntities();
 	}
 }

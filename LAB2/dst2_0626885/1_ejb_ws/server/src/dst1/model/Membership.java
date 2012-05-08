@@ -13,10 +13,10 @@ public class Membership implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@ManyToOne (fetch=FetchType.EAGER)
+	@ManyToOne //(fetch=FetchType.EAGER)
 	private Grid grid;
 	@Id
-	@ManyToOne (fetch=FetchType.EAGER)
+	@ManyToOne //(fetch=FetchType.EAGER)
 	private User user;
 	@Temporal (value = TemporalType.TIMESTAMP)
 	private Date registration;

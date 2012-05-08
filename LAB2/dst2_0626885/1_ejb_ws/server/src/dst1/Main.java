@@ -17,7 +17,7 @@ public class Main {
 	public static void dst01() {
 		
 		Test1B.insertEntities();
-		Test1B.test();
+//		Test1B.test();
 		Test.freeResources();
 	}
 

@@ -5,11 +5,11 @@ import javax.persistence.*;
 
 public class UserDAO {
 
-	private EntityManagerFactory entityManagerFactory;
+//	private EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
 	
 	public UserDAO() {
-		this.entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
+//		this.entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 	}
 	
 	public UserDAO (EntityManager entityManager) {
@@ -28,8 +28,8 @@ public class UserDAO {
 	 * Gets the only EntityManager for this object
 	 */
 	public EntityManager getEntityManager() {
-		if(entityManager == null)
-			this.entityManager = entityManagerFactory.createEntityManager();
+//		if(entityManager == null)
+//			this.entityManager = entityManagerFactory.createEntityManager();
 		return this.entityManager;
 	}
 	
@@ -40,13 +40,7 @@ public class UserDAO {
 	 */
 	public void saveUser(User user) {
 		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive()) {
-			entityManager.persist(user);
-			return;
-		}
-		entityManager.getTransaction().begin();
 		entityManager.persist(user);
-		entityManager.getTransaction().commit();
 	}
 	
 	/**
@@ -55,13 +49,7 @@ public class UserDAO {
 	 * @return the user object if found, null otherwise
 	 */
 	public User findUser(Long userID) {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive())
-			return entityManager.find(User.class, userID);
-		
-		entityManager.getTransaction().begin();
 		User user = entityManager.find(User.class, userID);
-		entityManager.getTransaction().commit();
 		return user;
 	}
 	
@@ -78,13 +66,7 @@ public class UserDAO {
 	 * @return a list of all users
 	 */
 	public List<User> getAllUsers() {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive())
-			return entityManager.createQuery( "from User", User.class ).getResultList();
-		
-		entityManager.getTransaction().begin();
 		List<User> result = entityManager.createQuery( "from User", User.class ).getResultList();
-		entityManager.getTransaction().commit();
 		return result;
 	}
 	
@@ -94,34 +76,17 @@ public class UserDAO {
 	 */
 	public void removeUser(Long userId) {
 		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive()) {
-			User user_ = entityManager.find(User.class, userId);
-			entityManager.remove(user_);
-			return;
-		}
-		entityManager.getTransaction().begin();
 		User user_ = entityManager.find(User.class, userId);
 		entityManager.remove(user_);
-		entityManager.getTransaction().commit();
 	}
 	
 	/**
 	 * Remove all Users and related entities from the persistence context
 	 */
 	public void removeAllUsers() {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive()) {
-			List<User> allUsers = getAllUsers();
-			for(User user : allUsers) 
-				entityManager.remove(user);
-			return;
-		}
-		
-		entityManager.getTransaction().begin();
 		List<User> allUsers = getAllUsers();
 		for(User user : allUsers) 
 			entityManager.remove(user);
-		entityManager.getTransaction().commit();
 	}
 	
 	/**

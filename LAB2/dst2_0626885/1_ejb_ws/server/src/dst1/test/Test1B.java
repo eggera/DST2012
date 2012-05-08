@@ -14,7 +14,7 @@ public class Test1B {
 
 	
 	public static void insertEntities() {
-		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
+/*		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
 		UserDAO 		userDAO 		= new UserDAO		(entityManager);
@@ -652,5 +652,5 @@ public class Test1B {
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
-	}
+*/	}
 }

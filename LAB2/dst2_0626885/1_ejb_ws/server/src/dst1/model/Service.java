@@ -5,6 +5,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 public class Service {
 
@@ -53,9 +56,34 @@ public class Service {
 	 */
 	public static Date getReferenceDate() {
 		if(date == null) {
-			Calendar cal = Calendar.getInstance();
-			cal.set(2012, 02, 02);
-			date = cal.getTime();
+			
+			// get the supported ids for GMT+01:00 (Vienna Standard Time)
+			 String[] ids = TimeZone.getAvailableIDs(+1 * 60 * 60 * 1000);
+			 // if no ids were returned, something is wrong. get out.
+			 if (ids.length == 0)
+			     throw new RuntimeException("Timezone invalid");
+
+			  // begin output
+			 System.out.println("Current Time");
+
+			 // create a Vienna Standard Time time zone
+			 SimpleTimeZone vdt = new SimpleTimeZone(+1 * 60 * 60 * 1000, ids[0]);
+
+			 // set up rules for daylight savings time
+			 vdt.setStartRule(Calendar.MARCH, -1, Calendar.SUNDAY, 2 * 60 * 60 * 1000);
+			 vdt.setEndRule(Calendar.OCTOBER, -1, Calendar.SUNDAY, 3 * 60 * 60 * 1000);
+
+			 // create a GregorianCalendar with the Vienna Daylight time zone
+			 // and the current date and time
+			 Calendar calendar = new GregorianCalendar(vdt);
+			 Date trialTime = new Date();
+			 calendar.setTime(trialTime);
+			
+//			Date currentDate = new Date(System.currentTimeMillis());
+//			Calendar cal1 = new GregorianCalendar();
+//			Calendar cal = Calendar.getInstance();
+//			cal.set(2012, 02, 02);
+			date = calendar.getTime();
 		}
 		return date;
 	}

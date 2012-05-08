@@ -14,7 +14,7 @@ public class Test2A {
 
 	
 	public static void insertEntities() {
-		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
+/*		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
 		UserDAO 		userDAO 		= new UserDAO		(entityManager);
@@ -459,7 +459,7 @@ public class Test2A {
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
-	}
+*/	}
 	
 	/**
 	 * Test code for assignment 2A

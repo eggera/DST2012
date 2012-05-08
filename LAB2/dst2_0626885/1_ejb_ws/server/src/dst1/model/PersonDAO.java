@@ -6,11 +6,11 @@ import javax.persistence.*;
 
 public class PersonDAO {
 
-	private EntityManagerFactory entityManagerFactory;
+//	private EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
 	
 	public PersonDAO() {
-		this.entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
+//		this.entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
 	}
 	
 	public PersonDAO (EntityManager entityManager) {
@@ -29,8 +29,8 @@ public class PersonDAO {
 	 * Gets the only EntityManager for this object
 	 */
 	public EntityManager getEntityManager() {
-		if(entityManager == null)
-			this.entityManager = entityManagerFactory.createEntityManager();
+//		if(entityManager == null)
+//			this.entityManager = entityManagerFactory.createEntityManager();
 		return this.entityManager;
 	}
 	
@@ -56,13 +56,7 @@ public class PersonDAO {
 	 * @return the person object if found, null otherwise
 	 */
 	public Person findPerson(Long personID) {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive())
-			return entityManager.find(Person.class, personID);
-		
-		entityManager.getTransaction().begin();
 		Person person = entityManager.find(Person.class, personID);
-		entityManager.getTransaction().commit();
 		return person;
 	}
 	
@@ -71,13 +65,7 @@ public class PersonDAO {
 	 * @return a list of all persons
 	 */
 	public List<Person> getAllPersons() {
-		EntityManager entityManager = getEntityManager();
-		if(entityManager.getTransaction().isActive())
-			return entityManager.createQuery( "from Person", Person.class ).getResultList();
-		
-		entityManager.getTransaction().begin();
 		List<Person> result = entityManager.createQuery( "from Person", Person.class ).getResultList();
-		entityManager.getTransaction().commit();
 		return result;
 	}
 	
