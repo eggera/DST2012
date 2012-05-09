@@ -17,7 +17,6 @@ import dst2.model.PriceStep;
 @Startup
 @Singleton
 public class PriceManagementBean implements PriceManagement {
-
 	
 	// state
 	
@@ -35,6 +34,7 @@ public class PriceManagementBean implements PriceManagement {
 	}
 	
 	
+	@Override
 	public void setPrice( Integer numberOfHistoricalJobs, BigDecimal price ) {
 		
 		entityManager.persist(new PriceStep(numberOfHistoricalJobs, price));
@@ -42,6 +42,7 @@ public class PriceManagementBean implements PriceManagement {
 	}
 	
 	
+	@Override
 	@Lock (LockType.READ)
 	public BigDecimal getFee( Integer numberOfHistoricalJobs ) {
 		
@@ -55,6 +56,7 @@ public class PriceManagementBean implements PriceManagement {
 	}
 	
 	
+	@Override
 	public List<PriceStep> getAllPrices() {
 		return entityManager.createQuery(
 							"SELECT p FROM PriceStep p ORDER BY p.numberOfHistoricalJobs ASC", 
