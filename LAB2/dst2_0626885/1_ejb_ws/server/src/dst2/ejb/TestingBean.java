@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
 import dst1.model.Address;
@@ -24,13 +23,12 @@ import dst1.model.GridDAO;
 import dst1.model.Job;
 import dst1.model.Membership;
 import dst1.model.MembershipDAO;
-import dst1.model.PersistenceUtil;
 import dst1.model.Service;
 import dst1.model.User;
 import dst1.model.UserDAO;
 
 
-@Stateful
+@Stateless
 public class TestingBean implements Testing {
 
 	@PersistenceContext
@@ -38,8 +36,6 @@ public class TestingBean implements Testing {
 	
 	public void saveEntities() {
 		
-//		EntityManagerFactory entityManagerFactory = PersistenceUtil.getEntityManagerFactory();
-//		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		
 		UserDAO 		userDAO 		= new UserDAO		(entityManager);
 		GridDAO 		gridDAO 		= new GridDAO		(entityManager);
@@ -47,8 +43,6 @@ public class TestingBean implements Testing {
 		AdminDAO 		adminDAO 		= new AdminDAO		(entityManager);
 		ClusterDAO 		clusterDAO 		= new ClusterDAO	(entityManager);
 		ComputerDAO 	computerDAO 	= new ComputerDAO	(entityManager);
-		
-//		entityManager.getTransaction().begin();
 		
 		
 		System.out.println("Creating users ... ");
@@ -215,9 +209,6 @@ public class TestingBean implements Testing {
 		computer3.addExecution(execution1);
 		computer4.addExecution(execution1);
 		
-		
-//		entityManager.getTransaction().commit();
-//		entityManager.close();
 	}
 	
 }

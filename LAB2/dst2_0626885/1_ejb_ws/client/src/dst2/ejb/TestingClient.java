@@ -24,6 +24,7 @@ public class TestingClient {
 
 	
 	public void saveEntities() {
+		System.out.println("Saving entities ...");
 		testingBean.saveEntities();
 	}
 	

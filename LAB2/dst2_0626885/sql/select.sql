@@ -12,5 +12,5 @@ select * from GRID;
 select * from JOB;
 select * from MEMBERSHIP;
 select * from PERSON;
-select * from SEQUENCE;
+select * from PRICESTEP;
 select * from USER;

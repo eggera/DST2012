@@ -14,7 +14,7 @@ public class Execution implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long executionId;
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date start;
