@@ -50,11 +50,6 @@ public class TestingClient {
 	}
 	
 	
-	
-	public void test() {
-		jobManagementBean.test();
-	}
-	
 	public void login( String username, String password ) {
 		try {
 			jobManagementBean.login(username, password);
@@ -100,17 +95,21 @@ public class TestingClient {
 		
 		testingClient.login("usr1", "usr1");
 		
-		testingClient.test();
+		List<String> params = new ArrayList<String>();
+		params.add("param__1");
+		params.add("param__2");
 		
+		List<String> params2 = new ArrayList<String>();
+		params2.add("param__3");
+		params2.add("param__4");
 		
+		testingClient.addJobToList(6L, 8, "workflow2", params);
+		testingClient.addJobToList(6L, 8, "workflow3", params2);
+		testingClient.addJobToList(7L, 4, "workflow4", params);
 		
-//		List<String> params = new ArrayList<String>();
-//		params.add("param__1");
-//		params.add("param__2");
-//		
-//		testingClient.addJobToList(6L, 8, "workflow2", params);
-//		testingClient.addJobToList(6L, 8, "workflow2", params);
-//		
-//		testingClient.submitJobList();
+		testingClient.addJobToList(6L, 4, "workflow5", params2);
+		
+		testingClient.submitJobList();
+		
 	}
 }

@@ -6,27 +6,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
 import javax.transaction.Status;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import dst1.model.Address;
 import dst1.model.Computer;
 import dst1.model.Environment;
 import dst1.model.Execution;
@@ -63,8 +56,8 @@ public class JobManagementBean implements JobManagement {
 	public void test() {
 		
 		try {
-		
-			utx.begin();
+			if( ! (utx.getStatus() == Status.STATUS_ACTIVE) )
+				utx.begin();
 			
 			Job job = entityManager.find(Job.class, 2L);
 			System.out.println("Job = "+job);
@@ -85,7 +78,8 @@ public class JobManagementBean implements JobManagement {
 //			entityManager.persist(user3);
 			
 //			System.out.println("before commit : "+utx.getStatus());
-			utx.commit();
+			if( utx.getStatus() == Status.STATUS_ACTIVE )
+				utx.commit();
 //			System.out.println("after commit : "+ utx.getStatus());
 		}
 		catch (Exception e) {
@@ -97,17 +91,72 @@ public class JobManagementBean implements JobManagement {
 	@Override
 	public void addJobToList(Long gridId, int numCPUs, String workflow, List<String> params) throws JobAssignmentException {
 		
-		List<Computer> freeComputers = new ArrayList<Computer>();
-		
 		try {
-			utx.begin();
+			
+			// begin Transaction
+			
+			if( ! (utx.getStatus() == Status.STATUS_ACTIVE) )
+				utx.begin();
+			
 		
+			List<Computer> freeComputers = getFreeComputers(gridId);
+			
+			System.out.println("freeComputers: ");
+			for(Computer computer : freeComputers) {
+				System.out.println(computer);
+			}
+			
+			// clear the list of freeComputers from already assigned computers
+			
+			for( Long gId : temporaryJobs.keySet() )
+				for( TemporaryJob tempJob : temporaryJobs.get(gId) )
+//					freeComputers.removeAll(tempJob.getAssignedComputers());
+					intersectComputerLists(freeComputers, tempJob.getAssignedComputers());
+			
+			// check if this job can be scheduled right now (there are enough free computers/CPUs)
+			
+			int freeCPUs = 0;
+			for(Computer computer : freeComputers) {
+				freeCPUs += computer.getCpus();
+			}
+			
+			if(freeCPUs < numCPUs) {
+				throw new JobAssignmentException("The assignment of a job to grid "+gridId+" failed " +
+														"due to a lack of free computers");
+			}
+			
+			TemporaryJob job = new TemporaryJob(gridId, numCPUs, workflow, params);
+			
+			int countCPUs = 0;
+			// assign computers until the condition is satisfied
+			for(Computer computer : freeComputers) {
+				job.addAssignedComputer(computer);
+				
+				countCPUs += computer.getCpus();
+				if(countCPUs >= numCPUs) {
+					break;
+				}
+				
+			}
+			
+			if( ! temporaryJobs.containsKey(gridId) ) {
+				List<TemporaryJob> jobList = new ArrayList<TemporaryJob>();
+				jobList.add(job);
+				temporaryJobs.put(gridId, jobList);
+			}
+			else {
+				temporaryJobs.get(gridId).add(job);
+			}
 		
-			freeComputers = getFreeComputers(gridId);
-		
+			// commit Transaction
+			
 			utx.commit();
 		} 
 		catch (Exception e) {
+			
+			if(JobAssignmentException.class.isInstance(e)) {
+				throw new JobAssignmentException(e.getMessage());
+			}
 			
 			try {
 				utx.rollback();
@@ -117,59 +166,12 @@ public class JobManagementBean implements JobManagement {
 			
 			System.err.println("Exception in getFreeComputers: "+e.getMessage());
 		}
-		
-		
-		System.out.println("freeComputers: ");
-		for(Computer computer : freeComputers) {
-			System.out.println(computer);
-		}
-		
-		// clear the list of freeComputers from already assigned computers
-		
-		for( Long gId : temporaryJobs.keySet() )
-			for( TemporaryJob tempJob : temporaryJobs.get(gId) )
-				freeComputers.removeAll(tempJob.getAssignedComputers());
-		
-		// check if this job can be scheduled right now (there are enough free computers/CPUs)
-		
-		int freeCPUs = 0;
-		for(Computer computer : freeComputers) {
-			freeCPUs += computer.getCpus();
-		}
-		
-		if(freeCPUs < numCPUs) {
-			throw new JobAssignmentException("The assignment of a job to grid "+gridId+" failed " +
-													"due to a lack of free computers");
-		}
-		
-		TemporaryJob job = new TemporaryJob(gridId, numCPUs, workflow, params);
-		
-		int countCPUs = 0;
-		// assign computers until the condition is satisfied
-		for(Computer computer : freeComputers) {
-			job.addAssignedComputer(computer);
-			
-			countCPUs += computer.getCpus();
-			if(countCPUs >= numCPUs) {
-				break;
-			}
-			
-		}
-		
-		if( temporaryJobs.get(gridId) == null ) {
-			List<TemporaryJob> jobList = new ArrayList<TemporaryJob>();
-			jobList.add(job);
-			temporaryJobs.put(gridId, jobList);
-		}
-		else {
-			temporaryJobs.get(gridId).add(job);
-		}
 
 	}
 	
 	
 	@Override
-//	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	@Remove(retainIfException=true)
 	public void submitJobList() throws JobAssignmentException, NotLoggedInException {
 		
 		if( loggedInUser == null )
@@ -177,34 +179,40 @@ public class JobManagementBean implements JobManagement {
 		
 		try {
 			
-//			try {
-//				System.out.println("utx status = "+utx.getStatus());
-//				if( utx.getStatus() != Status.STATUS_ACTIVE )
-//					utx.begin();
-//			} catch (Exception e) {
-//				System.err.println("Tx: Transaction exception in addJobToList: "+e.getMessage());
-//			}
-			
-			utx.begin();
-			
-//			Job job = entityManager.find(Job.class, 2L);
-//			entityManager.remove(job);
-			
-			System.out.println("transaction: "+utx.getStatus());
+			// begin Transaction
+			if( ! (utx.getStatus() == Status.STATUS_ACTIVE) )
+				utx.begin();
+
+			for( Long gId : temporaryJobs.keySet() )
+				System.out.println(" all temp grid Ids : "+gId);
 		
 			for( Long gridId : temporaryJobs.keySet() ) {
 				
 				List<Computer> freeComputers = getFreeComputers(gridId);
 				
+				System.out.println("free vs. assigned computers: ");
+				for(Computer computer : freeComputers) 
+					System.out.println(computer);
+						
+				System.out.println("assigned computers: ");
+				for(TemporaryJob tempJob : temporaryJobs.get(gridId)) {
+					for(Computer computer : tempJob.getAssignedComputers())
+						System.out.println(computer);
+				}
+				
 				for( TemporaryJob tempJob : temporaryJobs.get(gridId) ) {
 					
-					if( freeComputers.containsAll(tempJob.getAssignedComputers()) ) {
+					for( Computer computer : tempJob.getAssignedComputers() ) {
+						entityManager.find(Computer.class, computer.getComputerId(), LockModeType.PESSIMISTIC_WRITE);
+					}
+						
+					
+					if( enoughFreeComputers(freeComputers, tempJob.getAssignedComputers()) ) {
 						
 						storeJob( tempJob );
 						
 					} else {
 						
-						System.out.println("ROLLBACK !!!!!!!!!!!!!");
 						if( utx.getStatus() == Status.STATUS_ACTIVE )
 							utx.rollback();
 						
@@ -215,9 +223,8 @@ public class JobManagementBean implements JobManagement {
 				}		
 				
 			}
-			System.out.println("Transaction: before commit : "+utx.getStatus());
-			utx.commit();
-			System.out.println("Transaction: on commit : "+utx.getStatus());
+			if( utx.getStatus() == Status.STATUS_ACTIVE )
+				utx.commit();
 			
 		} catch (NotSupportedException e) {
 			
@@ -228,7 +235,8 @@ public class JobManagementBean implements JobManagement {
 			}
 			
 			System.err.println("Tx: NotSupportedException in submitJobList: "+e.getMessage());
-		} catch (SystemException e) {
+		} 
+		catch (SystemException e) {
 			
 			try {
 				utx.rollback();
@@ -237,46 +245,20 @@ public class JobManagementBean implements JobManagement {
 			}
 			
 			System.err.println("System Exception in submitJobList: "+e.getMessage());
-		} catch (SecurityException e) {
+		} 
+		catch (Exception e) {
+			if( JobAssignmentException.class.isInstance(e) )
+				throw new JobAssignmentException(e.getMessage());
+			if( NotLoggedInException.class.isInstance(e) )
+				throw new NotLoggedInException(e.getMessage());
+			
 			try {
 				utx.rollback();
 			} catch (Exception ex) {
 				System.err.println("Tx: Rollback exception, "+ex.getMessage());
 			}
 			
-			System.err.println("SecurityException in login: "+e.getMessage());
-		} catch (IllegalStateException e) {
-			try {
-				utx.rollback();
-			} catch (Exception ex) {
-				System.err.println("Tx: Rollback exception, "+ex.getMessage());
-			}
-			
-			System.err.println("IllegalStateException in login: "+e.getMessage());
-		} catch (RollbackException e) {
-			try {
-				utx.rollback();
-			} catch (Exception ex) {
-				System.err.println("Tx: Rollback exception, "+ex.getMessage());
-			}
-			
-			System.err.println("RollbackException in login: "+e.getMessage());
-		} catch (HeuristicMixedException e) {
-			try {
-				utx.rollback();
-			} catch (Exception ex) {
-				System.err.println("Tx: Rollback exception, "+ex.getMessage());
-			}
-			
-			System.err.println("HeuristicMixedException in login: "+e.getMessage());
-		} catch (HeuristicRollbackException e) {
-			try {
-				utx.rollback();
-			} catch (Exception ex) {
-				System.err.println("Tx: Rollback exception, "+ex.getMessage());
-			}
-			
-			System.err.println("HeuristicRollbackException in login: "+e.getMessage());
+			System.err.println("Exception in login: "+e.getMessage());
 		}
 		
 	}
@@ -308,7 +290,8 @@ public class JobManagementBean implements JobManagement {
 		byte[] pwHash = Service.getMD5Hash(password);
 		
 		try {
-			utx.begin();
+			if( ! (utx.getStatus() == Status.STATUS_ACTIVE) )
+				utx.begin();
 			
 			Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.username=:username AND u.password=:pwHash", User.class);
 			query.setParameter("username", username);
@@ -326,7 +309,9 @@ public class JobManagementBean implements JobManagement {
 				throw new LoginFailedException("User/Password combination is not valid");
 			}
 			
-			utx.commit();
+			if( utx.getStatus() == Status.STATUS_ACTIVE )
+				utx.commit();
+			
 		} catch (NotSupportedException e) {
 			
 			try {
@@ -336,7 +321,8 @@ public class JobManagementBean implements JobManagement {
 			}
 			
 			System.err.println("Tx: NotSupportedException in login: "+e.getMessage());
-		} catch (SystemException e) {
+		} 
+		catch (SystemException e) {
 			
 			try {
 				utx.rollback();
@@ -345,46 +331,18 @@ public class JobManagementBean implements JobManagement {
 			}
 			
 			System.err.println("System Exception in login: "+e.getMessage());
-		} catch (SecurityException e) {
+		} 
+		catch (Exception e) {
+			if( LoginFailedException.class.isInstance(e) )
+				throw new LoginFailedException(e.getMessage());
+			
 			try {
 				utx.rollback();
 			} catch (Exception ex) {
 				System.err.println("Tx: Rollback exception, "+ex.getMessage());
 			}
 			
-			System.err.println("SecurityException in login: "+e.getMessage());
-		} catch (IllegalStateException e) {
-			try {
-				utx.rollback();
-			} catch (Exception ex) {
-				System.err.println("Tx: Rollback exception, "+ex.getMessage());
-			}
-			
-			System.err.println("IllegalStateException in login: "+e.getMessage());
-		} catch (RollbackException e) {
-			try {
-				utx.rollback();
-			} catch (Exception ex) {
-				System.err.println("Tx: Rollback exception, "+ex.getMessage());
-			}
-			
-			System.err.println("RollbackException in login: "+e.getMessage());
-		} catch (HeuristicMixedException e) {
-			try {
-				utx.rollback();
-			} catch (Exception ex) {
-				System.err.println("Tx: Rollback exception, "+ex.getMessage());
-			}
-			
-			System.err.println("HeuristicMixedException in login: "+e.getMessage());
-		} catch (HeuristicRollbackException e) {
-			try {
-				utx.rollback();
-			} catch (Exception ex) {
-				System.err.println("Tx: Rollback exception, "+ex.getMessage());
-			}
-			
-			System.err.println("HeuristicRollbackException in login: "+e.getMessage());
+			System.err.println("Exception in login: "+e.getMessage());
 		}
 	}
 	
@@ -404,11 +362,7 @@ public class JobManagementBean implements JobManagement {
 							"ORDER BY c.computerId", Computer.class)
 						.setParameter("gridId", gridId)
 						.getResultList();
-		
-//		entityManager.find(arg0, arg1, arg2, arg3)
-		
 
-		
 		List<Computer> freeComputers = new ArrayList<Computer>();
 		
 		for(Computer computer : computerList) {
@@ -440,8 +394,13 @@ public class JobManagementBean implements JobManagement {
 		Environment environment = new Environment( tJob.getWorkflow(), tJob.getParams() );
 		Execution execution = new Execution( new Date(date.getTime()), null, Execution.JobStatus.SCHEDULED );
 		
-//		User user = new User("User","UserLast", new Address("street0","city0","2222"), 
-//				"usr", Service.getMD5Hash("usr"), "0000", "1111");
+		for( Computer c : tJob.getAssignedComputers() ) {
+			
+			Computer computer = entityManager.find(Computer.class, c.getComputerId());
+			execution.addComputer(computer);
+			computer.addExecution(execution);
+		}
+			
 		
 		User user = entityManager.find(User.class, loggedInUser.getId());
 		
@@ -451,12 +410,49 @@ public class JobManagementBean implements JobManagement {
 		
 		user.addJob(job);
 		
-		System.out.println("STORING !!!!!!!!!!!!!");
-		
-//		System.out.println("logged in user = "+loggedInUser.toExtendedString());
-		
 		entityManager.persist(job);
-//		entityManager.persist(execution);
+	}
+	
+	
+	// helper function
+	// compares free and assigned computers, if all assigned Computers are still free
+	
+	private boolean enoughFreeComputers(List<Computer> freeComputers, List<Computer> assignedComputers) {
+		
+		for(Computer assigned : assignedComputers) {
+			
+			boolean isFree = false;
+			for(Computer free : freeComputers) 
+				if(assigned.getComputerId().equals(free.getComputerId())) {
+					isFree = true;
+					break;
+				}
+				
+			if(!isFree)
+				return false;
+		}
+		
+		return true;
+	}
+	
+	// helper function
+	// removes all elements from freeComputers that are identical to assignedComputers
+	
+	private void intersectComputerLists(List<Computer> freeComputers, List<Computer> assignedComputers) {
+		
+		List<Computer> deletes = new ArrayList<Computer>();
+		
+		for(Computer assigned : assignedComputers) {
+			
+			for(Computer free : freeComputers) 
+				if(assigned.getComputerId().equals(free.getComputerId())) {
+					deletes.add(free);
+					break;
+				}
+				
+		}
+		
+		freeComputers.removeAll(deletes);
 	}
 	
 }
