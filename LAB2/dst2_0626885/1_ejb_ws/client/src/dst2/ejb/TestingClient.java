@@ -1,5 +1,6 @@
 package dst2.ejb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,14 +8,16 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import dst2.exception.JobAssignmentException;
-import dst2.exception.LoginFailedException;
+import dst2.ejb.exception.JobAssignmentException;
+import dst2.ejb.exception.LoginFailedException;
+import dst2.ejb.exception.NotLoggedInException;
 
 public class TestingClient {
 
 	// deps
 	
 	private Testing testingBean;
+	private PriceManagement priceManagementBean;
 	private JobManagement jobManagementBean;
 	
 	private Context ctx;
@@ -26,6 +29,7 @@ public class TestingClient {
 		try {
 			ctx = new InitialContext();
 			testingBean = (Testing) ctx.lookup("java:global/dst2_1/TestingBean");
+			priceManagementBean = (PriceManagement) ctx.lookup("java:global/dst2_1/PriceManagementBean");
 			jobManagementBean = (JobManagement) ctx.lookup("java:global/dst2_1/JobManagementBean");
 		} catch (NamingException e) {
 			System.err.println("Creating initial context exception: "+e.getMessage());
@@ -38,6 +42,18 @@ public class TestingClient {
 		testingBean.saveEntities();
 	}
 	
+	public void setPrices() {
+		priceManagementBean.setPrice( 100, new BigDecimal(30));
+		priceManagementBean.setPrice( 1000, new BigDecimal(15));
+		priceManagementBean.setPrice( 5000, new BigDecimal(5));
+		priceManagementBean.setPrice( 10000, new BigDecimal(1));
+	}
+	
+	
+	
+	public void test() {
+		jobManagementBean.test();
+	}
 	
 	public void login( String username, String password ) {
 		try {
@@ -57,23 +73,44 @@ public class TestingClient {
 		}
 	}
 	
+	public void submitJobList() {
+		try {
+			jobManagementBean.submitJobList();
+			System.out.println("Successfully submitted job list");
+		} catch (JobAssignmentException e) {
+			System.err.println("Job could not be assigned: "+e.getMessage());
+		} catch (NotLoggedInException e) {
+			System.err.println("Must be logged in: "+e.getMessage());
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		
 		System.out.println("Client Bean Test\n\n");
 		
 		String entity = "my entity";
-		
 		System.out.println("Save "+entity);
-		
 		TestingClient testingClient = new TestingClient();
-		
 		testingClient.saveEntities();
+		
+		System.out.println("Set prices ...");
+		testingClient.setPrices();
+		
 		
 		testingClient.login("usr1", "usr1");
 		
-		List<String> params = new ArrayList<String>();
+		testingClient.test();
 		
-		testingClient.addJobToList(6L, 28, "workflow2", params);
+		
+		
+//		List<String> params = new ArrayList<String>();
+//		params.add("param__1");
+//		params.add("param__2");
+//		
+//		testingClient.addJobToList(6L, 8, "workflow2", params);
+//		testingClient.addJobToList(6L, 8, "workflow2", params);
+//		
+//		testingClient.submitJobList();
 	}
 }

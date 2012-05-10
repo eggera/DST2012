@@ -88,6 +88,9 @@
     <target name="run-inj-with-agent" depends="build-injection-projects">
         <ant antfile="${injection.sample.buildFile}" inheritAll="false" target="run-with-agent"/>
     </target>
+
+
+	<target name="run" depends="clean,setup,build,redeploy-ejb,run-ejb-client"/>
 	
 	<!-- clean build artifacts: -->
 	<target name="clean">

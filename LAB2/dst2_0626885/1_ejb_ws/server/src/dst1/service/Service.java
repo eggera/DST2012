@@ -1,4 +1,4 @@
-package dst1.model;
+package dst1.service;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -64,7 +64,7 @@ public class Service {
 			     throw new RuntimeException("Timezone invalid");
 
 			  // begin output
-			 System.out.println("Current Time");
+		//	 System.out.println("Current Time");
 
 			 // create a Vienna Standard Time time zone
 			 SimpleTimeZone vdt = new SimpleTimeZone(+1 * 60 * 60 * 1000, ids[0]);

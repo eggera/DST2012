@@ -11,7 +11,7 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import dst2.model.PriceStep;
+import dst2.ejb.model.PriceStep;
 
 
 @Startup

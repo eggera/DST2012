@@ -2,6 +2,8 @@ package dst1.model;
 
 import java.util.List;
 
+import dst1.service.Service;
+
 /**
  * This class is used to test the functionality of the user DAO
  *

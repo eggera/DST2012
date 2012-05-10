@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import dst1.model.*;
+import dst1.service.PersistenceUtil;
 
 public class Test {
 

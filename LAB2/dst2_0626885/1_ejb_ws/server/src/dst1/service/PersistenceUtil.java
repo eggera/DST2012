@@ -1,4 +1,4 @@
-package dst1.model;
+package dst1.service;
 
 import javax.persistence.*;
 

@@ -23,9 +23,9 @@ import dst1.model.GridDAO;
 import dst1.model.Job;
 import dst1.model.Membership;
 import dst1.model.MembershipDAO;
-import dst1.model.Service;
 import dst1.model.User;
 import dst1.model.UserDAO;
+import dst1.service.Service;
 
 
 @Stateless

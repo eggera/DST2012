@@ -5,18 +5,20 @@ import java.util.Map;
 
 import javax.ejb.Remote;
 
-import dst1.model.Computer;
-import dst2.exception.JobAssignmentException;
-import dst2.exception.LoginFailedException;
+import dst2.ejb.exception.JobAssignmentException;
+import dst2.ejb.exception.LoginFailedException;
+import dst2.ejb.exception.NotLoggedInException;
 
 
 @Remote
 public interface JobManagement {
+	
+	void test();
 
 	
 	void addJobToList(Long gridId, int numCPUs, String workflow, List<String> params) throws JobAssignmentException;
 	
-	void submitJobList();
+	void submitJobList() throws JobAssignmentException, NotLoggedInException;
 	
 	void removeJobsFromGrid(Long gridId);
 	

@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
-import dst2.model.PriceStep;
+import dst2.ejb.model.PriceStep;
 
 @Remote
 public interface PriceManagement {

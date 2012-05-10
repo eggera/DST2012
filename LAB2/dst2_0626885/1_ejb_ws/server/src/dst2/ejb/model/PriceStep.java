@@ -1,4 +1,4 @@
-package dst2.model;
+package dst2.ejb.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

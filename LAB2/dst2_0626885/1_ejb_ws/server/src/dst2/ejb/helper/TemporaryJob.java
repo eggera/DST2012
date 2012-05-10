@@ -1,4 +1,4 @@
-package dst2.helper;
+package dst2.ejb.helper;
 
 import java.util.ArrayList;
 import java.util.List;

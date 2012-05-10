@@ -1,4 +1,4 @@
-package dst2.exception;
+package dst2.ejb.exception;
 
 @SuppressWarnings("serial")
 public class LoginFailedException extends Exception {
