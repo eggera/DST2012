@@ -1,9 +1,13 @@
 package dst2.ejb;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import dst2.exception.JobAssignmentException;
 import dst2.exception.LoginFailedException;
 
 public class TestingClient {
@@ -44,6 +48,15 @@ public class TestingClient {
 		}
 	}
 	
+	public void addJobToList(Long gridId, int numCPUs, String workflow, List<String> params) {
+		try {
+			jobManagementBean.addJobToList(gridId, numCPUs, workflow, params);
+			System.out.println("Adding job successful");
+		} catch (JobAssignmentException e) {
+			System.err.println("Job not assigned: "+e.getMessage());
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		
@@ -58,5 +71,9 @@ public class TestingClient {
 		testingClient.saveEntities();
 		
 		testingClient.login("usr1", "usr1");
+		
+		List<String> params = new ArrayList<String>();
+		
+		testingClient.addJobToList(6L, 28, "workflow2", params);
 	}
 }

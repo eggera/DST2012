@@ -140,20 +140,27 @@ public class TestingBean implements Testing {
 										new Date(date.getTime() - 1000*60*60*2), 
 										new Date(date.getTime() + 1000*60*60*2));
 		
+		Cluster cluster3 = new Cluster("cluster3", 
+										new Date(date.getTime() - 1000*60*60*3), 
+										new Date(date.getTime() + 1000*60*60*3));
+
 		
 		admin1.addCluster(cluster1);
 		admin1.addCluster(cluster2);
+		admin1.addCluster(cluster3);
 	
 		
 		grid1.addCluster(cluster1);
 		grid1.addCluster(cluster2);
+		
+		grid2.addCluster(cluster3);
 		
 		
 		System.out.println("Saving   clusters ... ");
 		
 		clusterDAO.saveCluster(cluster1);
 		clusterDAO.saveCluster(cluster2);
-
+		clusterDAO.saveCluster(cluster3);
 	
 		System.out.println("Creating computers ... ");
 		
@@ -179,6 +186,18 @@ public class TestingBean implements Testing {
 		Computer computer5 = new Computer("Computer5", 8, "AUT-KTN@9500", 
 						new Date(date.getTime() - 1000*60*60*14),
 						new Date(date.getTime() - 1000*60*30));
+		
+		Computer computer6 = new Computer("Computer6", 4, "AUT-SBG@5020", 
+						new Date(date.getTime() - 1000*60*60*5),
+						new Date(date.getTime() - 1000*60*30));
+		
+		Computer computer7 = new Computer("Computer7", 8, "AUT-SBG@5020", 
+						new Date(date.getTime() - 1000*60*60*7),
+						new Date(date.getTime() - 1000*60*30));
+		
+		Computer computer8 = new Computer("Computer8", 6, "AUT-SBG@5020", 
+						new Date(date.getTime() - 1000*60*60*3),
+						new Date(date.getTime() - 1000*60*30));
 				
 		
 		System.out.println("Saving   computers ... ");
@@ -189,25 +208,25 @@ public class TestingBean implements Testing {
 		cluster1.addComputer(computer3);
 		cluster2.addComputer(computer4);
 		cluster2.addComputer(computer5);
+		cluster3.addComputer(computer6);
+		cluster3.addComputer(computer7);
+		cluster3.addComputer(computer8);
 		
 		computerDAO.saveComputer(computer1);
 		computerDAO.saveComputer(computer2);
 		computerDAO.saveComputer(computer3);
 		computerDAO.saveComputer(computer4);
 		computerDAO.saveComputer(computer5);
+		computerDAO.saveComputer(computer6);
+		computerDAO.saveComputer(computer7);
+		computerDAO.saveComputer(computer8);
 		
 		
 //	------------  COMPUTER AND EXECUTION  -------------
 
 		execution1.addComputer(computer1);
-		execution1.addComputer(computer2);
-		execution1.addComputer(computer3);
-		execution1.addComputer(computer4);
 		
 		computer1.addExecution(execution1);
-		computer2.addExecution(execution1);
-		computer3.addExecution(execution1);
-		computer4.addExecution(execution1);
 		
 	}
 	

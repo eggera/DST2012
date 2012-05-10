@@ -13,4 +13,5 @@ select * from JOB;
 select * from MEMBERSHIP;
 select * from PERSON;
 select * from PRICESTEP;
+select * from SEQUENCE;
 select * from USER;

@@ -55,6 +55,7 @@
 
 				<!-- set the custom exceptions to be used by the client.-->
 				<include name="dst2/exception/LoginFailedException.class"/>
+				<include name="dst2/exception/JobAssignmentException.class"/>
             </fileset>
         </jar>
     </target>
