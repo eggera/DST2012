@@ -19,6 +19,7 @@ public class TestingClient {
 	private Testing testingBean;
 	private PriceManagement priceManagementBean;
 	private JobManagement jobManagementBean;
+//	private TimerService timerServiceBean;
 	
 	private Context ctx;
 	
@@ -30,7 +31,9 @@ public class TestingClient {
 			ctx = new InitialContext();
 			testingBean = (Testing) ctx.lookup("java:global/dst2_1/TestingBean");
 			priceManagementBean = (PriceManagement) ctx.lookup("java:global/dst2_1/PriceManagementBean");
-			jobManagementBean = (JobManagement) ctx.lookup("java:global/dst2_1/JobManagementBean");
+//			timerServiceBean = (TimerService) ctx.lookup("java:global/dst2_1/TimerServiceBean");
+//			jobManagementBean = (JobManagement) ctx.lookup("java:global/dst2_1/JobManagementBean");
+			getJobManagementBean();
 		} catch (NamingException e) {
 			System.err.println("Creating initial context exception: "+e.getMessage());
 		}
@@ -40,6 +43,15 @@ public class TestingClient {
 	public void saveEntities() {
 		System.out.println("Saving entities ...");
 		testingBean.saveEntities();
+	}
+	
+	
+	public void getJobManagementBean() {
+		try {
+			jobManagementBean = JobManagement.class.cast(ctx.lookup("java:global/dst2_1/JobManagementBean"));
+		} catch (NamingException e) {
+			System.err.println("Creating initial context exception: "+e.getMessage());
+		}
 	}
 	
 	public void setPrices() {
@@ -73,7 +85,7 @@ public class TestingClient {
 			jobManagementBean.submitJobList();
 			System.out.println("Successfully submitted job list");
 		} catch (JobAssignmentException e) {
-			System.err.println("Job could not be assigned: "+e.getMessage());
+			System.err.println("Job list not submitted: "+e.getMessage());
 		} catch (NotLoggedInException e) {
 			System.err.println("Must be logged in: "+e.getMessage());
 		}
@@ -89,6 +101,8 @@ public class TestingClient {
 		TestingClient testingClient = new TestingClient();
 		testingClient.saveEntities();
 		
+//		timerService.
+		
 		System.out.println("Set prices ...");
 		testingClient.setPrices();
 		
@@ -103,13 +117,46 @@ public class TestingClient {
 		params2.add("param__3");
 		params2.add("param__4");
 		
-		testingClient.addJobToList(6L, 8, "workflow2", params);
-		testingClient.addJobToList(6L, 8, "workflow3", params2);
-		testingClient.addJobToList(7L, 4, "workflow4", params);
 		
-		testingClient.addJobToList(6L, 4, "workflow5", params2);
-		
-		testingClient.submitJobList();
+		while(true) {
+			
+			testingClient.getJobManagementBean();
+			
+			testingClient.login("usr1", "usr1");
+			
+			testingClient.addJobToList(6L, 8, "workflow2", params);
+			
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			testingClient.addJobToList(6L, 8, "workflow3", params2);
+			
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			testingClient.addJobToList(7L, 4, "workflow4", params);
+			
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+			}
+			
+//			testingClient.addJobToList(6L, 4, "workflow5", params2);
+//			
+//			try {
+//				Thread.sleep(2000);
+//			} catch (InterruptedException e) {
+//				
+//			}
+			
+			testingClient.submitJobList();
+			
+		}
 		
 	}
 }

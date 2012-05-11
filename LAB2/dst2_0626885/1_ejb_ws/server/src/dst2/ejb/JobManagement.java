@@ -20,7 +20,7 @@ public interface JobManagement {
 	
 	void submitJobList() throws JobAssignmentException, NotLoggedInException;
 	
-	void removeJobsFromGrid(Long gridId);
+	void removeJobsFromList(Long gridId);
 	
 	Map<Long,Integer> getAmountOfJobsPerGrid();
 	

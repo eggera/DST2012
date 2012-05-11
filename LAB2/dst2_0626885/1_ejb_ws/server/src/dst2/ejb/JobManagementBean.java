@@ -177,14 +177,22 @@ public class JobManagementBean implements JobManagement {
 		if( loggedInUser == null )
 			throw new NotLoggedInException("User must be logged in when submitting a job list");
 		
+		boolean empty = true;
+		for( Long gId : temporaryJobs.keySet() )
+			if( ! temporaryJobs.get(gId).isEmpty() )
+				empty = false;
+				
+		if(empty)
+			throw new JobAssignmentException("No Jobs currently assigned");
+		
 		try {
 			
 			// begin Transaction
 			if( ! (utx.getStatus() == Status.STATUS_ACTIVE) )
 				utx.begin();
 
-			for( Long gId : temporaryJobs.keySet() )
-				System.out.println(" all temp grid Ids : "+gId);
+//			for( Long gId : temporaryJobs.keySet() )
+//				System.out.println(" all temp grid Ids : "+gId);
 		
 			for( Long gridId : temporaryJobs.keySet() ) {
 				
@@ -265,7 +273,7 @@ public class JobManagementBean implements JobManagement {
 	
 	
 	@Override
-	public void removeJobsFromGrid(Long gridId) {
+	public void removeJobsFromList(Long gridId) {
 		
 		temporaryJobs.get(gridId).clear();
 	}
