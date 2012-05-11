@@ -19,7 +19,8 @@ public class TestingClient {
 	private Testing testingBean;
 	private PriceManagement priceManagementBean;
 	private JobManagement jobManagementBean;
-//	private TimerService timerServiceBean;
+	private GeneralManagement generalManagementBean;
+
 	
 	private Context ctx;
 	
@@ -31,6 +32,7 @@ public class TestingClient {
 			ctx = new InitialContext();
 			testingBean = (Testing) ctx.lookup("java:global/dst2_1/TestingBean");
 			priceManagementBean = (PriceManagement) ctx.lookup("java:global/dst2_1/PriceManagementBean");
+			generalManagementBean = (GeneralManagement) ctx.lookup("java:global/dst2_1/GeneralManagementBean");
 //			timerServiceBean = (TimerService) ctx.lookup("java:global/dst2_1/TimerServiceBean");
 //			jobManagementBean = (JobManagement) ctx.lookup("java:global/dst2_1/JobManagementBean");
 			getJobManagementBean();
@@ -59,6 +61,11 @@ public class TestingClient {
 		priceManagementBean.setPrice( 1000, new BigDecimal(15));
 		priceManagementBean.setPrice( 5000, new BigDecimal(5));
 		priceManagementBean.setPrice( 10000, new BigDecimal(1));
+	}
+	
+	
+	public String getTotalBillFor(String username) {
+		return generalManagementBean.getTotalBillFor(username);
 	}
 	
 	
@@ -145,6 +152,9 @@ public class TestingClient {
 			} catch (InterruptedException e) {
 				
 			}
+			
+			
+			testingClient.getTotalBillFor("usr1");
 			
 //			testingClient.addJobToList(6L, 4, "workflow5", params2);
 //			

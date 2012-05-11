@@ -10,4 +10,6 @@ public interface GeneralManagement {
 	
 	void setPrice( Integer numberOfHistoricalJobs, BigDecimal price );
 	
+	String getTotalBillFor(String username);
+	
 }

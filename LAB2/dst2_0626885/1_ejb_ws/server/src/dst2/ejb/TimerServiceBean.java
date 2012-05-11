@@ -26,15 +26,10 @@ import dst1.service.Service;
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class TimerServiceBean {
 
-//	// state
-//	
-//	private int c;
-//	
 	// deps
 	
 	@PersistenceContext
 	private EntityManager entityManager;
-	
 	
 	@Resource
 	private TimerService timerService;
@@ -42,7 +37,7 @@ public class TimerServiceBean {
 	
 	@PostConstruct
 	public void init() {
-		setTimer(1000);
+		setTimer(1000*60);
 	}
 	
 	 public void setTimer(int intervalDuration) {
@@ -56,20 +51,13 @@ public class TimerServiceBean {
 	@Lock(LockType.WRITE)
 	@Timeout
 	public void finishJobs() {
-		System.out.println("DES IS A TEST !!!!");
-		
-//		System.out.println("jobList size = "+jobList.size());
-		
+
 //		++c;
 //		
 //		Address address = new Address("street"+c,"city"+c,"000"+c);
 //		entityManager.persist(new User("Pepe"+c,"Horst"+c, address, "pep"+c, Service.getMD5Hash("pep"+c),
 //										String.valueOf(c+1000), String.valueOf(c+4000)));
-		
-//		List<Job> jobList = entityManager.createQuery("" +
-//				"SELECT j FROM Job j JOIN j.execution e " +
-//				"WHERE e.end IS NULL", Job.class)
-//				.getResultList();
+
 		
 		List<Execution> executionList = entityManager.createQuery("" +
 				"SELECT e FROM Execution e " +

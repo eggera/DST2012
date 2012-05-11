@@ -87,8 +87,8 @@ public class TestingBean implements Testing {
 		
 		System.out.println("Creating grids ... ");
 		
-		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(0.11));
-		Grid grid2 = new Grid("grid2", "G2", new BigDecimal(0.22));
+		Grid grid1 = new Grid("grid1", "G1", new BigDecimal(11));
+		Grid grid2 = new Grid("grid2", "G2", new BigDecimal(22));
 		
 		System.out.println("Saving   grids ... ");
 		
