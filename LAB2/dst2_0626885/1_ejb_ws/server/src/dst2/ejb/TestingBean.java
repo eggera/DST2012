@@ -76,7 +76,7 @@ public class TestingBean implements Testing {
 		
 		Date date = Service.getReferenceDate();
 
-		Execution execution1 = new Execution( new Date(date.getTime() - 1000*60*30), null, Execution.JobStatus.RUNNING );
+		Execution execution1 = new Execution( new Date(date.getTime() - 1000*60*30), new Date(date.getTime()), Execution.JobStatus.FINISHED );
 		
 		job1.setExecution(execution1);
 		
@@ -101,15 +101,15 @@ public class TestingBean implements Testing {
 
 		Membership membership1 = new Membership(grid1, user1, 
 										new Date(date.getTime()), 
-										new Double(1.1));
+										new Double(10));
 		
 		Membership membership2 = new Membership(grid1, user2, 
 										new Date(date.getTime()), 
-										new Double(2.2));
+										new Double(20));
 		
 		Membership membership3 = new Membership(grid2, user2, 
 										new Date(date.getTime()), 
-										new Double(3.3));
+										new Double(30));
 		
 		
 		System.out.println("Saving   memberships ... ");

@@ -10,6 +10,7 @@ import javax.naming.NamingException;
 
 import dst2.ejb.exception.JobAssignmentException;
 import dst2.ejb.exception.LoginFailedException;
+import dst2.ejb.exception.NoOpenBillsException;
 import dst2.ejb.exception.NotLoggedInException;
 
 public class TestingClient {
@@ -33,7 +34,6 @@ public class TestingClient {
 			testingBean = (Testing) ctx.lookup("java:global/dst2_1/TestingBean");
 			priceManagementBean = (PriceManagement) ctx.lookup("java:global/dst2_1/PriceManagementBean");
 			generalManagementBean = (GeneralManagement) ctx.lookup("java:global/dst2_1/GeneralManagementBean");
-//			timerServiceBean = (TimerService) ctx.lookup("java:global/dst2_1/TimerServiceBean");
 //			jobManagementBean = (JobManagement) ctx.lookup("java:global/dst2_1/JobManagementBean");
 			getJobManagementBean();
 		} catch (NamingException e) {
@@ -64,7 +64,7 @@ public class TestingClient {
 	}
 	
 	
-	public String getTotalBillFor(String username) {
+	public String getTotalBillFor(String username) throws NoOpenBillsException {
 		return generalManagementBean.getTotalBillFor(username);
 	}
 	
@@ -99,7 +99,7 @@ public class TestingClient {
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 		System.out.println("Client Bean Test\n\n");
 		
@@ -108,13 +108,8 @@ public class TestingClient {
 		TestingClient testingClient = new TestingClient();
 		testingClient.saveEntities();
 		
-//		timerService.
-		
 		System.out.println("Set prices ...");
 		testingClient.setPrices();
-		
-		
-		testingClient.login("usr1", "usr1");
 		
 		List<String> params = new ArrayList<String>();
 		params.add("param__1");
@@ -132,37 +127,21 @@ public class TestingClient {
 			testingClient.login("usr1", "usr1");
 			
 			testingClient.addJobToList(6L, 8, "workflow2", params);
-			
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
+			Thread.sleep(2000);
 				
-			}
 			testingClient.addJobToList(6L, 8, "workflow3", params2);
-			
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				
-			}
+			Thread.sleep(2000);
+	
 			testingClient.addJobToList(7L, 4, "workflow4", params);
+			Thread.sleep(2000);
 			
+		
 			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				
+				System.out.println("Total bill for user usr: "+testingClient.getTotalBillFor("usr1"));
+			} catch (NoOpenBillsException e) {
+				System.err.println(e.getMessage());
 			}
-			
-			
-			testingClient.getTotalBillFor("usr1");
-			
-//			testingClient.addJobToList(6L, 4, "workflow5", params2);
-//			
-//			try {
-//				Thread.sleep(2000);
-//			} catch (InterruptedException e) {
-//				
-//			}
+
 			
 			testingClient.submitJobList();
 			

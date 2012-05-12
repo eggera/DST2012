@@ -13,9 +13,7 @@ import dst2.ejb.exception.NotLoggedInException;
 @Remote
 public interface JobManagement {
 	
-	void test();
 
-	
 	void addJobToList(Long gridId, int numCPUs, String workflow, List<String> params) throws JobAssignmentException;
 	
 	void submitJobList() throws JobAssignmentException, NotLoggedInException;

@@ -57,6 +57,7 @@
 				<include name="dst2/ejb/exception/NotLoggedInException.class"/>
 				<include name="dst2/ejb/exception/LoginFailedException.class"/>
 				<include name="dst2/ejb/exception/JobAssignmentException.class"/>
+				<include name="dst2/ejb/exception/NoOpenBillsException.class"/>
             </fileset>
         </jar>
     </target>

@@ -50,42 +50,7 @@ public class JobManagementBean implements JobManagement {
 	
 	@Resource
 	private UserTransaction utx;
-	
-	
-	@Override
-	public void test() {
-		
-		try {
-			if( ! (utx.getStatus() == Status.STATUS_ACTIVE) )
-				utx.begin();
-			
-			Job job = entityManager.find(Job.class, 2L);
-			System.out.println("Job = "+job);
-			
-			List<Computer> freeComp = getFreeComputers(6L);
-			System.out.println("free computers size = "+freeComp.size());
-			
-			
-			List<String> params = new ArrayList<String>();
-			params.add("p1");
-			params.add("p2");
-			System.out.println("storing job ... ");
-			storeJob(new TemporaryJob(6L, 6, "workflow__", params));//
-			
-//			System.out.println("Creating new user ... ");
-//			User user3 = new User("User3","User3Last", new Address("street3","city3","3000"), 
-//					"usr3", Service.getMD5Hash("usr3"), "3456", "3000");
-//			entityManager.persist(user3);
-			
-//			System.out.println("before commit : "+utx.getStatus());
-			if( utx.getStatus() == Status.STATUS_ACTIVE )
-				utx.commit();
-//			System.out.println("after commit : "+ utx.getStatus());
-		}
-		catch (Exception e) {
-			System.err.println("Exception in test method: "+e.getMessage());
-		}
-	}
+
 	
 	
 	@Override
