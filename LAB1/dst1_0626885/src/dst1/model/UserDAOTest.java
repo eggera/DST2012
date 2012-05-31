@@ -2,8 +2,6 @@ package dst1.model;
 
 import java.util.List;
 
-import javax.persistence.*;
-
 /**
  * This class is used to test the functionality of the user DAO
  *

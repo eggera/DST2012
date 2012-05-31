@@ -1,7 +1,5 @@
 package dst1.test;
 
-import java.util.Date;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 

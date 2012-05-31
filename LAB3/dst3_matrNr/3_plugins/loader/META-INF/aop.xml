@@ -1,0 +1,18 @@
+<aspectj>
+	<aspects>
+		<!-- register your aspects here -->
+		<!-- 
+			Example:
+			<aspect name="your.first.Aspect"/>
+		 -->
+	</aspects>
+	
+	<weaver>
+	<!-- <weaver options="-verbose"> -->
+		<exclude within="java.*"/>
+		<exclude within="javax.*"/>
+		<exclude within="org.apache.*"/>
+		<exclude within="org.eclipse.*"/>
+		<exclude within="org.slf4j.*" />
+	</weaver>
+</aspectj>

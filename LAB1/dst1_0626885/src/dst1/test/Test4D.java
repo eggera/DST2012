@@ -1,13 +1,10 @@
 package dst1.test;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import dst1.interceptor.SQLInterceptor;
 import dst1.model.PersistenceUtil;
-import dst1.query.ComputerUsage;
 import dst1.query.JPQLQueries;
 
 public class Test4D {

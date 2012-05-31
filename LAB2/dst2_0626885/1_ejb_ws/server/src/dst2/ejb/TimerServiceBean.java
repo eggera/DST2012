@@ -22,7 +22,7 @@ import dst1.service.Service;
 
 
 @Startup
-@Singleton
+@Singleton // @Timer bzw imp;ements JobTimer
 public class TimerServiceBean {
 
 	// deps
@@ -46,7 +46,7 @@ public class TimerServiceBean {
 	}
 	 
 	
-//	@Schedule(second = "*", info = "jobFinishTimer")
+//	@Schedule(second = "0", minute="*/1", hour="*", info = "jobFinishTimer")
 	@Timeout
 	public void finishJobs() {
 		

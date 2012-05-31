@@ -3,6 +3,9 @@ package dst2.ejb;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -64,7 +67,7 @@ public class TestingClient {
 	}
 	
 	
-	public String getTotalBillFor(String username) throws NoOpenBillsException {
+	public Future<String> getTotalBillFor(String username) throws NoOpenBillsException {
 		return generalManagementBean.getTotalBillFor(username);
 	}
 	
@@ -135,10 +138,17 @@ public class TestingClient {
 			testingClient.addJobToList(7L, 4, "workflow4", params);
 			Thread.sleep(2000);
 			
-		
+			
 			try {
-				System.out.println("Total bill for user usr: "+testingClient.getTotalBillFor("usr1"));
+				Future<String> totalBill = testingClient.getTotalBillFor("usr1");
+				
+				while(!totalBill.isDone());
+				System.out.println(totalBill.get());
+				
+//				System.out.println("Total bill for user usr: "+testingClient.getTotalBillFor("usr1").get());
 			} catch (NoOpenBillsException e) {
+				System.err.println(e.getMessage());
+			} catch (ExecutionException e) {
 				System.err.println(e.getMessage());
 			}
 

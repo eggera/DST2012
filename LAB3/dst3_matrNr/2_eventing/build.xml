@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="dst3_2_Eventing" default="compile" basedir=".">
+
+    <property environment="env"/>
+	<property name="glassfish.home" value="${env.GLASSFISH_HOME}" />
+
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="lib.dir" value="../lib"/>
+            
+    <path id="classpath">
+		<fileset dir="${glassfish.home}/lib">
+			<include name="javaee.jar" />
+			<include name="appserv-rt.jar" />
+		</fileset>
+		<pathelement location="${build.dir}" />
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="compile">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}"
+               destdir="${build.dir}"
+               debug="on"
+               deprecation="on"
+               classpathref="classpath" />
+    </target>
+
+    <target name="run" depends="compile">
+        <java fork="true" classname="your.main.Class" classpathref="classpath"/>
+    </target>
+    
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+</project>

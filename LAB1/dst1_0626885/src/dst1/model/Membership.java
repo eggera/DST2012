@@ -91,6 +91,7 @@ public class Membership implements Serializable {
 	/**
 	 * String representation of this membership
 	 */
+	@Override
 	public String toString() {
 		return "gridId = "+grid.getGridId()+", " +
 				"userId = "+user.getId();

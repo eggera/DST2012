@@ -181,6 +181,7 @@ public class Computer implements Serializable {
 	/**
 	 * String representation of this computer
 	 */
+	@Override
 	public String toString() {
 		return  "id = "+ computerId + ", " +
 				"name = "+ name;

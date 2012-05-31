@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="dst3_3_Loader" default="compile" basedir=".">
+
+	<property file="../../build.properties" />
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="lib.dir" value="../../lib" />
+	<property name="jarfile.name" value="dst3_3_executable.jar" />
+
+	<path id="classpath">
+        <fileset dir="${lib.dir}">
+            <include name="aspectjrt.jar"/>
+        	<include name="aspectweaver.jar"/>
+        </fileset>
+		<pathelement location="${build.dir}" />
+	</path>
+
+	<target name="compile" description="Compile project.">
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" debug="true" deprecation="true" includeantruntime="false" />
+        <copy todir="${build.dir}/META-INF">
+            <fileset dir="META-INF" />
+        </copy>
+	</target>
+
+	<!-- Simply makes the IPluginExecutable class available to "clients". -->
+	<target name="dist" depends="compile">
+		<jar destfile="${lib.dir}/${jarfile.name}">
+			<fileset dir="${build.dir}"/>
+		</jar>
+	</target>
+
+	<!-- Set your main class -->
+	<target name="run" depends="compile">
+		<java classname="your.main.Class" fork="true" classpathref="classpath">
+			<jvmarg value="-javaagent:${lib.dir}/aspectjweaver.jar"/>	
+			<jvmarg value="-Djava.util.logging.config.file=META-INF/logging.properties"/>
+			<!-- This option is required for compatibility with Java 1.7,
+			 see, e.g., http://stackoverflow.com/questions/7970622/java-7-jvm-verifyerror-in-eclipse 
+			 or http://mail.openjdk.java.net/pipermail/jdk7-dev/2011-September/002260.html .
+			 Has also been tested with Java 1.6. -->
+			<jvmarg value="-XX:-UseSplitVerifier"/>
+		</java>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete file="${lib.dir}/${jarfile.name}" failonerror="false" />
+	</target>
+
+</project>

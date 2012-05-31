@@ -211,6 +211,7 @@ public class User extends Person implements Serializable {
 	/**
 	 * String representation of this User
 	 */
+	@Override
 	public String toString() {
 		return	 "user id = "+id+", " +
 			   "firstName = "+firstName+", " +
@@ -220,6 +221,7 @@ public class User extends Person implements Serializable {
 	/**
 	 * Extended String representation of this User
 	 */
+	@Override
 	public String toExtendedString() {
 		return "userId = "+id+", " +
 			"firstName = "+firstName+", " +

@@ -87,6 +87,7 @@ public abstract class Person implements Serializable {
 	/**
 	 * String representation of this person
 	 */
+	@Override
 	public String toString() {
 		return "id = "+id+", " +
 				"firstName = "+firstName+", " +

@@ -1,7 +1,5 @@
 package dst1.model;
 
-import java.util.List;
-
 import javax.persistence.*;
 
 public class EnvironmentDAO {
@@ -33,7 +31,6 @@ public class EnvironmentDAO {
 	 * @param environmentId the environmentId of the environment to remove
 	 * @return true if removed successfully, false otherwise
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean removeEnvironment(Long environmentId) {
 		
 		Environment environment_ = entityManager.find(Environment.class, environmentId);

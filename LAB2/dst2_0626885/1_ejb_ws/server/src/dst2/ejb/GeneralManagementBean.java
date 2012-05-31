@@ -5,7 +5,10 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
+import javax.ejb.AsyncResult;
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,7 +39,8 @@ public class GeneralManagementBean implements GeneralManagement {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getTotalBillFor(String username) throws NoOpenBillsException {
+	@Asynchronous
+	public Future<String> getTotalBillFor(String username) throws NoOpenBillsException {
 		
 		JobStatus status = JobStatus.FINISHED;
 		
@@ -159,7 +163,9 @@ public class GeneralManagementBean implements GeneralManagement {
 			computersPerJob = BigDecimal.valueOf(nrOfComputers)
 										.divide(BigDecimal.valueOf(unpaidJobs.size()), 1, RoundingMode.HALF_EVEN);
 		
-		return createBill(username, totalCosts, pricePerJob, setupCosts, executionCosts, computersPerJob);
+		String bill = createBill(username, totalCosts, pricePerJob, setupCosts, executionCosts, computersPerJob);
+		
+		return new AsyncResult<String>(bill);
 		
 	} 
 	
@@ -185,7 +191,7 @@ public class GeneralManagementBean implements GeneralManagement {
 	private String createBill(String username, BigDecimal totalCosts, BigDecimal pricePerJob, 
 										BigDecimal setupCosts, BigDecimal executionCosts, BigDecimal computersPerJob) {
 		
-		return " BILL for User "+username		+": \n\n"+
+		return " Total bill for User "+username		+": \n\n"+
 				" Total price 				: "+totalCosts		+"\n"+
 				" Price per Job 				: "+pricePerJob		+"\n"+
 				" Setup costs				: "+setupCosts		+"\n"+

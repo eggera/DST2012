@@ -159,6 +159,7 @@ public class Grid implements Serializable {
 	/**
 	 * String representation of this Grid
 	 */
+	@Override
 	public String toString() {
 		return "gridId = "+gridId+", " +
 				 "name = "+name;

@@ -62,6 +62,7 @@ public class Admin extends Person implements Serializable {
 	/**
 	 * String representation of this Admin
 	 */
+	@Override
 	public String toString() {
 		return "admin id = "+id+", " +
 			  "firstName = "+firstName+", " +
@@ -71,6 +72,7 @@ public class Admin extends Person implements Serializable {
 	/**
 	 * Extended String representation of this Admin
 	 */
+	@Override
 	public String toExtendedString() {
 		return "admin id = "+id+", " +
 			  "firstName = "+firstName+", " +

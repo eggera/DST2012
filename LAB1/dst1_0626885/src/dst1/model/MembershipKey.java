@@ -80,6 +80,7 @@ public final class MembershipKey implements Serializable {
 	/**
 	 * Get the String representation of this primary key class
 	 */
+	@Override
 	public String toString() {
 		return "gridId = "+grid.getGridId()+", userId = "+user.getId();
 	}

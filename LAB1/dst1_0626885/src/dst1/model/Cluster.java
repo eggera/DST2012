@@ -230,6 +230,7 @@ public class Cluster implements Serializable {
 	/**
 	 * Gets the String representation of this cluster
 	 */
+	@Override
 	public String toString() {
 		return "clusterId = "+clusterId+", " +
 				"name = "+name;

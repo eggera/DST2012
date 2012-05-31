@@ -8,6 +8,7 @@ public class SQLInterceptor extends EmptyInterceptor {
 
 	private static int countSQLSelects;
 	
+	@Override
 	public String onPrepareStatement(String sql) {
 		
 		// only count select statements on computers or executions
