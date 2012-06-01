@@ -4,6 +4,7 @@
 *.swp
 lib
 build
+bin
 examples
 docs
 abgabe

@@ -3,6 +3,11 @@
 <resources>
 
         <!-- DEFINE QUEUES AND TOPICS HERE -->
+        
+        <admin-object-resource enabled="true"
+                jndi-name="queue.dst.SchedulerQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
+                <property name="SchedulerQueue" value="queue.dst.SchedulerQueue" />
+        </admin-object-resource>
 
         <!-- EXAMPLE -->
         <admin-object-resource enabled="true"
