@@ -11,9 +11,8 @@ public class Main {
 		
 		try {
 			Scheduler scheduler = new Scheduler();
-			
-			scheduler.sendMessage("This is a test message!");
-			
+			scheduler.init();
+//			scheduler.processUserInput();
 //			scheduler.releaseResources();
 			
 		} catch (JMSException e) {

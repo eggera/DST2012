@@ -5,20 +5,17 @@ import javax.annotation.Resource;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
-import javax.jms.Message;
 import javax.jms.MessageConsumer;
-import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
-public class Scheduler implements MessageListener {
+public class Scheduler {
 
 	// defs
 	
@@ -31,6 +28,8 @@ public class Scheduler implements MessageListener {
 	private MessageProducer producer;
 	private MessageConsumer consumer;
 	
+	private Thread sendThread;
+	
 	// deps
 	
 	@Resource (name = "dst.Factory")
@@ -42,7 +41,7 @@ public class Scheduler implements MessageListener {
 	
 	
 	public Scheduler() throws Exception {
-		init();
+		
 	}
 	
 	public void init() throws Exception {
@@ -64,21 +63,22 @@ public class Scheduler implements MessageListener {
 		 * Look up connection factory and destination
 		 */
 		try {
-			connectionFactory = (ConnectionFactory) jndiContext.lookup("dst.Factory");
-			sendQueue = (Queue) jndiContext.lookup("queue.dst.SchedulerQueue");
-			replyQueue = (Queue) jndiContext.lookup("queue.dst.SchedulerReplyQueue");
+			connectionFactory 	= (ConnectionFactory) jndiContext.lookup("dst.Factory");
+			sendQueue 			= (Queue) jndiContext.lookup("queue.dst.SchedulerQueue");
+			replyQueue 			= (Queue) jndiContext.lookup("queue.dst.SchedulerReplyQueue");
 		} catch (NamingException e) {
 			logger.error("Naming exception, "+e.getMessage());
 			throw new Exception(e);
 		}
 		
 		try {
-			connection = connectionFactory.createConnection();
-			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			producer = session.createProducer(sendQueue);
+			connection 	= connectionFactory.createConnection();
+			session 	= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			producer 	= session.createProducer(sendQueue);
+			sendThread 	= new Thread(new SchedulerSendThread(session, producer, this));
 			
-			consumer = session.createConsumer(replyQueue);
-			consumer.setMessageListener(this);
+			consumer 	= session.createConsumer(replyQueue);
+			consumer.setMessageListener(new SchedulerListener());
 			
 			connection.start();
 		} catch (JMSException e) {
@@ -88,47 +88,8 @@ public class Scheduler implements MessageListener {
 		
 		logger.info("Scheduler initialization done");
 		
-	}
-	
-	
-	public void sendMessage(String message) throws JMSException {
-		Message msg = session.createTextMessage(message);
+		sendThread.start();
 		
-		if( logger.isDebugEnabled() )
-			logger.debug("sending message ... ");
-		producer.send(msg);
-		if( logger.isDebugEnabled() )
-			logger.debug("sending message done ");
-	}
-	
-	
-	public void test() {
-		logger.debug("just a test!");
-	}
-	
-	@Override
-	public void onMessage(Message message) {
-	
-		logger.debug("on message ...");
-		
-		TextMessage textMessage = null;
-		
-		try {
-		
-			if( TextMessage.class.isInstance(message) ) {
-				
-				logger.debug("textmessage: ");
-				textMessage = TextMessage.class.cast(message);
-				logger.debug(textMessage.getText());
-
-			}
-			else {
-				logger.debug("no textmessage");
-			}
-		} catch (JMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public void releaseResources() throws JMSException {

@@ -1,48 +1,29 @@
-package dst3.model;
+package dst3.dto;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import dst3.model.Task.TaskComplexity;
+import dst3.model.Task.TaskStatus;
 
-@SuppressWarnings("serial")
-@Entity
-public class Task implements Serializable {
 
-	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+public class TaskDTO implements Serializable {
+
 	private Long id;
 	private Long jobId;
-	@Enumerated (EnumType.STRING)
 	private TaskStatus status;
 	private String ratedBy;
-	@Enumerated (EnumType.STRING)
 	private TaskComplexity complexity;
+
 	
-	public enum TaskStatus {
-		ASSIGNED,
-		READY_FOR_PROCESSING,
-		PROCESSING_NOT_POSSIBLE,
-		PROCESSED
+	public TaskDTO() {
+		
 	}
 	
-	public enum TaskComplexity {
-		UNRATED,
-		EASY,
-		CHALLENGING
-	}
-	
-	public Task() {
-		// used by the persistence provider, eclipselink
-	}
-	
-	public Task(Long jobId, TaskStatus status, TaskComplexity complexity) {
+	public TaskDTO(Long id, Long jobId, TaskStatus status, String ratedBy, TaskComplexity complexity) {
+		this.id = id;
 		this.jobId = jobId;
 		this.status = status;
+		this.ratedBy = ratedBy;
 		this.complexity = complexity;
 	}
 	
@@ -87,4 +68,12 @@ public class Task implements Serializable {
 		this.complexity = complexity;
 	}
 	
+	@Override
+	public String toString() {
+		return "Task Id: "+id+"\n" +
+				"Job Id: "+jobId+"\n" +
+				"Status: "+status+"\n" +
+				"RatedBy: "+ratedBy+"\n" +
+				"Complexity: "+complexity;
+	}
 }
