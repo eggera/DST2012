@@ -6,13 +6,13 @@
         
         <admin-object-resource enabled="true"
                 jndi-name="queue.dst.SchedulerQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
-                <property name="SchedulerQueue" value="queue.dst.SchedulerQueue" />
+                <property name="Name" value="queue.dst.SchedulerQueue" />
         </admin-object-resource>
 
         <!-- EXAMPLE -->
         <admin-object-resource enabled="true"
-                jndi-name="queue.dst.MyQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
-                <property name="Name" value="queue.dst.MyQueue" />
+                jndi-name="queue.dst.SchedulerReplyQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
+                <property name="Name" value="queue.dst.SchedulerReplyQueue" />
         </admin-object-resource>
 
         <!-- FACTORY & POOL -->

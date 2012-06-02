@@ -10,10 +10,14 @@ import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.MessageProducer;
 import javax.jms.Queue;
+import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import javax.ejb.ActivationConfigProperty;
+
+import org.apache.log4j.Logger;
 
 
 @MessageDriven (mappedName="queue.dst.SchedulerQueue", activationConfig = {
@@ -22,19 +26,24 @@ import javax.ejb.ActivationConfigProperty;
 })
 public class SchedulerMessageBean implements MessageListener {
 
+	// state
+
+	private Connection connection;
+	
+	// deps
+
 	@Resource (mappedName = "dst.Factory")
 	private ConnectionFactory connectionFactory;
-	@Resource (mappedName = "queue.dst.SchedulerQueue")
-	private Queue queue;
+	@Resource (mappedName = "queue.dst.SchedulerReplyQueue")
+	private Queue replyQueue;
 	@Resource
 	private MessageDrivenContext mdc;
-	
-	private Connection connection;
 	
 	
 	@PostConstruct
 	public void init() throws JMSException {
 		connection = connectionFactory.createConnection();
+		connection.start();
 	}
 	
 	
@@ -49,18 +58,37 @@ public class SchedulerMessageBean implements MessageListener {
 	public void onMessage(Message msg) {
 		
 		try {
-			TextMessage textMessage = null;
 			
+			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			MessageProducer producer = session.createProducer(replyQueue);
+			
+			TextMessage textMessage = null;
 			
 			if( TextMessage.class.isInstance(msg) ) {
 				
 				textMessage = TextMessage.class.cast(msg);
-				System.out.println("message received: "+textMessage.getText());
+				System.out.println("message recieved: "+textMessage.getText());
+				
+//				if(!textMessage.getText().equals("")) {
+//					
+					System.out.println("NON EMPTY TEXT MESSAGE");
+					System.out.println("sending reply ...");
+					
+					TextMessage txtMsg = session.createTextMessage("message from server returned: "+textMessage.getText());
+					producer.send(txtMsg);
+					
+					System.out.println("reply sent");
+//				}
 				
 			}
+			
+			else {
+				
+				System.out.println("other message type: "+msg.getClass().getName());
+			}
 		} catch (JMSException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			mdc.setRollbackOnly();
 		}
 		
 	}

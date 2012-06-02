@@ -14,14 +14,20 @@
     <property name="dist.dir" value="dist"/>
     <property name="lib.dir" value="../../lib"/>
     <property name="config.dir" value="config"/>
+	<property name="log4j.dir" value="../../log4j" />
     <property name="jarfile.name" value="dst3_1"/>
     <property name="clientJarfile.name" value="dst3_1_client"/>
+	<property name="log4jJarfile.name" value="log4j-1.2.16.jar" />
             
     <path id="classpath">
         <fileset dir="${glassfish.home}/lib">
             <include name="javaee.jar"/>
             <include name="appserv-rt.jar"/>
         </fileset>
+    	<fileset dir="${lib.dir}">
+    		<include name="${log4jJarfile.name}"/>
+    	</fileset>
+    	<pathelement location="${log4j.dir}" />
     </path>
     
     <target name="check">
@@ -54,8 +60,8 @@
         <jar jarfile="${lib.dir}/${clientJarfile.name}.jar">
             <fileset dir="${build.dir}">
                 <!-- set the classes to be included for your clients.-->
-                <include name="dst2/ejb/your.first.class"/>
-                <include name="dst2/ejb/your.second.class"/>
+                <!-- include name="dst2/ejb/your.first.class"/-->
+                <!-- include name="dst2/ejb/your.second.class"/-->
             </fileset>
         </jar>
     </target>
@@ -78,11 +84,17 @@
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>
         <delete file="${lib.dir}/${clientJarfile.name}.jar"/>
-        <java jar="${admin.cli.jar}" fork="true" spawn="false">
+    </target>
+	
+	<target name="clean-resources">
+		<java jar="${admin.cli.jar}" fork="true" spawn="false">
             <arg line="delete-connector-connection-pool --cascade=true dst.FactoryPool"/>
 	   </java>
-        <java jar="${admin.cli.jar}" fork="true" spawn="false">
-            <arg line="delete-jms-resource queue.dst.MyQueue"/>
+    	<java jar="${admin.cli.jar}" fork="true" spawn="false">
+    		<arg line="delete-jms-resource queue.dst.SchedulerQueue"/>
+    	</java>
+		<java jar="${admin.cli.jar}" fork="true" spawn="false">
+            <arg line="delete-jms-resource queue.dst.SchedulerReplyQueue"/>
 	   </java>
-    </target>
+	</target>
 </project>

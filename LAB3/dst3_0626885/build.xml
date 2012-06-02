@@ -76,6 +76,8 @@
 	</target>
 	<target name="redeploy-messaging" depends="undeploy-messaging,deploy-messaging" />
 
+	<target name="scheduler" depends="clean,redeploy-messaging,run-scheduler" />
+	
 	<target name="run-scheduler" depends="build-messaging-projects">
 		<ant antfile="${messaging.scheduler.buildFile}" inheritAll="false" target="run" />
 	</target>
@@ -121,6 +123,10 @@
 		<ant antfile="${eventing.buildFile}" inheritAll="false" target="clean" />
         <ant antfile="${plugins.loader.buildFile}" inheritAll="false" target="clean"/>
         <ant antfile="${plugins.sample.buildFile}" inheritAll="false" target="clean"/>
+	</target>
+	
+	<target name="clean-resources">
+		<ant antfile="${messaging.server.buildFile}" inheritAll="false" target="clean-resources" />
 		<java jar="${admin.cli.jar}" fork="true" spawn="false">
 			<arg line="delete-jdbc-connection-pool --cascade=true dst_pool" />
 		</java>
