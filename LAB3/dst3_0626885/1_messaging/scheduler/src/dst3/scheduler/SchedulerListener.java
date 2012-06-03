@@ -9,6 +9,8 @@ import javax.jms.TextMessage;
 
 import org.apache.log4j.Logger;
 
+import dst3.dto.TaskDTO;
+
 public class SchedulerListener implements MessageListener {
 	
 	// defs
@@ -43,15 +45,16 @@ public class SchedulerListener implements MessageListener {
 				
 				logger.debug("getting object message ..." );
 				ObjectMessage objectMsg = ObjectMessage.class.cast(message);
-				logger.info(objectMsg.getObject());
+				TaskDTO taskDTO = (TaskDTO) objectMsg.getObject();
+				logger.info(taskDTO);
+//				logger.info(objectMsg.getObject());
 			}
 			
 			else {
 				logger.debug("no textmessage");
 			}
 		} catch (JMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in SchedulerListener, "+e.getMessage());
 		}
 	}
 

@@ -2,9 +2,13 @@ package dst3.main;
 
 import javax.jms.JMSException;
 
+import org.apache.log4j.Logger;
+
 import dst3.scheduler.Scheduler;
 
 public class Main {
+	
+	private final static Logger logger = Logger.getLogger(Main.class);
 
 	public static void main(String[] args) {
 		
@@ -16,11 +20,9 @@ public class Main {
 //			scheduler.releaseResources();
 			
 		} catch (JMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in initializiation procedure, "+e.getMessage());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("General Error in main, "+e.getMessage());
 		}
 		
 	}

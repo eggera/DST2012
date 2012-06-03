@@ -67,7 +67,7 @@ public class SchedulerSendThread implements Runnable {
 			}
 			
 		}
-		logger.debug("thread stopped");
+		logger.info("Exit Program");
 		
 		try {
 			scheduler.releaseResources();
@@ -141,7 +141,7 @@ public class SchedulerSendThread implements Runnable {
 	}
 	
 	private void stop() {
-		logger.info("stopping thread ...");
+		logger.debug("stopping thread ...");
 		stop = true;
 	}
 	
@@ -162,15 +162,5 @@ public class SchedulerSendThread implements Runnable {
 		
 		return Command.UNKNOWN;
 	}
-	
-//	public void sendMessage(String message) throws JMSException {
-//		Message msg = session.createTextMessage(message);
-//		
-//		if( logger.isDebugEnabled() )
-//			logger.debug("sending message ... ");
-//		producer.send(msg);
-//		if( logger.isDebugEnabled() )
-//			logger.debug("sending message done ");
-//	}
 
 }

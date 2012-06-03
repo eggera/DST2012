@@ -2,24 +2,38 @@ package dst3.dto;
 
 import java.io.Serializable;
 
-import dst3.model.Task.TaskComplexity;
-import dst3.model.Task.TaskStatus;
-
 
 public class TaskDTO implements Serializable {
 
+	/**
+	 * serial version UID
+	 */
+	private static final long serialVersionUID = -2886453366333509552L;
 	private Long id;
 	private Long jobId;
-	private TaskStatus status;
+	private TaskDTOStatus status;
 	private String ratedBy;
-	private TaskComplexity complexity;
+	private TaskDTOComplexity complexity;
 
+	public enum TaskDTOStatus {
+		ASSIGNED,
+		READY_FOR_PROCESSING,
+		PROCESSING_NOT_POSSIBLE,
+		PROCESSED
+	}
+	
+	public enum TaskDTOComplexity {
+		UNRATED,
+		EASY,
+		CHALLENGING
+	}
+	
 	
 	public TaskDTO() {
 		
 	}
 	
-	public TaskDTO(Long id, Long jobId, TaskStatus status, String ratedBy, TaskComplexity complexity) {
+	public TaskDTO(Long id, Long jobId, TaskDTOStatus status, String ratedBy, TaskDTOComplexity complexity) {
 		this.id = id;
 		this.jobId = jobId;
 		this.status = status;
@@ -44,11 +58,11 @@ public class TaskDTO implements Serializable {
 		this.jobId = jobId;
 	}
 	
-	public TaskStatus getStatus() {
+	public TaskDTOStatus getStatus() {
 		return status;
 	}
 	
-	public void setStatus(TaskStatus status) {
+	public void setStatus(TaskDTOStatus status) {
 		this.status = status;
 	}
 	
@@ -60,11 +74,11 @@ public class TaskDTO implements Serializable {
 		this.ratedBy = ratedBy;
 	}
 	
-	public TaskComplexity getComplexity() {
+	public TaskDTOComplexity getComplexity() {
 		return complexity;
 	}
 	
-	public void setComplexity(TaskComplexity complexity) {
+	public void setComplexity(TaskDTOComplexity complexity) {
 		this.complexity = complexity;
 	}
 	

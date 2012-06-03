@@ -26,15 +26,15 @@ import org.apache.log4j.Logger;
 
 import dst3.dto.TaskDTO;
 import dst3.model.Task;
-import dst3.model.Task.TaskComplexity;
-import dst3.model.Task.TaskStatus;
+import dst3.model.TaskComplexity;
+import dst3.model.TaskStatus;
 
 
 @MessageDriven (mappedName="queue.dst.SchedulerQueue", activationConfig = {
 		@ActivationConfigProperty (propertyName = "destinationType",
 								   propertyValue = "javax.jms.Queue")
 })
-public class SchedulerMessageBean implements MessageListener {
+public class SchedulerMDB implements MessageListener {
 
 	// state
 
@@ -94,6 +94,8 @@ public class SchedulerMessageBean implements MessageListener {
 			
 			if( MapMessage.class.isInstance(msg) ) {
 				
+				
+				
 				MapMessage clientMessage = MapMessage.class.cast(msg);
 				
 				if( clientMessage.getBooleanProperty("assign") == true ) {
@@ -111,7 +113,7 @@ public class SchedulerMessageBean implements MessageListener {
 					Task task 	= entityManager.find(Task.class, taskId);
 					
 					if( task != null ) {
-						TaskDTO taskDTO = new TaskDTO(taskId, task.getJobId(), task.getStatus(), task.getRatedBy(), task.getComplexity());
+						TaskDTO taskDTO = new TaskDTO(taskId, task.getJobId(), TaskDTO.TaskDTOStatus.valueOf(task.getStatus().toString()), task.getRatedBy(), TaskDTO.TaskDTOComplexity.valueOf(task.getComplexity().toString()));
 						
 						ObjectMessage objectMsg = session.createObjectMessage(taskDTO);
 						producer.send(objectMsg);

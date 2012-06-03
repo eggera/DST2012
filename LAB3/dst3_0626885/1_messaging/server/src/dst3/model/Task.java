@@ -23,18 +23,6 @@ public class Task implements Serializable {
 	@Enumerated (EnumType.STRING)
 	private TaskComplexity complexity;
 	
-	public enum TaskStatus {
-		ASSIGNED,
-		READY_FOR_PROCESSING,
-		PROCESSING_NOT_POSSIBLE,
-		PROCESSED
-	}
-	
-	public enum TaskComplexity {
-		UNRATED,
-		EASY,
-		CHALLENGING
-	}
 	
 	public Task() {
 		// used by the persistence provider, eclipselink
