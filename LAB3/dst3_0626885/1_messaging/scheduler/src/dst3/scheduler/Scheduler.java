@@ -1,7 +1,5 @@
 package dst3.scheduler;
 
-
-import javax.annotation.Resource;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -15,6 +13,7 @@ import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
+
 public class Scheduler {
 
 	// defs
@@ -23,21 +22,12 @@ public class Scheduler {
 	
 	// state
 	
-	private Connection connection;
-	private Session session;
-	private MessageProducer producer;
-	private MessageConsumer consumer;
-	
-	private Thread userThread;
-	
-	// deps
-	
-	@Resource (name = "dst.Factory")
 	private static ConnectionFactory connectionFactory;
-	@Resource (name = "queue.dst.SchedulerQueue")
 	private static Queue sendQueue;
-	@Resource (name = "queue.dst.SchedulerReplyQueue")
 	private static Queue replyQueue;
+	private static Queue deniedQueue;
+	
+	private Connection connection;
 	
 	
 	public void init() throws Exception {
@@ -62,19 +52,24 @@ public class Scheduler {
 			connectionFactory 	= (ConnectionFactory) jndiContext.lookup("dst.Factory");
 			sendQueue 			= (Queue) jndiContext.lookup("queue.dst.SchedulerQueue");
 			replyQueue 			= (Queue) jndiContext.lookup("queue.dst.SchedulerReplyQueue");
+			deniedQueue			= (Queue) jndiContext.lookup("queue.dst.SchedulerDeniedQueue");
 		} catch (NamingException e) {
 			logger.error("Naming exception, "+e.getMessage());
 			throw new Exception(e);
 		}
 		
 		try {
-			connection 	= connectionFactory.createConnection();
-			session 	= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			producer 	= session.createProducer(sendQueue);
-			userThread 	= new Thread(new SchedulerInputThread(session, producer, this));
+			connection 						= connectionFactory.createConnection();
+			Session session 				= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			MessageProducer producer 		= session.createProducer(sendQueue);
+			MessageConsumer consumer	 	= session.createConsumer(replyQueue);
+			MessageConsumer deniedConsumer 	= session.createConsumer(deniedQueue);
 			
-			consumer 	= session.createConsumer(replyQueue);
+			
 			consumer.setMessageListener(new SchedulerListener());
+			
+			new Thread(new SchedulerInputThread(session, producer, this)).start();
+			new Thread(new SchedulerDeniedThread(deniedConsumer)).start();
 			
 			connection.start();
 		} catch (JMSException e) {
@@ -83,8 +78,6 @@ public class Scheduler {
 		}
 		
 		logger.info("Scheduler initialization done");
-		
-		userThread.start();
 		
 	}
 	

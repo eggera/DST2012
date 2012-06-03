@@ -24,6 +24,11 @@
                 jndi-name="queue.dst.ClusterReplyQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
                 <property name="Name" value="queue.dst.ClusterReplyQueue" />
         </admin-object-resource>
+        
+        <admin-object-resource enabled="true"
+                jndi-name="queue.dst.SchedulerDeniedQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
+                <property name="Name" value="queue.dst.SchedulerDeniedQueue" />
+        </admin-object-resource>
 
         <!-- FACTORY & POOL -->
         <connector-resource jndi-name="dst.Factory"

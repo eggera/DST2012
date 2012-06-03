@@ -29,11 +29,6 @@ public class Cluster {
 	private static Queue replyQueue;
 	
 	private Connection connection;
-	private Session session;
-	private MessageProducer producer;
-	private MessageConsumer consumer;
-	
-	private Thread clusterInputThread;
 	
 	private String name;
 	
@@ -71,13 +66,12 @@ public class Cluster {
 		}
 		
 		try {
-			connection 	= connectionFactory.createConnection();
-			session 	= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			consumer 	= session.createConsumer(recieveQueue);
-			producer 	= session.createProducer(replyQueue);
+			connection 		= connectionFactory.createConnection();
+			Session session 			= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			MessageConsumer consumer 	= session.createConsumer(recieveQueue);
+			MessageProducer producer 	= session.createProducer(replyQueue);
 			
-			clusterInputThread 	= new Thread( new ClusterInputThread(session, producer, consumer, this) );
-			clusterInputThread.start();
+			new Thread( new ClusterInputThread(session, producer, consumer, this) ).start();
 			
 			connection.start();
 		} catch (JMSException e) {

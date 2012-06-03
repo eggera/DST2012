@@ -11,7 +11,10 @@ import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
+import javax.jms.Queue;
+import javax.jms.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -34,6 +37,8 @@ public class ClusterMDB  implements MessageListener {
 
 	@Resource (mappedName = "dst.Factory")
 	private ConnectionFactory connectionFactory;
+	@Resource (mappedName = "queue.dst.SchedulerDeniedQueue")
+	private Queue schedulerQueue;
 	@Resource
 	private MessageDrivenContext mdc;
 	
@@ -61,6 +66,9 @@ public class ClusterMDB  implements MessageListener {
 		
 		try {
 			
+			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			MessageProducer schedulerMsgProducer = session.createProducer(schedulerQueue);
+			
 			if( ObjectMessage.class.isInstance(msg) ) {
 				
 				ObjectMessage message = ObjectMessage.class.cast(msg);
@@ -85,6 +93,10 @@ public class ClusterMDB  implements MessageListener {
 					if( task != null ) {
 						task.setStatus(TaskStatus.valueOf(taskDTO.getStatus().toString()));
 						task.setRatedBy(taskDTO.getRatedBy());
+						
+						ObjectMessage schedulerMessage = session.createObjectMessage(taskDTO);
+						schedulerMessage.setStringProperty("type", "denied");
+						schedulerMsgProducer.send(schedulerMessage);
 					}
 				}
 			}

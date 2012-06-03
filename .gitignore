@@ -2,6 +2,7 @@
 .classpath
 .project
 *.swp
+*.jar
 lib
 build
 bin
