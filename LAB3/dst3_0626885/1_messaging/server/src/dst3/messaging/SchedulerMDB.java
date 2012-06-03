@@ -22,8 +22,6 @@ import javax.persistence.PersistenceContext;
 
 import javax.ejb.ActivationConfigProperty;
 
-import org.apache.log4j.Logger;
-
 import dst3.dto.TaskDTO;
 import dst3.model.Task;
 import dst3.model.TaskComplexity;
@@ -45,7 +43,9 @@ public class SchedulerMDB implements MessageListener {
 	@Resource (mappedName = "dst.Factory")
 	private ConnectionFactory connectionFactory;
 	@Resource (mappedName = "queue.dst.SchedulerReplyQueue")
-	private Queue replyQueue;
+	private Queue schedulerReplyQueue;
+	@Resource (mappedName = "queue.dst.ClusterQueue")
+	private Queue clusterQueue;
 	@Resource
 	private MessageDrivenContext mdc;
 	
@@ -73,7 +73,8 @@ public class SchedulerMDB implements MessageListener {
 		try {
 			
 			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			MessageProducer producer = session.createProducer(replyQueue);
+			MessageProducer schedulerMsgProducer = session.createProducer(schedulerReplyQueue);
+			MessageProducer clusterMsgProducer = session.createProducer(clusterQueue);
 			
 			TextMessage textMessage = null;
 			
@@ -86,16 +87,14 @@ public class SchedulerMDB implements MessageListener {
 				System.out.println("sending reply ...");
 				
 				TextMessage txtMsg = session.createTextMessage("message from server returned: "+textMessage.getText());
-				producer.send(txtMsg);
+				schedulerMsgProducer.send(txtMsg);
 				
 				System.out.println("reply sent");
 				
 			}
 			
 			if( MapMessage.class.isInstance(msg) ) {
-				
-				
-				
+
 				MapMessage clientMessage = MapMessage.class.cast(msg);
 				
 				if( clientMessage.getBooleanProperty("assign") == true ) {
@@ -104,9 +103,15 @@ public class SchedulerMDB implements MessageListener {
 					
 					entityManager.persist(task);
 					
+					// reply to scheduler with task id
 					StreamMessage streamMsg = session.createStreamMessage();
 					streamMsg.writeLong(task.getId());
-					producer.send(streamMsg);
+					schedulerMsgProducer.send(streamMsg);
+					
+					// send task to queue for clusters
+					TaskDTO taskDTO = new TaskDTO(task.getId(), task.getJobId(), TaskDTO.TaskDTOStatus.valueOf(task.getStatus().toString()), task.getRatedBy(), TaskDTO.TaskDTOComplexity.valueOf(task.getComplexity().toString()));
+					ObjectMessage clusterMsg = session.createObjectMessage(taskDTO);
+					clusterMsgProducer.send(clusterMsg);
 				}
 				else if( clientMessage.getBooleanProperty("info") == true ) {
 					Long taskId = clientMessage.getLong("taskId");
@@ -116,7 +121,7 @@ public class SchedulerMDB implements MessageListener {
 						TaskDTO taskDTO = new TaskDTO(taskId, task.getJobId(), TaskDTO.TaskDTOStatus.valueOf(task.getStatus().toString()), task.getRatedBy(), TaskDTO.TaskDTOComplexity.valueOf(task.getComplexity().toString()));
 						
 						ObjectMessage objectMsg = session.createObjectMessage(taskDTO);
-						producer.send(objectMsg);
+						schedulerMsgProducer.send(objectMsg);
 					}
 				}
 				else {

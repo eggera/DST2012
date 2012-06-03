@@ -10,11 +10,11 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import org.apache.log4j.Logger;
 
-public class SchedulerSendThread implements Runnable {
+public class SchedulerInputThread implements Runnable {
 
 	// defs
 	
-	private final static Logger logger = Logger.getLogger(SchedulerSendThread.class);
+	private final static Logger logger = Logger.getLogger(SchedulerInputThread.class);
 	
 	public enum Command { ASSIGN, INFO, STOP, UNKNOWN };
 	
@@ -27,7 +27,7 @@ public class SchedulerSendThread implements Runnable {
 	private boolean stop;
 	
 	
-	public SchedulerSendThread(Session session, MessageProducer producer, Scheduler scheduler) {
+	public SchedulerInputThread(Session session, MessageProducer producer, Scheduler scheduler) {
 		this.session = session;
 		this.producer = producer;
 		this.scheduler = scheduler;
@@ -75,7 +75,7 @@ public class SchedulerSendThread implements Runnable {
 			logger.error("Failed to release resources, "+e.getMessage());
 		}
 		
-		System.exit(1);
+		System.exit(0);
 		
 	}
 	

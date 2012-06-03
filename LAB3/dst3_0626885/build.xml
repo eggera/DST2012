@@ -54,7 +54,7 @@
 	<target name="build-messaging-projects">
 		<ant antfile="${messaging.server.buildFile}" inheritAll="false" target="dist" />
 		<ant antfile="${messaging.scheduler.buildFile}" inheritAll="false" target="compile" />
-		<ant antfile="${messaging.computer.buildFile}" inheritAll="false" target="compile" />
+		<ant antfile="${messaging.cluster.buildFile}" inheritAll="false" target="compile" />
 		<ant antfile="${messaging.computer.buildFile}" inheritAll="false" target="compile" />
 	</target>
 

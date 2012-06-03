@@ -7,7 +7,9 @@
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="build" />
 	<property name="lib.dir" value="../../lib" />
+	<property name="log4j.dir" value="../../log4j" />
 	<property name="clientJarfile.name" value="dst3_1_client.jar" />
+	<property name="log4jJarfile.name" value="log4j-1.2.16.jar" />
 
 	<path id="classpath">
 		<fileset dir="${glassfish.home}/lib">
@@ -16,8 +18,10 @@
 		</fileset>
 		<fileset dir="${lib.dir}">
 			<include name="${clientJarfile.name}" />
+			<include name="${log4jJarfile.name}" />
 		</fileset>
 		<pathelement location="${build.dir}" />
+		<pathelement location="${log4j.dir}" />
 	</path>
 
 	<target name="check">
@@ -33,13 +37,13 @@
 
 	<!-- set your main class -->
 	<target name="run-c1" depends="compile">
-		<java classname="your.main.Class" fork="true" classpathref="classpath">
+		<java classname="dst3.cluster.main.Main" fork="true" classpathref="classpath">
 			<arg value="c1" />
 		</java>
 	</target>
 
 	<target name="run-c2" depends="compile">
-		<java classname="your.main.Class" fork="true" classpathref="classpath">
+		<java classname="dst3.cluster.main.Main" fork="true" classpathref="classpath">
 			<arg value="c2" />
 		</java>
 	</target>

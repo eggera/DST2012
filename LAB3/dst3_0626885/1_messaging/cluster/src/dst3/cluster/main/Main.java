@@ -1,10 +1,10 @@
-package dst3.main;
+package dst3.cluster.main;
 
 import javax.jms.JMSException;
 
 import org.apache.log4j.Logger;
 
-import dst3.scheduler.Scheduler;
+import dst3.cluster.Cluster;
 
 public class Main {
 	
@@ -12,12 +12,14 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		if( args.length != 1 ) {
+			logger.error("The unique name of the cluster must be given as argument");
+			System.exit(1);
+		}
 		
 		try {
-			Scheduler scheduler = new Scheduler();
-			scheduler.init();
-//			scheduler.processUserInput();
-//			scheduler.releaseResources();
+			Cluster cluster = new Cluster(args[0]);
+			cluster.init();
 			
 		} catch (JMSException e) {
 			logger.error("Error in initializiation procedure, "+e.getMessage());

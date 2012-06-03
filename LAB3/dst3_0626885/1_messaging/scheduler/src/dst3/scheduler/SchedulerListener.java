@@ -47,7 +47,6 @@ public class SchedulerListener implements MessageListener {
 				ObjectMessage objectMsg = ObjectMessage.class.cast(message);
 				TaskDTO taskDTO = (TaskDTO) objectMsg.getObject();
 				logger.info(taskDTO);
-//				logger.info(objectMsg.getObject());
 			}
 			
 			else {

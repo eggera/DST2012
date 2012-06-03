@@ -33,14 +33,11 @@
 	<target name="compile" depends="check">
 		<mkdir dir="${build.dir}" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on" deprecation="on" classpathref="classpath" />
-		<!--copy todir="${build.dir}">
-			<fileset dir="${src.dir}" excludes="**/*.java"/>
-		</copy-->
 	</target>
 
 	<!-- set your main class -->
 	<target name="run" depends="compile">
-		<java classname="dst3.main.Main" fork="true" classpathref="classpath" />
+		<java classname="dst3.scheduler.main.Main" fork="true" classpathref="classpath" />
 	</target>
 
 	<target name="clean">

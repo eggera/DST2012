@@ -98,5 +98,11 @@
 		<java jar="${admin.cli.jar}" fork="true" spawn="false">
             <arg line="delete-jms-resource queue.dst.SchedulerReplyQueue"/>
 	   </java>
+		<java jar="${admin.cli.jar}" fork="true" spawn="false">
+			<arg line="delete-jms-resource queue.dst.ClusterQueue"/>
+		</java>
+		<java jar="${admin.cli.jar}" fork="true" spawn="false">
+			<arg line="delete-jms-resource queue.dst.ClusterReplyQueue"/>
+		</java>
 	</target>
 </project>

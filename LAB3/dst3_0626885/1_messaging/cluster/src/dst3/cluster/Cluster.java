@@ -1,4 +1,4 @@
-package dst3.scheduler;
+package dst3.cluster;
 
 
 import javax.annotation.Resource;
@@ -15,29 +15,32 @@ import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
-public class Scheduler {
+
+public class Cluster {
 
 	// defs
 	
-	private static final Logger logger = Logger.getLogger(Scheduler.class);
+	private static final Logger logger = Logger.getLogger(Cluster.class);
 	
 	// state
+	
+	private static ConnectionFactory connectionFactory;
+	private static Queue recieveQueue;
+	private static Queue replyQueue;
 	
 	private Connection connection;
 	private Session session;
 	private MessageProducer producer;
 	private MessageConsumer consumer;
 	
-	private Thread userThread;
+	private Thread clusterInputThread;
 	
-	// deps
+	private String name;
 	
-	@Resource (name = "dst.Factory")
-	private static ConnectionFactory connectionFactory;
-	@Resource (name = "queue.dst.SchedulerQueue")
-	private static Queue sendQueue;
-	@Resource (name = "queue.dst.SchedulerReplyQueue")
-	private static Queue replyQueue;
+	
+	public Cluster(String name) {
+		this.name = name;
+	}
 	
 	
 	public void init() throws Exception {
@@ -60,8 +63,8 @@ public class Scheduler {
 		 */
 		try {
 			connectionFactory 	= (ConnectionFactory) jndiContext.lookup("dst.Factory");
-			sendQueue 			= (Queue) jndiContext.lookup("queue.dst.SchedulerQueue");
-			replyQueue 			= (Queue) jndiContext.lookup("queue.dst.SchedulerReplyQueue");
+			recieveQueue		= (Queue) jndiContext.lookup("queue.dst.ClusterQueue");
+			replyQueue 			= (Queue) jndiContext.lookup("queue.dst.ClusterReplyQueue");
 		} catch (NamingException e) {
 			logger.error("Naming exception, "+e.getMessage());
 			throw new Exception(e);
@@ -70,11 +73,11 @@ public class Scheduler {
 		try {
 			connection 	= connectionFactory.createConnection();
 			session 	= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			producer 	= session.createProducer(sendQueue);
-			userThread 	= new Thread(new SchedulerInputThread(session, producer, this));
+			consumer 	= session.createConsumer(recieveQueue);
+			producer 	= session.createProducer(replyQueue);
 			
-			consumer 	= session.createConsumer(replyQueue);
-			consumer.setMessageListener(new SchedulerListener());
+			clusterInputThread 	= new Thread( new ClusterInputThread(session, producer, consumer, this) );
+			clusterInputThread.start();
 			
 			connection.start();
 		} catch (JMSException e) {
@@ -84,8 +87,10 @@ public class Scheduler {
 		
 		logger.info("Scheduler initialization done");
 		
-		userThread.start();
-		
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public void releaseResources() throws JMSException {
