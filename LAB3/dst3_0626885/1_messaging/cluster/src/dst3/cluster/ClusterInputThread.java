@@ -30,8 +30,8 @@ public class ClusterInputThread implements Runnable {
 	
 	private Session session;
 	private MessageProducer producer;
+	private MessageConsumer consumer;
 	private Cluster cluster;
-	private ClusterQueueThread queueThread;
 	
 	private boolean stop;
 	
@@ -39,9 +39,8 @@ public class ClusterInputThread implements Runnable {
 	public ClusterInputThread(Session session, MessageProducer producer, MessageConsumer consumer, Cluster cluster) {
 		this.session 			= session;
 		this.producer 			= producer;
+		this.consumer 			= consumer;
 		this.cluster 			= cluster;
-		
-		this.queueThread 		= new ClusterQueueThread(consumer);
 	}
 	
 
@@ -51,13 +50,12 @@ public class ClusterInputThread implements Runnable {
 		String userInput = null;
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
-		TaskDTO taskDTO = null;
-		
+		ClusterQueueThread queueThread = new ClusterQueueThread(consumer);
 		executorService.execute( queueThread );
 		
 		while(!stop) {
 			
-			logger.debug("read user input: ");
+			logger.info("Input command (accept|deny|stop) ");
 			
 			try {
 				userInput = in.readLine();
@@ -82,7 +80,7 @@ public class ClusterInputThread implements Runnable {
 			
 			else if( queueThread.messageAvailable() ) {
 				try {
-					taskDTO = TaskDTO.class.cast(queueThread.getMessage().getObject());
+					TaskDTO taskDTO = TaskDTO.class.cast(queueThread.getMessage().getObject());
 					
 					switch(command) {
 					case ACCEPT:	sendAccept(taskDTO, userInput);
@@ -99,7 +97,7 @@ public class ClusterInputThread implements Runnable {
 			
 			}
 			else {
-				logger.info("No tasks delivered");				
+				logger.info("No tasks available");				
 			}
 			
 		}

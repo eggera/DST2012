@@ -4,8 +4,6 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import javax.jms.StreamMessage;
-import javax.jms.TextMessage;
 
 import org.apache.log4j.Logger;
 
@@ -22,41 +20,42 @@ public class SchedulerListener implements MessageListener {
 	
 		logger.debug("on message ...");
 		
-		TextMessage textMessage = null;
-		
 		try {
 		
-			if( TextMessage.class.isInstance(message) ) {
+			if( ObjectMessage.class.isInstance(message) ) {
 				
-				logger.debug("textmessage: ");
-				textMessage = TextMessage.class.cast(message);
-				logger.debug(textMessage.getText());
-
-			}
-			
-			else if( StreamMessage.class.isInstance(message) ) {
-				
-				logger.debug("getting stream message ...");
-				StreamMessage streamMsg = StreamMessage.class.cast(message);
-				logger.info("Task Id of the newly created Task: "+streamMsg.readLong());
-			}
-			
-			else if( ObjectMessage.class.isInstance(message) ) {
-				
-				logger.debug("getting object message ..." );
 				ObjectMessage objectMsg = ObjectMessage.class.cast(message);
-				TaskDTO taskDTO = (TaskDTO) objectMsg.getObject();
-				logger.info(taskDTO);
+				
+				if( objectMsg.getStringProperty("type").equals("assignConfirm") ) {					
+					TaskDTO taskDTO = (TaskDTO) objectMsg.getObject();
+					logger.info("assign confirm for jobId "+ taskDTO.getJobId() +": "+taskDTO.getId());
+				}
+				
+				if( objectMsg.getStringProperty("type").equals("infoReply") ) {				
+					TaskDTO taskDTO = (TaskDTO) objectMsg.getObject();
+					logger.info("info reply: "+taskDTO);
+				}
+				
+				else if( objectMsg.getStringProperty("type").equals("denied") ) {
+					TaskDTO taskDTO = (TaskDTO) objectMsg.getObject();
+					
+					logger.info("task denied: "+taskDTO);
+				}
+				
+				else if( objectMsg.getStringProperty("type").equals("processed") ) {
+					TaskDTO taskDTO = (TaskDTO) objectMsg.getObject();
+					
+					logger.info("task processed: "+taskDTO);
+				}
+				
 			}
 			
 			else {
-				logger.debug("no textmessage");
+				logger.debug("other message type: "+message.getClass().getName());
 			}
 		} catch (JMSException e) {
 			logger.error("Error in SchedulerListener, "+e.getMessage());
 		}
 	}
-
-	
 
 }

@@ -2,14 +2,13 @@
 <!DOCTYPE resources PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server 9.0 Resource Definitions //EN" "http://www.sun.com/software/appserver/dtds/sun-resources_1_3.dtd">
 <resources>
 
-        <!-- DEFINE QUEUES AND TOPICS HERE -->
+        <!-- QUEUES AND TOPICS -->
         
         <admin-object-resource enabled="true"
                 jndi-name="queue.dst.SchedulerQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
                 <property name="Name" value="queue.dst.SchedulerQueue" />
         </admin-object-resource>
 
-        <!-- EXAMPLE -->
         <admin-object-resource enabled="true"
                 jndi-name="queue.dst.SchedulerReplyQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
                 <property name="Name" value="queue.dst.SchedulerReplyQueue" />
@@ -26,9 +25,15 @@
         </admin-object-resource>
         
         <admin-object-resource enabled="true"
-                jndi-name="queue.dst.SchedulerDeniedQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
-                <property name="Name" value="queue.dst.SchedulerDeniedQueue" />
+        		jndi-name="topic.dst.ClusterComputerTopic" res-adapter="jmsra" res-type="javax.jms.Topic">
+        		<property name="Name" value="topic.dst.ClusterComputerTopic" />
         </admin-object-resource>
+        
+        <admin-object-resource enabled="true"
+                jndi-name="queue.dst.ComputerReplyQueue" res-adapter="jmsra" res-type="javax.jms.Queue">
+                <property name="Name" value="queue.dst.ComputerReplyQueue" />
+        </admin-object-resource>
+        
 
         <!-- FACTORY & POOL -->
         <connector-resource jndi-name="dst.Factory"

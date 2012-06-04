@@ -10,6 +10,8 @@
 	<property name="log4j.dir" value="../../log4j" />
 	<property name="clientJarfile.name" value="dst3_1_client.jar" />
 	<property name="log4jJarfile.name" value="log4j-1.2.16.jar" />
+	
+	<property name="main.class.name" value="dst3.computer.main.Main" />
 
 	<path id="classpath">
 		<fileset dir="${glassfish.home}/lib">
@@ -37,7 +39,7 @@
 
 	<!-- set your main class -->
 	<target name="run-pc1" depends="compile">
-		<java classname="your.main.Class" fork="true" classpathref="classpath">
+		<java classname="${main.class.name}" fork="true" classpathref="classpath">
 			<arg value="pc1" />
 			<arg value="c1" />
 			<arg value="CHALLENGING" />
@@ -46,7 +48,7 @@
 
 	<!-- set your main class -->
 	<target name="run-pc2" depends="compile">
-		<java classname="dst3.client.Computer" fork="true" classpathref="classpath">
+		<java classname="${main.class.name}" fork="true" classpathref="classpath">
 			<arg value="pc2" />
 			<arg value="c1" />
 			<arg value="EASY" />
@@ -55,7 +57,7 @@
 
 	<!-- set your main class -->
 	<target name="run-pc3" depends="compile">
-		<java classname="your.main.Class" fork="true" classpathref="classpath">
+		<java classname="${main.class.name}" fork="true" classpathref="classpath">
 			<arg value="pc3" />
 			<arg value="c2" />
 			<arg value="CHALLENGING" />
@@ -64,7 +66,7 @@
 
 	<!-- set your main class -->
 	<target name="run-pc4" depends="compile">
-		<java classname="your.main.Class" fork="true" classpathref="classpath">
+		<java classname="${main.class.name}" fork="true" classpathref="classpath">
 			<arg value="pc4" />
 			<arg value="c2" />
 			<arg value="EASY" />

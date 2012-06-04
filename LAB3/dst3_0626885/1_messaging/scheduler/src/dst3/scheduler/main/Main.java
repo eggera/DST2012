@@ -8,8 +8,12 @@ import dst3.scheduler.Scheduler;
 
 public class Main {
 	
+	// defs
+	
 	private final static Logger logger = Logger.getLogger(Main.class);
 
+	// main
+	
 	public static void main(String[] args) {		
 		
 		try {

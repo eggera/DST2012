@@ -10,6 +10,7 @@
 	<property name="log4j.dir" value="../../log4j" />
 	<property name="clientJarfile.name" value="dst3_1_client.jar" />
 	<property name="log4jJarfile.name" value="log4j-1.2.16.jar" />
+	<property name="main.class.name" value="dst3.cluster.main.Main" />
 
 	<path id="classpath">
 		<fileset dir="${glassfish.home}/lib">
@@ -37,13 +38,13 @@
 
 	<!-- set your main class -->
 	<target name="run-c1" depends="compile">
-		<java classname="dst3.cluster.main.Main" fork="true" classpathref="classpath">
+		<java classname="${main.class.name}" fork="true" classpathref="classpath">
 			<arg value="c1" />
 		</java>
 	</target>
 
 	<target name="run-c2" depends="compile">
-		<java classname="dst3.cluster.main.Main" fork="true" classpathref="classpath">
+		<java classname="${main.class.name}" fork="true" classpathref="classpath">
 			<arg value="c2" />
 		</java>
 	</target>

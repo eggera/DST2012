@@ -25,7 +25,6 @@ public class Scheduler {
 	private static ConnectionFactory connectionFactory;
 	private static Queue sendQueue;
 	private static Queue replyQueue;
-	private static Queue deniedQueue;
 	
 	private Connection connection;
 	
@@ -52,7 +51,6 @@ public class Scheduler {
 			connectionFactory 	= (ConnectionFactory) jndiContext.lookup("dst.Factory");
 			sendQueue 			= (Queue) jndiContext.lookup("queue.dst.SchedulerQueue");
 			replyQueue 			= (Queue) jndiContext.lookup("queue.dst.SchedulerReplyQueue");
-			deniedQueue			= (Queue) jndiContext.lookup("queue.dst.SchedulerDeniedQueue");
 		} catch (NamingException e) {
 			logger.error("Naming exception, "+e.getMessage());
 			throw new Exception(e);
@@ -62,14 +60,11 @@ public class Scheduler {
 			connection 						= connectionFactory.createConnection();
 			Session session 				= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			MessageProducer producer 		= session.createProducer(sendQueue);
-			MessageConsumer consumer	 	= session.createConsumer(replyQueue);
-			MessageConsumer deniedConsumer 	= session.createConsumer(deniedQueue);
-			
+			MessageConsumer consumer	 	= session.createConsumer(replyQueue);			
 			
 			consumer.setMessageListener(new SchedulerListener());
 			
 			new Thread(new SchedulerInputThread(session, producer, this)).start();
-			new Thread(new SchedulerDeniedThread(deniedConsumer)).start();
 			
 			connection.start();
 		} catch (JMSException e) {

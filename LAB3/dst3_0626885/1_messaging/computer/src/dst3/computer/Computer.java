@@ -1,5 +1,4 @@
-package dst3.cluster;
-
+package dst3.computer;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -8,6 +7,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.Topic;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -15,25 +15,31 @@ import javax.naming.NamingException;
 import org.apache.log4j.Logger;
 
 
-public class Cluster {
+public class Computer {
 
 	// defs
 	
-	private static final Logger logger = Logger.getLogger(Cluster.class);
+	private static final Logger logger = Logger.getLogger(Computer.class);
+	
+	// resources
+	
+	private static ConnectionFactory connectionFactory;
+	
+	private Connection connection;
+	private Topic computerTopic;
+	private Queue replyQueue;
 	
 	// state
 	
-	private static ConnectionFactory connectionFactory;
-	private static Queue recieveQueue;
-	private static Queue replyQueue;
-	
-	private Connection connection;
-	
 	private String name;
+	private String cluster;
+	private String complexity;
 	
 	
-	public Cluster(String name) {
-		this.name = name;
+	public Computer(String name, String cluster, String complexity) {
+		this.name 			= name;
+		this.cluster 		= cluster;
+		this.complexity 	= complexity;
 	}
 	
 	
@@ -57,20 +63,24 @@ public class Cluster {
 		 */
 		try {
 			connectionFactory 	= (ConnectionFactory) jndiContext.lookup("dst.Factory");
-			recieveQueue		= (Queue) jndiContext.lookup("queue.dst.ClusterQueue");
-			replyQueue 			= (Queue) jndiContext.lookup("queue.dst.ClusterReplyQueue");
+			computerTopic		= (Topic) jndiContext.lookup("topic.dst.ClusterComputerTopic");
+			replyQueue			= (Queue) jndiContext.lookup("queue.dst.ComputerReplyQueue");
+
 		} catch (NamingException e) {
 			logger.error("Naming exception, "+e.getMessage());
 			throw new Exception(e);
 		}
 		
 		try {
-			connection 		= connectionFactory.createConnection();
-			Session session 			= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			MessageConsumer consumer 	= session.createConsumer(recieveQueue);
-			MessageProducer producer 	= session.createProducer(replyQueue);
 			
-			new Thread( new ClusterInputThread(session, producer, consumer, this) ).start();
+			connection 						= connectionFactory.createConnection();
+			connection.setClientID( name );
+			
+			Session session 				= connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			MessageProducer producer 	 	= session.createProducer(replyQueue);
+			MessageConsumer consumer	 	= session.createDurableSubscriber(computerTopic, name, "ratedBy = '"+cluster+"' AND complexity = '"+complexity+"'", false);
+			
+			new Thread(new ComputerInputThread(session, producer, consumer, this)).start();
 			
 			connection.start();
 		} catch (JMSException e) {
@@ -78,13 +88,21 @@ public class Cluster {
 			throw new Exception(e);
 		}
 		
-		logger.info("Cluster initialization done");
+		logger.info("Computer initialization done");
 		
 	}
-	
-	public String getName() {
-		return this.name;
-	}
+
+//	public String getName() {
+//		return name;
+//	}
+//
+//	public String getCluster() {
+//		return cluster;
+//	}
+//
+//	public String getComplexity() {
+//		return complexity;
+//	}
 	
 	public void releaseResources() throws JMSException {
 		connection.close();

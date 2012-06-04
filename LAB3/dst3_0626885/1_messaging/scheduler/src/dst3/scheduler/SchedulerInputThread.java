@@ -3,6 +3,8 @@ package dst3.scheduler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
@@ -16,7 +18,7 @@ public class SchedulerInputThread implements Runnable {
 	
 	private final static Logger logger = Logger.getLogger(SchedulerInputThread.class);
 	
-	public enum Command { ASSIGN, INFO, STOP, UNKNOWN };
+	public enum Command { ASSIGN, INFO, STOP, INVALID };
 	
 	// state
 	
@@ -25,6 +27,8 @@ public class SchedulerInputThread implements Runnable {
 	private Scheduler scheduler;
 	
 	private boolean stop;
+	
+	private List<String> arguments = new ArrayList<String>();
 	
 	
 	public SchedulerInputThread(Session session, MessageProducer producer, Scheduler scheduler) {
@@ -42,7 +46,7 @@ public class SchedulerInputThread implements Runnable {
 		
 		while(!stop) {
 			
-			logger.debug("read user input: ");
+			logger.info("Input command (assign|info|stop) ");
 			
 			try {
 				userInput = in.readLine();
@@ -62,12 +66,12 @@ public class SchedulerInputThread implements Runnable {
 							break;
 			case STOP:		stop();
 							break;
-			case UNKNOWN:	unknown();
+			case INVALID:	invalid();
 							break;
 			}
 			
 		}
-		logger.info("Exit Program");
+		logger.info("Exit program");
 		
 		try {
 			scheduler.releaseResources();
@@ -80,25 +84,10 @@ public class SchedulerInputThread implements Runnable {
 	}
 	
 	private void sendAssignRequest(String userInput) {
-		String[] arr = userInput.split(" ");
-		
-		if( arr.length < 2 ) {
-			logger.warn("Please provide a job id");
-			return;
-		}
-		
-		long jobId = 0l;
-		try {
-			jobId = Long.parseLong(arr[1]);
-
-		} catch(NumberFormatException nfe) {
-			logger.warn("assign: No valid jobId");
-			return;
-		}
 		
 		try {
 			MapMessage mapMsg = session.createMapMessage();
-			mapMsg.setLong("jobId", jobId);
+			mapMsg.setLong("jobId", Long.parseLong(arguments.remove(0)));
 			mapMsg.setBooleanProperty("assign", true);
 			
 			logger.debug("sending assign request ...");
@@ -111,24 +100,10 @@ public class SchedulerInputThread implements Runnable {
 	}
 	
 	private void sendInfoRequest(String userInput) {
-		String[] arr = userInput.split(" ");
 		
-		if( arr.length < 2 ) {
-			logger.warn("Please provide a task id");
-			return;
-		}
-		
-		long taskId = 0l;
-		try {
-			taskId = Long.parseLong(arr[1]);
-
-		} catch(NumberFormatException nfe) {
-			logger.warn("assign: No valid taskId");
-			return;
-		}
 		try {
 			MapMessage mapMsg = session.createMapMessage();
-			mapMsg.setLong("taskId", taskId);
+			mapMsg.setLong("taskId", Long.parseLong(arguments.remove(0)));
 			mapMsg.setBooleanProperty("info", true);
 			
 			logger.debug("sending info request ... ");
@@ -145,22 +120,56 @@ public class SchedulerInputThread implements Runnable {
 		stop = true;
 	}
 	
-	private void unknown() {
-		logger.warn("Command unknown");
+	private void invalid() {
+		logger.info("Command invalid");
 	}
 	
 	
 	private Command getUserCommand(String userInput) {
-		if(userInput.startsWith("assign"))
-			return Command.ASSIGN;
+		String[] input = userInput.split(" ");
+		
+		if(userInput.startsWith("assign")) {
 			
-		if( userInput.startsWith("info"))
+			if( input.length != 2 ) {
+				logger.info("Please provide a job id");
+				return Command.INVALID;
+			}
+			
+			try {
+				Long.parseLong(input[1]);
+
+			} catch(NumberFormatException nfe) {
+				logger.warn("assign: Not a valid jobId");
+				return Command.INVALID;
+			}
+			arguments.add(input[1]);
+			
+			return Command.ASSIGN;
+		}
+			
+		if( userInput.startsWith("info")) {
+			
+			if( input.length < 2 ) {
+				logger.info("Please provide a task id");
+				return Command.INVALID;
+			}
+			
+			try {
+				Long.parseLong(input[1]);
+
+			} catch(NumberFormatException nfe) {
+				logger.warn("assign: No valid taskId");
+				return Command.INVALID;
+			}
+			arguments.add(input[1]);
+			
 			return Command.INFO;
+		}
 		
 		if( userInput.startsWith("stop"))
 			return Command.STOP;
 		
-		return Command.UNKNOWN;
+		return Command.INVALID;
 	}
 
 }

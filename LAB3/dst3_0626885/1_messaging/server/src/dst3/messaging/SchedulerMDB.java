@@ -15,8 +15,6 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
-import javax.jms.StreamMessage;
-import javax.jms.TextMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -37,6 +35,9 @@ public class SchedulerMDB implements MessageListener {
 	// state
 
 	private Connection connection;
+	private Session session;
+	private MessageProducer schedulerMsgProducer;
+	private MessageProducer clusterMsgProducer;
 	
 	// deps
 
@@ -55,7 +56,11 @@ public class SchedulerMDB implements MessageListener {
 	
 	@PostConstruct
 	public void init() throws JMSException {
-		connection = connectionFactory.createConnection();
+		connection = connectionFactory.createConnection();		
+		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+		schedulerMsgProducer = session.createProducer(schedulerReplyQueue);
+		clusterMsgProducer = session.createProducer(clusterQueue);
+		
 		connection.start();
 	}
 	
@@ -72,27 +77,6 @@ public class SchedulerMDB implements MessageListener {
 		
 		try {
 			
-			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			MessageProducer schedulerMsgProducer = session.createProducer(schedulerReplyQueue);
-			MessageProducer clusterMsgProducer = session.createProducer(clusterQueue);
-			
-			TextMessage textMessage = null;
-			
-			if( TextMessage.class.isInstance(msg) ) {
-				
-				textMessage = TextMessage.class.cast(msg);
-				System.out.println("message recieved: "+textMessage.getText());
-		
-				System.out.println("NON EMPTY TEXT MESSAGE");
-				System.out.println("sending reply ...");
-				
-				TextMessage txtMsg = session.createTextMessage("message from server returned: "+textMessage.getText());
-				schedulerMsgProducer.send(txtMsg);
-				
-				System.out.println("reply sent");
-				
-			}
-			
 			if( MapMessage.class.isInstance(msg) ) {
 
 				MapMessage clientMessage = MapMessage.class.cast(msg);
@@ -103,13 +87,14 @@ public class SchedulerMDB implements MessageListener {
 					
 					entityManager.persist(task);
 					
-					// reply to scheduler with task id
-					StreamMessage streamMsg = session.createStreamMessage();
-					streamMsg.writeLong(task.getId());
-					schedulerMsgProducer.send(streamMsg);
+					TaskDTO taskDTO = new TaskDTO(task.getId(), task.getJobId(), TaskDTO.TaskDTOStatus.valueOf(task.getStatus().toString()), task.getRatedBy(), TaskDTO.TaskDTOComplexity.valueOf(task.getComplexity().toString()));
+					
+					// reply to scheduler with task
+					ObjectMessage schedulerMsg = session.createObjectMessage(taskDTO);
+					schedulerMsg.setStringProperty("type", "assignConfirm");
+					schedulerMsgProducer.send(schedulerMsg);
 					
 					// send task to queue for clusters
-					TaskDTO taskDTO = new TaskDTO(task.getId(), task.getJobId(), TaskDTO.TaskDTOStatus.valueOf(task.getStatus().toString()), task.getRatedBy(), TaskDTO.TaskDTOComplexity.valueOf(task.getComplexity().toString()));
 					ObjectMessage clusterMsg = session.createObjectMessage(taskDTO);
 					clusterMsgProducer.send(clusterMsg);
 				}
@@ -121,6 +106,7 @@ public class SchedulerMDB implements MessageListener {
 						TaskDTO taskDTO = new TaskDTO(taskId, task.getJobId(), TaskDTO.TaskDTOStatus.valueOf(task.getStatus().toString()), task.getRatedBy(), TaskDTO.TaskDTOComplexity.valueOf(task.getComplexity().toString()));
 						
 						ObjectMessage objectMsg = session.createObjectMessage(taskDTO);
+						objectMsg.setStringProperty("type", "infoReply");
 						schedulerMsgProducer.send(objectMsg);
 					}
 				}

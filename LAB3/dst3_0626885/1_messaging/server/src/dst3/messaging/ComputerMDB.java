@@ -15,27 +15,25 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
-import javax.jms.Topic;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import dst3.dto.TaskDTO;
 import dst3.model.Task;
-import dst3.model.TaskComplexity;
 import dst3.model.TaskStatus;
 
-@MessageDriven (mappedName="queue.dst.ClusterReplyQueue", activationConfig = {
+
+@MessageDriven (mappedName="queue.dst.ComputerReplyQueue", activationConfig = {
 		@ActivationConfigProperty (propertyName = "destinationType",
 								   propertyValue = "javax.jms.Queue")
 })
-public class ClusterMDB  implements MessageListener {
+public class ComputerMDB implements MessageListener {
 
 	// state
 
 	private Connection connection;
 	private Session session;
 	private MessageProducer schedulerProducer;
-	private MessageProducer topicProducer;
 	
 	// deps
 
@@ -43,8 +41,6 @@ public class ClusterMDB  implements MessageListener {
 	private ConnectionFactory connectionFactory;
 	@Resource (mappedName = "queue.dst.SchedulerReplyQueue")
 	private Queue schedulerReplyQueue;
-	@Resource (mappedName = "topic.dst.ClusterComputerTopic")
-	private Topic topic;
 	@Resource
 	private MessageDrivenContext mdc;
 	
@@ -57,7 +53,6 @@ public class ClusterMDB  implements MessageListener {
 		connection = connectionFactory.createConnection();
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		schedulerProducer = session.createProducer(schedulerReplyQueue);
-		topicProducer = session.createProducer(topic);
 		
 		connection.start();
 	}
@@ -83,45 +78,25 @@ public class ClusterMDB  implements MessageListener {
 				
 				Task task = entityManager.find(Task.class, taskDTO.getId());				
 				
-				if( message.getStringProperty("type").equals("accept") ) {
+				if( message.getStringProperty("type").equals("processed") ) {
 					
 					if( task != null ) {
-						System.out.println("Cluster accept");
 						
-						task.setStatus(TaskStatus.valueOf(taskDTO.getStatus().toString()));
-						task.setRatedBy(taskDTO.getRatedBy());
-						task.setComplexity(TaskComplexity.valueOf(taskDTO.getComplexity().toString()));
+						task.setStatus(TaskStatus.PROCESSED);
 						
-						ObjectMessage topicMsg = session.createObjectMessage(taskDTO);
-						topicMsg.setStringProperty("ratedBy", taskDTO.getRatedBy());
-						topicMsg.setStringProperty("complexity", taskDTO.getComplexity().toString());
-						topicProducer.send(topicMsg);
+						ObjectMessage schedulerMsg = session.createObjectMessage(taskDTO);
+						schedulerMsg.setStringProperty("type", "processed");
+						schedulerProducer.send(schedulerMsg);
 						
 					}
+					
 				}
 				
-				else if( message.getStringProperty("type").equals("deny") ) {
-
-					if( task != null ) {
-						System.out.println("Cluster deny");
-						
-						task.setStatus(TaskStatus.valueOf(taskDTO.getStatus().toString()));
-						task.setRatedBy(taskDTO.getRatedBy());
-						
-						ObjectMessage schedulerMessage = session.createObjectMessage(taskDTO);
-						schedulerMessage.setStringProperty("type", "denied");
-						schedulerProducer.send(schedulerMessage);
-					}
-				}
 			}
-			else {
-				System.out.println("Not an object message, messageType: "+msg.getClass().getName());
-			}
-			
 		} catch(JMSException e) {
 			System.out.println("Exception in onMessage, "+e.getMessage());
 			mdc.setRollbackOnly();
 		}
 	}
-
+	
 }
