@@ -6,12 +6,16 @@
 	<property name="build.dir" value="build" />
 	<property name="lib.dir" value="../../lib" />
 	<property name="jarfile.name" value="dst3_3_executable.jar" />
+	<property name="jnotify.dir" value="${lib.dir}/jnotify" />
 
 	<path id="classpath">
         <fileset dir="${lib.dir}">
             <include name="aspectjrt.jar"/>
-        	<include name="aspectweaver.jar"/>
+        	<include name="aspectjweaver.jar"/>
         </fileset>
+		<fileset dir="${jnotify.dir}">
+			<include name="jnotify-0.94.jar"/>
+		</fileset>
 		<pathelement location="${build.dir}" />
 	</path>
 
@@ -32,9 +36,10 @@
 
 	<!-- Set your main class -->
 	<target name="run" depends="compile">
-		<java classname="your.main.Class" fork="true" classpathref="classpath">
+		<java classname="dst3.loader.main.Main" fork="true" classpathref="classpath">
 			<jvmarg value="-javaagent:${lib.dir}/aspectjweaver.jar"/>	
 			<jvmarg value="-Djava.util.logging.config.file=META-INF/logging.properties"/>
+			<jvmarg value="-Djava.library.path=../../lib/jnotify"/>
 			<!-- This option is required for compatibility with Java 1.7,
 			 see, e.g., http://stackoverflow.com/questions/7970622/java-7-jvm-verifyerror-in-eclipse 
 			 or http://mail.openjdk.java.net/pipermail/jdk7-dev/2011-September/002260.html .

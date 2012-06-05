@@ -12,7 +12,7 @@
         <fileset dir="${lib.dir}">
             <include name="dst3_3_executable.jar"/>
             <include name="aspectjrt.jar"/>
-        	<include name="aspectweaver.jar"/>
+        	<include name="aspectjweaver.jar"/>
         </fileset>
     </path>
     

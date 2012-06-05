@@ -91,18 +91,6 @@ public class Computer {
 		logger.info("Computer initialization done");
 		
 	}
-
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public String getCluster() {
-//		return cluster;
-//	}
-//
-//	public String getComplexity() {
-//		return complexity;
-//	}
 	
 	public void releaseResources() throws JMSException {
 		connection.close();
