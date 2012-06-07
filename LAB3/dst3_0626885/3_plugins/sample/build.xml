@@ -7,13 +7,16 @@
     <property name="lib.dir" value="../../lib"/>
     <property name="plugins.dir" value="../loader/plugins"/>
     <property name="jarfile.name" value="dst3_3_sample.jar"/>
+	<property name="log4j.dir" value="../../log4j" />
     
     <path id="classpath">
         <fileset dir="${lib.dir}">
             <include name="dst3_3_executable.jar"/>
             <include name="aspectjrt.jar"/>
         	<include name="aspectjweaver.jar"/>
+        	<include name="log4j-1.2.16.jar"/>
         </fileset>
+    	<pathelement location="${log4j.dir}" />
     </path>
     
     <target name="compile">

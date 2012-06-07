@@ -2,15 +2,21 @@ package dst3.dynload;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import net.contentobjects.jnotify.JNotify;
 //import net.contentobjects.jnotify.JNotifyException;
@@ -24,20 +30,20 @@ public class PluginExecutor implements IPluginExecutor {
 
 	// state
 	
+	private ExecutorService executorService = Executors.newCachedThreadPool();
+	
+	private Map<String, ClassLoader> jarsClassLoader = new HashMap<String, ClassLoader>();
+	
 	private Set<File> directories = new HashSet<File>();
 	
 	private Map<File, Integer> watchedDirs = new HashMap<File, Integer>();
 	
 	private final int mask = 	JNotify.FILE_CREATED  | 
 								JNotify.FILE_MODIFIED;
-	private boolean watchSubTree = true;
+	private boolean watchSubTree = false;
 	
 	private boolean running = false;
 	
-	
-	public PluginExecutor() {
-		init();
-	}
 	
 	
 	private void init() {
@@ -46,6 +52,16 @@ public class PluginExecutor implements IPluginExecutor {
 //		String libraryPath = System.getProperty("java.library.path") + ":" + libDir;
 //		libraryPath = "/home/blackstar/Dropbox/uni/DST/DST2012/LAB3/dst3_0626885/lib/jnotify";
 //		System.setProperty("java.library.path", libraryPath);
+		
+		executorService.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
     
     
@@ -73,7 +89,7 @@ public class PluginExecutor implements IPluginExecutor {
 			}
 		}
 		else
-			System.err.println("No directory");
+			System.err.println("Not a directory: "+dir.getName());
 	}
 
 	
@@ -140,6 +156,10 @@ public class PluginExecutor implements IPluginExecutor {
 		}
 		running = false;
 	}
+	
+	public void releaseResources() {
+		executorService.shutdown();
+	}
 
 	
 	private final JNotifyListener listener = new JNotifyListener() {
@@ -147,8 +167,27 @@ public class PluginExecutor implements IPluginExecutor {
 		@Override
 		public void fileCreated(int wd, String rootPath, String name)
 	    {
-			System.out.println("JNotifyTest.fileCreated() : wd #" + wd + " root = " + rootPath
-	                + ", " + name + ", extension = "+getFileExtension(name));
+//			logger.debug("JNotifyTest.fileCreated() : wd #" + wd + " root = " + rootPath
+//	                + ", " + name + ", extension = "+getFileExtension(name));
+			
+			logger.debug("file created: "+name);
+			
+			if(isJarFile(name)) {
+		        
+		        try {
+		        	String path = rootPath + System.getProperty("file.separator") + name;
+		        	
+					JarFile jarFile = new JarFile(path);
+					
+					processJarFile(jarFile, path);
+					
+				} catch (IOException e) {
+					logger.debug("fileCreated(): not a valid jar file, "+name);
+				}	        
+	        
+			}
+			else
+				logger.debug("other file");
 				
 	    }
 
@@ -164,39 +203,25 @@ public class PluginExecutor implements IPluginExecutor {
 		@Override
 		public void fileModified(int wd, String rootPath, String name)
 	    {   
-	        System.out.println("JNotifyTest.fileModified() : wd #" + wd + " root = " + rootPath + ", " + name);
-	        
+
 	        if(isJarFile(name)) {
 		        
-		        
-//		        File file = new File(name);
-		        
 		        try {
-					JarFile jarFile = new JarFile(name);
-					System.out.println("jar file size = "+jarFile.size());
-					Enumeration<JarEntry> files = jarFile.entries();
+		        	String path = rootPath + System.getProperty("file.separator") + name;
+		        	
+					JarFile jarFile = new JarFile(path);
 					
-					while( files.hasMoreElements() ) {
-						JarEntry entry = files.nextElement();
-						System.out.println("entry: "+entry.getName());
-					}
+					processJarFile(jarFile, path);
 					
 				} catch (IOException e) {
-					System.err.println("while creating jar file, "+e.getMessage());
-					e.printStackTrace();
+//					logger.warn("fileModified(): not a valid jar file, "+name);
 				}
-		        
-//		        System.out.println("filename = "+file.getName());
-		        
-		        // no directory!
-//		        System.out.println("nr of files: "+file.list().length);
-	        
 	        
 			}
 			else
-				System.out.println("other file");
+				logger.debug("other file");
 	        
-	    }   
+	    }
 
 		@Override
 		public void fileRenamed(int wd, String rootPath, String oldName, String newName)
@@ -209,19 +234,99 @@ public class PluginExecutor implements IPluginExecutor {
 	// helper
 	
 	private boolean isJarFile(String fileName) {
-		if(getFileExtension(fileName) != null) {
-			if(getFileExtension(fileName).equals("jar"))
-				return true;
-		}
+		if(getFileExtension(fileName).equals("jar"))
+			return true;
 		return false;
+	}
+	
+	private boolean isClassFile(String fileName) {
+		if(getFileExtension(fileName).equals("class"))
+			return true;
+		return false;
+	}
+	
+	private String getBinaryName(String fileName) {
+		if(isClassFile(fileName)) {
+			String binaryName = fileName.replace(System.getProperty("file.separator").charAt(0), '.');
+			return removeFileExtension(binaryName);
+		}
+		else
+			return null;
 	}
 	
 	private String getFileExtension(String fileName) {
 		if(fileName.lastIndexOf('.') != -1)
 			return fileName.substring(fileName.lastIndexOf('.')+1);
 		else
-			return null;
+			return "";
 	}
 	
+	private String removeFileExtension(String fileName) {
+		return fileName.substring(0,fileName.lastIndexOf('.'));
+	}
+	
+	
+	private void processJarFile(JarFile jarFile, String path) throws MalformedURLException {
+		
+		logger.debug("jar file modified");
+		logger.debug("jar file name = "+jarFile.getName());
+		logger.debug("jar file size = "+jarFile.size());
+		
+		File file = new File(jarFile.getName());
+		
+//		logger.debug("URL from file: "+file.toURI().toURL());
+//		logger.debug("URI from file: "+file.toURI());
+		
+		
+		ClassLoader classLoader = null;
+		
+		if( jarsClassLoader.containsKey(path) )
+			classLoader = jarsClassLoader.get(path);
+		
+		else {
+			classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, getClass().getClassLoader());
+			jarsClassLoader.put(path, classLoader);
+		}
+		
+		Enumeration<JarEntry> files = jarFile.entries();
+		
+		while( files.hasMoreElements() ) {
+			JarEntry entry = files.nextElement();
+
+			if(isClassFile(entry.getName())) {
+				
+				String binaryName = getBinaryName(entry.getName());
+			
+				try {								
+					Class<?> clazz = Class.forName(binaryName,false,classLoader);
+
+					if( IPluginExecutable.class.isAssignableFrom(clazz) ) {
+//						logger.debug("INSTANCE of IPluginExecutable: "+binaryName);
+						
+						try {
+							final IPluginExecutable plugin = (IPluginExecutable) clazz.newInstance();
+							
+							executorService.execute(new Runnable() {
+								@Override
+								public void run() {
+									plugin.execute();
+								}
+							});
+						} catch (InstantiationException e) {
+							logger.warn("when creating new instance, "+e.getMessage());
+						} catch (IllegalAccessException e) {
+							logger.warn("when creating new instance, "+e.getMessage());
+						}
+		
+					}
+					else
+						logger.debug("Not an instance of IPluginExecutable: "+binaryName);
+				} catch (ClassNotFoundException e) {
+					logger.warn("No class found, "+e.getMessage());
+				}
+			}
+		}
+		
+	}
 	
 }

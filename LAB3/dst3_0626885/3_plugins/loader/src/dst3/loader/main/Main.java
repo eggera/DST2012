@@ -1,32 +1,21 @@
 package dst3.loader.main;
 
-import java.io.File;
+import org.apache.log4j.Logger;
 
-import dst3.dynload.IPluginExecutor;
-import dst3.dynload.PluginExecutor;
+import dst3.loader.thread.PluginLoader;
 
 public class Main {
 
+	// defs
+	
+	private final static Logger logger = Logger.getLogger(Main.class);
+	
 	
 	public static void main(String[] args) throws InterruptedException {
 		
+		logger.info("Start listening for new Plugins ...");
 		
-		IPluginExecutor pluginExecutor = new PluginExecutor();
-		
-//		System.out.println("java.library.path = "+System.getProperty("java.library.path"));
-//		System.out.println("user.dir = "+System.getProperty("user.dir"));
-		
-		pluginExecutor.monitor(new File("plugins"));
-		
-		pluginExecutor.start();
-		
-		Thread.sleep(100000);
-		
-		pluginExecutor.stop();
-		
-//		Thread.sleep(5000);
-		
-		
+		new Thread(new PluginLoader()).start();
 		
 	}
 	

@@ -6,17 +6,20 @@
 	<property name="build.dir" value="build" />
 	<property name="lib.dir" value="../../lib" />
 	<property name="jarfile.name" value="dst3_3_executable.jar" />
-	<property name="jnotify.dir" value="${lib.dir}/jnotify" />
+	<property name="log4j.dir" value="../../log4j" />
 
 	<path id="classpath">
         <fileset dir="${lib.dir}">
             <include name="aspectjrt.jar"/>
         	<include name="aspectjweaver.jar"/>
+        	<include name="jnotify-0.94.jar"/>
+        	<include name="log4j-1.2.16.jar"/>
         </fileset>
-		<fileset dir="${jnotify.dir}">
+		<!--fileset dir="${jnotify.dir}">
 			<include name="jnotify-0.94.jar"/>
-		</fileset>
+		</fileset-->
 		<pathelement location="${build.dir}" />
+		<pathelement location="${log4j.dir}" />
 	</path>
 
 	<target name="compile" description="Compile project.">
