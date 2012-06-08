@@ -14,6 +14,9 @@ import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
+import javax.jms.QueueConnection;
+import javax.jms.QueueConnectionFactory;
+import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -60,7 +63,6 @@ public class SchedulerMDB implements MessageListener {
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		schedulerMsgProducer = session.createProducer(schedulerReplyQueue);
 		clusterMsgProducer = session.createProducer(clusterQueue);
-		
 		connection.start();
 	}
 	

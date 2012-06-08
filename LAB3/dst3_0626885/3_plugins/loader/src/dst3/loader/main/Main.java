@@ -13,7 +13,8 @@ public class Main {
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-		logger.info("Start listening for new Plugins ...");
+		logger.info("Start listening for new Plugins ... you might have to run \"clean\" and \"dist\" from the sample buildfile" +
+				" for the plugin loader to recognize the jar file");
 		
 		new Thread(new PluginLoader()).start();
 		

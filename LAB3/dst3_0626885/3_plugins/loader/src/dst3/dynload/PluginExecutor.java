@@ -43,26 +43,6 @@ public class PluginExecutor implements IPluginExecutor {
 	private boolean watchSubTree = false;
 	
 	private boolean running = false;
-	
-	
-	
-	private void init() {
-		
-//		String libDir = System.getProperty("user.dir") + "/../../lib/jnotify";
-//		String libraryPath = System.getProperty("java.library.path") + ":" + libDir;
-//		libraryPath = "/home/blackstar/Dropbox/uni/DST/DST2012/LAB3/dst3_0626885/lib/jnotify";
-//		System.setProperty("java.library.path", libraryPath);
-		
-		executorService.execute(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-	}
     
     
     /**
@@ -170,7 +150,7 @@ public class PluginExecutor implements IPluginExecutor {
 //			logger.debug("JNotifyTest.fileCreated() : wd #" + wd + " root = " + rootPath
 //	                + ", " + name + ", extension = "+getFileExtension(name));
 			
-			logger.debug("file created: "+name);
+//			logger.debug("file created: "+name);
 			
 			if(isJarFile(name)) {
 		        
@@ -182,7 +162,7 @@ public class PluginExecutor implements IPluginExecutor {
 					processJarFile(jarFile, path);
 					
 				} catch (IOException e) {
-					logger.debug("fileCreated(): not a valid jar file, "+name);
+//					logger.debug("fileCreated(): not a valid jar file, "+name);
 				}	        
 	        
 			}
@@ -268,15 +248,10 @@ public class PluginExecutor implements IPluginExecutor {
 	
 	private void processJarFile(JarFile jarFile, String path) throws MalformedURLException {
 		
-		logger.debug("jar file modified");
 		logger.debug("jar file name = "+jarFile.getName());
 		logger.debug("jar file size = "+jarFile.size());
 		
 		File file = new File(jarFile.getName());
-		
-//		logger.debug("URL from file: "+file.toURI().toURL());
-//		logger.debug("URI from file: "+file.toURI());
-		
 		
 		ClassLoader classLoader = null;
 		

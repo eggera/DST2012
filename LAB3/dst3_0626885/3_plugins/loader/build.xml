@@ -15,9 +15,6 @@
         	<include name="jnotify-0.94.jar"/>
         	<include name="log4j-1.2.16.jar"/>
         </fileset>
-		<!--fileset dir="${jnotify.dir}">
-			<include name="jnotify-0.94.jar"/>
-		</fileset-->
 		<pathelement location="${build.dir}" />
 		<pathelement location="${log4j.dir}" />
 	</path>

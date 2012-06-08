@@ -44,7 +44,7 @@ public class ClusterQueueThread implements Runnable {
 				
 				synchronized(monitor) {
 					try {
-						logger.debug("Task to rate: "+message.getObject());
+						logger.info("Task to rate: "+message.getObject());
 						
 						monitor.wait();
 					} catch (InterruptedException e) {
@@ -55,7 +55,6 @@ public class ClusterQueueThread implements Runnable {
 				
 			} catch (JMSException e) {
 				logger.debug("Exiting queue thread");
-//				logger.warn("Error in consumer recieve, "+e.getMessage());
 				break;
 			}
 		}

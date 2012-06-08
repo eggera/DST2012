@@ -63,7 +63,6 @@
                 <include name="dst3/dto/TaskDTO.class"/>
             	<include name="dst3/dto/TaskDTO$TaskDTOStatus.class"/>
             	<include name="dst3/dto/TaskDTO$TaskDTOComplexity.class"/>
-                <!-- include name="dst2/ejb/your.second.class"/-->
             </fileset>
         </jar>
     </target>

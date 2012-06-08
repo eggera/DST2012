@@ -4,11 +4,13 @@
 		<!-- 
 			Example:
 			<aspect name="your.first.Aspect"/>
+			<aspect name="dst3.aspects.LoggingAspect"/>
 		 -->
+		 
 	</aspects>
 	
 	<weaver>
-	<!-- <weaver options="-verbose"> -->
+	 <!-- weaver options="-verbose"--> 
 		<exclude within="java.*"/>
 		<exclude within="javax.*"/>
 		<exclude within="org.apache.*"/>

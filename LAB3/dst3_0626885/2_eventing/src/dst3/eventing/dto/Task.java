@@ -3,10 +3,6 @@ package dst3.eventing.dto;
 
 public class Task {
 
-//	/**
-//	 * serial version UID
-//	 */
-//	private static final long serialVersionUID = -2886453366333509552L;
 	private Long id;
 	private Long jobId;
 	private TaskStatus status;
@@ -80,12 +76,4 @@ public class Task {
 		this.complexity = complexity;
 	}
 	
-//	@Override
-//	public String toString() {
-//		return "Task Id: "+id+"\n" +
-//				"Job Id: "+jobId+"\n" +
-//				"Status: "+status+"\n" +
-//				"RatedBy: "+ratedBy+"\n" +
-//				"Complexity: "+complexity;
-//	}
 }

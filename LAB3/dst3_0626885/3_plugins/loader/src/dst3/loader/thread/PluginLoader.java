@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import dst3.dynload.IPluginExecutor;
 import dst3.dynload.PluginExecutor;
 
 public class PluginLoader implements Runnable {

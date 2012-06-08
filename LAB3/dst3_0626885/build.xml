@@ -75,8 +75,6 @@
 		<ant antfile="${messaging.server.buildFile}" inheritAll="false" target="undeploy" />
 	</target>
 	<target name="redeploy-messaging" depends="undeploy-messaging,deploy-messaging" />
-
-	<target name="scheduler" depends="clean,redeploy-messaging,run-scheduler" />
 	
 	<target name="run-scheduler" depends="build-messaging-projects">
 		<ant antfile="${messaging.scheduler.buildFile}" inheritAll="false" target="run" />
@@ -115,7 +113,7 @@
     </target>
 	
 	<!-- clean build artifacts: -->
-	<target name="clean">
+	<target name="clean" depends="clean-resources">
 		<ant antfile="${messaging.server.buildFile}" inheritAll="false" target="clean" />
 		<ant antfile="${messaging.scheduler.buildFile}" inheritAll="false" target="clean" />
 		<ant antfile="${messaging.cluster.buildFile}" inheritAll="false" target="clean" />
